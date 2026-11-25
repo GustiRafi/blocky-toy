@@ -38,10 +38,27 @@ Never create cast variety by cloning one torso/jacket rig and swapping shirt col
 
 ---
 
-## 4. Cast Registry Checks
+## 4. Identity Lock & Canonical Asset Reuse
 
-Before adding a new character, inspect existing cast profiles and verify programmatically:
-- Zero duplicate `(hairStyle + outfitStyle)` pairs.
-- Zero duplicate `(outfitStyle + dominantTopColor)` pairs.
-- Complete profile metadata for `100%` of cast members.
-- Inspect every character in an isolated lineup from **Front, 3/4 Side, Back**, and **Full-Body Scene** angles.
+Once a character design is finalized, mark its registry entry as **locked**:
+- Assign a stable unique `id`, canonical model/component reference (`assetRef`) or deterministic `proceduralSeed`, and bound voice profile (`voice.profileId`).
+- **Never regenerate, approximate, or silently swap** a locked character across scenes or camera shots. Camera angles, lighting, expressions, and poses change freely—underlying face structure, hair geometry, proportions, materials, and wardrobe remain invariant unless modified by an approved story event.
+- Reuse one canonical rig/component per `characterId` across all scenes and preview harnesses.
+
+---
+
+## 5. Scene-Aware Continuity State
+
+Alongside immutable `identity`, maintain a mutable `continuityState` handed cleanly from scene `N` to scene `N+1` (`templates/character-profile.md`, `templates/scene-definition.md`):
+- **Track**: `currentOutfit`, `physicalCondition`, `wetness` (`0..1`), `dirt` (`0..1`), `injuries`, `carriedObjects`, `currentLocation`, `emotionalState`, and `storyEventLog`.
+- **Persistence Rule**: Story-justified changes (rain-damp jacket, muddy boots, held ticket, minor scrape) **must persist** into subsequent scenes until another scripted event dries, cleans, heals, or sets down the item.
+
+---
+
+## 6. Cast Registry & Pre-Render Continuity Validation
+
+Run automated + visual checks before rendering every scene:
+1. Verify every appearing character resolves to a registered `id` (zero ad-hoc inline character meshes).
+2. Check geometry/proportions, hairstyle, outfit construction, footwear, materials/colors, accessories, and voice ID against the locked registry (`100%` match; zero duplicate `(hair + outfit)` or `(outfit + color)` combos).
+3. Verify incoming `continuityState` matches outgoing `continuityState` of the previous scene and every visual state delta cites a screenplay event.
+4. Inspect every character in an isolated lineup from **Front, 3/4 Side, Back**, and **Full-Body Scene** views.

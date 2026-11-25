@@ -16,8 +16,10 @@ Implement headless/CLI audit scripts evaluating live scene modules so checks sta
    - Zero building-road overlaps, zero building-building overlaps, all non-distant doorways connect to sidewalks with `0` blocking props.
    - Parked vehicles sit inside connected bays/driveways with zero OBB overlap against sidewalks, buildings, or one another.
    - Private fences/yards remain clear of public sidewalks.
-3. **Character Identity & Clearance**:
+3. **Character Identity Lock & Continuity**:
+   - All appearing characters reference locked Registry IDs (`locked: true`), canonical assets/seeds, and matching voice profiles (zero per-scene approximations).
    - `100%` complete `identity` profiles, zero duplicate `(hair + outfit)` or `(outfit + color)` combos, zero headwear/accessory conflicts (`headphones` vs `helmet`/`beanie`/`cap`).
+   - Incoming/outgoing `continuityState` (outfit, wetness, dirt, injuries, carried props) matches prior scenes and cites screenplay events for every change.
    - `0` static collider penetrations and `0` pedestrian overlaps across `0..duration` sampled every `2–3` frames.
 4. **Dialogue & Lip-Sync (when speech exists)**:
    - Narration & internal monologue keep all character mouths at `0`.

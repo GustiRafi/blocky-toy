@@ -46,7 +46,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 | 4 | Art Direction & Scale | Establish palette, material rules, lighting, and metric scale (`1u = 1m`) | `references/cinematography.md` |
 | 5 | World Masterplan | Design connected roads, zones, sidewalks, lots, and green spaces **before props** | `references/worldbuilding.md` |
 | 6 | World State & Physics | Set shared sky, weather, wind, light fixtures, and animal rules | `references/real-world-consistency.md`, `templates/world-state.md` |
-| 7 | Character Registry | Define distinct face, hair, garment silhouette, footwear, build, and voice | `references/character-design.md`, `templates/character-profile.md` |
+| 7 | Character Identity & Lock | Define non-cloned canonical profiles (`locked`), asset refs & voice IDs | `references/character-design.md`, `templates/character-profile.md` |
 | 8 | Dialogue & Acting | Build voice lines, WAV-aligned visemes, gaze, gestures & listener reactions | `references/dialogue-and-acting.md`, `references/lip-sync-and-audio.md`, `templates/dialogue-timeline.md` |
 | 9 | Motion & Collision | Implement deterministic waypoint/nav pathing, avoidance, and grounding | `references/animation-physics.md` |
 | 10 | Camera Staging | Compose wide, tracking, and two-shot beats with continuous transitions | `references/cinematography.md`, `templates/scene-definition.md` |
@@ -61,7 +61,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 
 - **Nothing Without Reason**: Every crosswalk, sign, tree, light pool, vehicle turn, weather effect, or animal behavior must obey real-world cause and effect (`references/real-world-consistency.md`).
 - **World First, Props Second**: Lock connected road/sidewalk/lot geometry before placing buildings, vehicles, or street furniture (`references/worldbuilding.md`).
-- **True Character Diversity**: Differentiate characters via **silhouette, hairstyle (360°), garment geometry, sleeve cut, footwear, proportions, and palette**—never recolored clones (`references/character-design.md`).
+- **True Character Diversity & Identity Lock**: Differentiate characters via **silhouette, hairstyle (360°), garment geometry, sleeve cut, footwear, proportions, and palette**—never recolored clones. Once locked, reuse the canonical character asset/seed and propagate scene-aware continuity state across cuts (`references/character-design.md`).
 - **Acting ≠ Narration**: Narrators leave character mouths shut. Speaking characters synchronize WAV-aligned visemes, evolving mid-line emotions, gestures, eye contact, and non-speaking listener reactions (`references/dialogue-and-acting.md`).
 - **Zero-Cost Replaceable Audio**: Support any requested language via configurable phonetic rules and a clean TTS provider interface. Keep free/local or zero-key neural options (such as `msedge-tts` + FFmpeg) as fallback; never force paid APIs or keys (`references/lip-sync-and-audio.md`).
 - **Zero-Defect Motion**: Eliminate character jitter, obstacle clipping, floating props, and route-end vehicle teleportation (`references/animation-physics.md`).
