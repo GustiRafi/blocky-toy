@@ -11,6 +11,7 @@ cinematic-3d-animation/
 ├── SKILL.md                           # Concise skill entrypoint & 14-stage adaptive workflow
 ├── README.md                          # Installation, example prompts & known limitations
 ├── references/                        # Progressive-disclosure domain guides
+│   ├── input-modes-and-script-parsing.md
 │   ├── production-workflow.md
 │   ├── worldbuilding.md
 │   ├── real-world-consistency.md
@@ -21,11 +22,13 @@ cinematic-3d-animation/
 │   ├── animation-physics.md
 │   └── quality-assurance.md
 ├── templates/                         # Reusable engine-independent specs
+│   ├── script-input.md
 │   ├── character-profile.md
 │   ├── scene-definition.md
 │   ├── world-state.md
 │   └── dialogue-timeline.md
 └── scripts/                           # Zero-dependency runtime-independent utilities
+    ├── parse-script-outline.mjs
     └── wav-rms-viseme-aligner.mjs
 ```
 
@@ -41,9 +44,21 @@ This folder follows the standard portable `SKILL.md` convention (`SKILL.md` at s
 
 ---
 
-## Example Prompts Using This Skill
+## Production Modes & Example Usage
 
-### Example 1 — Short Cinematic Animation with One Speaking Character
+### Idea Mode
+```text
+/cinematic-3d "The Last Train Home" --duration 35s --language en-US --format 16:9
+```
+Develops original beats, individualized cast, world masterplan, spoken performance, camera choreography, and final render from a concept or title.
+
+### Script Mode
+```text
+/cinematic-3d --script ./scripts/my-short-film.md --style "stylized blocky twilight"
+```
+Preserves author dialogue verbatim, story arc, and ending as source of truth while filling missing staging, lip-sync visemes, camera moves, and environmental continuity.
+
+### Example 1 — Short Cinematic Animation with One Speaking Character (Idea Mode)
 > Use `cinematic-3d-animation`. Build a 25-second stylized evening streetlamp scene in English where one character (**Leo**) notices a flickering bench lantern, inspects it, fixes the loose switch, and speaks one quiet line (*"Finally... much better."*). Use wide establishing framing, smooth collision-aware arrival navigation, analytical grounding, zero narration lip-flap, WAV-aligned visemes, and verify with automated spatial checks plus multi-angle inspection renders.
 
 ### Example 2 — Multilingual Dialogue Between Two or More Characters
@@ -54,9 +69,10 @@ This folder follows the standard portable `SKILL.md` convention (`SKILL.md` at s
 
 ---
 
-## Validating the Bundled Aligner Script
+## Validating Bundled Utilities
 
 ```bash
+node scripts/parse-script-outline.mjs --self-test
 node scripts/wav-rms-viseme-aligner.mjs --self-test
 ```
 

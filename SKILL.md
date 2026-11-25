@@ -15,9 +15,19 @@ Never rewrite working project code unnecessarily. Inspect the target codebase fi
 
 ---
 
+## Production Modes & Controls
+
+Support both modes seamlessly without forcing users to specify every option (`references/input-modes-and-script-parsing.md`):
+
+- **Idea Mode** (e.g. `/cinematic-3d "The Last Train Home"`): Develop full story beats, cast, dialogue, locations, acting, camera, and audio from a short prompt or title.
+- **Script Mode** (e.g. `/cinematic-3d --script ./scripts/my-short-film.md`): Treat the provided script (`.md`, `.txt`, screenplay, outline, dialogue-only, or inline) as **source of truth**. Preserve plot, character motivations, endings, and verbatim dialogue; add missing visual/spatial staging without overriding author intent. Flag technical/logical contradictions before changing them.
+- **Optional Controls**: `--duration`, `--language`, `--style`, `--voice`, `--format`, `--script` (use sensible inferred defaults when omitted).
+
+---
+
 ## Pre-Code Gate (Run Before Writing Any Code)
 
-1. **Clarify Story & Scope**: Determine setting, cast, spoken vs. silent format, target **dialogue language(s)** (never hardcode a single language), aspect ratio, duration, and stylized art direction.
+1. **Detect Mode & Story Scope**: Identify Idea Mode vs. Script Mode (`scripts/parse-script-outline.mjs`), spoken vs. silent format, target **dialogue language(s)** (never hardcode one language), aspect ratio, and visual direction.
 2. **Inspect Target Project**: Read existing scene files, character rigs, materials, camera rig, audio/TTS scripts, and build/render tools before proposing changes.
 3. **Reuse First**: Extend existing registries, materials, colliders, and controllers instead of duplicating logic across scenes.
 4. **Incremental Execution**: Plan changes in small modules, verify each layer, and load only the reference files needed for the current stage.
@@ -30,7 +40,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 
 | Stage | Focus | Action | Load Reference / Template |
 | :-- | :-- | :-- | :-- |
-| 1 | Story & Language | Lock beats, speech vs. narration roles, and dialogue language(s) | `references/production-workflow.md` |
+| 1 | Mode, Story & Script | Parse supplied script (`--script`) or expand Idea; preserve verbatim lines & intent | `references/input-modes-and-script-parsing.md`, `templates/script-input.md` |
 | 2 | Project Audit | Inspect repo structure, dependencies, and render pipeline | `references/production-workflow.md` |
 | 3 | Runtime Mapping | Map renderer, headless capture, and audio muxing capabilities | `references/production-workflow.md` |
 | 4 | Art Direction & Scale | Establish palette, material rules, lighting, and metric scale (`1u = 1m`) | `references/cinematography.md` |
