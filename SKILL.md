@@ -29,13 +29,13 @@ Support both modes seamlessly without forcing users to specify every option (`re
 
 - **Idea Mode** (e.g. `/blocky-toy --duration 5m "The Last Train Home"`): Develop full story beats, cast, dialogue, locations, acting, camera, and audio from a short prompt or title.
 - **Script Mode** (e.g. `/blocky-toy --duration 10m --script ./scripts/story.md`): Treat the provided script (`.md`, `.txt`, screenplay, outline, dialogue-only, or inline) as **source of truth**. Preserve plot, character motivations, endings, and verbatim dialogue; add missing visual/spatial staging without overriding author intent. Flag technical/logical contradictions before changing them.
-- **Optional Controls**: `--duration` (variable: `15s` clips, `1–3m` stories, `3–15m+` short films—never stretch stories artificially), `--language`, `--style`, `--voice`, `--format`, `--script` (apply sensible defaults when omitted).
+- **Optional Controls**: `--duration` (variable: `15s` clips, `1–3m` stories, `3–15m+` short films—never stretch stories artificially), `--language`, `--style`, `--voice`, `--format` (user-selectable `portrait`/`reels`/`9:16` or `landscape`/`16:9`/`4:5`/`1:1`; **defaults to Reels `9:16` `1080×1920` when omitted**), `--script`.
 
 ---
 
 ## Pre-Code Gate (Run Before Writing Any Code)
 
-1. **Detect Mode & Story Scope**: Identify Idea Mode vs. Script Mode (`scripts/parse-script-outline.mjs`), spoken vs. silent format, target **dialogue language(s)** (never hardcode one language), aspect ratio, and visual direction.
+1. **Detect Mode & Story Scope**: Identify Idea Mode vs. Script Mode (`scripts/parse-script-outline.mjs`), spoken vs. silent format, target **dialogue language(s)** (never hardcode one language), output aspect ratio (default `9:16` Reels unless specified), and visual direction.
 2. **Inspect Target Project**: Read **only the active workspace's** existing scene files, character rigs, materials, camera rig, audio/TTS scripts, and build/render tools before proposing changes.
 3. **Reuse Locally, Isolate Strictly**: Extend registries, materials, colliders, and controllers **within the current project** across its scenes. **Never** copy, import, or reuse 3D assets, character rigs, audio WAVs, or render caches (`output/`, `frames/`, `.cache/`) from external/previous projects (e.g., `test-ai-video` or sibling repos) or `docs/media/` into a new project.
 4. **Incremental Execution**: Plan changes in small modules, verify each layer, and load only the reference files needed for the current stage.

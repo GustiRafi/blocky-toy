@@ -6,7 +6,8 @@ Use this template to plan scenes, lighting continuity, cast choreography, and ca
 sceneId: "scene-01-night-street"
 durationSec: 42
 fps: 30
-resolution: [1080, 1920] # e.g., [1080, 1920] portrait or [1920, 1080] widescreen
+format: "9:16" # default Reels portrait | landscape/16:9 | 4:5 | 1:1
+resolution: [1080, 1920] # default [1080, 1920] Reels portrait; [1920, 1080] for landscape/16:9
 worldStateRef: "templates/world-state.md"
 
 cast:

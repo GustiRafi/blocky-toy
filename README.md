@@ -103,14 +103,14 @@ blocky-toy/
 ## Production Modes & Controls
 
 ```text
-# Idea Mode (short clip or full multi-act short film)
-/blocky-toy "The Last Train Home" --duration 5m --language en-US --format 16:9
+# Idea Mode (defaults to 9:16 Reels portrait 1080x1920 when --format is omitted)
+/blocky-toy "The Last Train Home" --duration 5m --language en-US
 
-# Script Mode (script is source of truth; dialogue & ending preserved verbatim)
-/blocky-toy --script ./scripts/story.md --duration 10m --style "stylized blocky twilight"
+# Explicit Landscape (16:9 widescreen 1920x1080) or Portrait (9:16 / reels)
+/blocky-toy --script ./scripts/story.md --duration 10m --format landscape --style "stylized blocky twilight"
 ```
 
-Optional controls (`--duration`, `--language`, `--style`, `--voice`, `--format`, `--script`) all fall back to sensible inferred defaults when omitted.
+Optional controls (`--duration`, `--language`, `--style`, `--voice`, `--format` [`portrait`/`reels`/`9:16` default `1080×1920`, or `landscape`/`16:9`, `4:5`, `1:1`], `--script`) all fall back to sensible inferred defaults when omitted.
 
 ### Example Prompts
 

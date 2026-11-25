@@ -7,7 +7,8 @@ filmId: "the-last-train-home"
 mode: "idea" # idea | script
 targetDuration: "5m" # e.g., 45s | 2m | 5m | 10m
 fps: 30
-resolution: [1920, 1080]
+format: "9:16" # default Reels portrait (1080x1920) | landscape/16:9 (1920x1080) | 4:5 | 1:1
+resolution: [1080, 1920] # matches chosen format (default [1080, 1920] Reels)
 dialogueLanguage: "en-US"
 
 estimate:

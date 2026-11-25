@@ -16,7 +16,7 @@ Load this file at Stage 1 when starting either from a short creative prompt (**I
 | `--language` | Primary spoken language (`en-US`, `id-ID`, `es-ES`, etc.) | Detected from script lines or user prompt |
 | `--style` | Visual direction | Stylized beveled blocky-toy aesthetic with muted filmic palette |
 | `--voice` | Voice cast/provider override | Persistent zero-key profile assignments (`msedge-tts` fallback) |
-| `--format` | Output frame aspect ratio | `16:9` widescreen (`1920x1080`) or `9:16` portrait (`1080x1920`) by request |
+| `--format` | Output frame aspect ratio (`reels` / `portrait` / `9:16`, `landscape` / `widescreen` / `16:9`, `4:5`, `1:1`, or `WxH`) | **Default: `9:16` Reels portrait (`1080×1920`)** when omitted; switch cleanly to `16:9` landscape (`1920×1080`) or custom ratio when requested |
 
 Never block production to demand omitted flags; apply sensible defaults and state them clearly.
 

@@ -67,7 +67,7 @@ ln -s /Users/macos/Developer/blocky-toy ~/.config/opencode/skills/blocky-toy
    > *"List available skills and confirm `blocky-toy` (BLOCKY TOY) is loaded."*
 3. Start producing in **Idea Mode** or **Script Mode**:
    - **Idea Mode**: `Use blocky-toy to build a 90s rainy train-station story called "The Last Train Home" in English.`
-   - **Script Mode**: `/blocky-toy --script ./my-script.md --format 16:9`
+   - **Script Mode**: `/blocky-toy --script ./my-script.md` *(defaults to `9:16` Reels; pass `--format landscape` or `--format 16:9` for widescreen)*
 
 ---
 

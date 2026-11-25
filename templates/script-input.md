@@ -4,7 +4,7 @@ Scripts supplied to `/blocky-toy --script <path>` do NOT need strict formatting.
 
 ```markdown
 # Title: The Last Train Home
-Language: en-US | Duration: 35s | Format: 16:9
+Language: en-US | Duration: 35s | Format: 9:16 # omit for default 9:16 Reels, or set portrait | landscape | 16:9 | 1:1
 
 ## Scene 1 — EXT. SUBURBAN TRAIN PLATFORM - NIGHT (LIGHT RAIN)
 - Camera: Wide establishing shot along wet platform edge under station awning.
