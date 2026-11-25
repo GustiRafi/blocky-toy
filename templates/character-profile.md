@@ -1,0 +1,48 @@
+# Character Identity & Voice Profile Template
+
+Copy one block per character into your project registry before modeling or synthesizing audio.
+
+```yaml
+id: character-id # e.g., dina-architect
+identity:
+  displayName: ""
+  role: ""
+  ageRange: "" # e.g., "26-32"
+  bodyType: "average" # slim | average | broad | child
+  heightMeters: 1.72 # adult: 1.70-1.80m, child: 1.15-1.30m
+  fashionCategory: "" # outdoor_utility | smart_casual | streetwear | workwear | minimalist | culinary
+  personality: ""
+  distinctiveFeature: "" # single recognizable silhouette hook
+
+visual:
+  skinColor: "#e6be9e"
+  hairColor: "#6e3d32"
+  hairStyle: "" # e.g., swept | curly_crop | side_part | pigtails | long_wavy | beanie | cap | helmet
+  facialHair: "none" # none | mustache | short_beard
+  browThickness: 1.0
+  hasGlasses: false
+  outfitStyle: "" # e.g., field_jacket | blazer_tie | oversized_hoodie | work_vest_tee | long_trench_skirt | apron_workwear | cardigan_skirt
+  sleeveStyle: "long" # long | rolled
+  footwearStyle: "sneakers" # sneakers | hi_tops | loafers | boots
+  topColor: "#7d4550"
+  topAccentColor: "#b8a28c"
+  innerShirtColor: "#e8e3d8"
+  pantsColor: "#282e3d"
+  shoeColor: "#3d2c27"
+  bodyScale: [1.0, 1.0, 1.0] # [width, height, depth]
+  accessory: "none" # none | backpack | satchel | briefcase | parcel | headphones (verify no headwear conflict!)
+  accessoryColor: "#9c7453"
+
+voice: # Optional: fill only if character speaks
+  profileId: ""
+  lang: "en-US" # configurable ISO language-region (e.g., en-US, id-ID, es-ES, ja-JP)
+  provider: "msedge-tts" # default zero-key neural fallback
+  voiceId: "" # e.g., en-US-AriaNeural | id-ID-GadisNeural | ja-JP-NanamiNeural
+  pitch: "+0Hz"
+  speakingSpeed: "+0%"
+  emotionalPresets:
+    neutral: { rateOffset: 0, pitchHz: 0, clauseGapMs: 180 }
+    warm: { rateOffset: -3, pitchHz: 3, clauseGapMs: 220 }
+    excited: { rateOffset: 6, pitchHz: 10, clauseGapMs: 140 }
+    hesitant: { rateOffset: -8, pitchHz: -2, clauseGapMs: 300 }
+```
