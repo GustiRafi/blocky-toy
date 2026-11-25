@@ -10,12 +10,16 @@ resolution: [1080, 1920] # e.g., [1080, 1920] portrait or [1920, 1080] widescree
 worldStateRef: "templates/world-state.md"
 
 cast:
-  - characterId: "leo"
+  - characterId: "leo" # must match locked Registry ID (never redefine geometry inline)
     roleInScene: "protagonist"
     startPos: [4.05, 0.125, -11.5] # [x, y, z] in meters
+    continuityIn: { wetness: 0.0, carriedObjects: [], condition: "healthy" }
+    continuityOut: { wetness: 0.0, carriedObjects: [], condition: "healthy", reason: "clear night repair" }
   - characterId: "mina"
     roleInScene: "deuteragonist"
     startPos: [3.75, 0.125, 5.1]
+    continuityIn: { wetness: 0.0, carriedObjects: [], condition: "healthy" }
+    continuityOut: { wetness: 0.0, carriedObjects: [], condition: "healthy" }
 
 beats:
   - id: "beat-1-establishing"

@@ -13,6 +13,25 @@ identity:
   fashionCategory: "" # outdoor_utility | smart_casual | streetwear | workwear | minimalist | culinary
   personality: ""
   distinctiveFeature: "" # single recognizable silhouette hook
+  behavioralTraits: "" # posture habits, walk tempo, gesture tendencies
+
+identityLock:
+  locked: true # immutable once finalized; reuse canonical rig/seed across ALL scenes
+  canonicalAssetRef: "src/characters/BlockyCharacter.tsx" # model path, prefab, or procedural component
+  deterministicSeed: 101 # preserves exact procedural proportions/materials
+  skinMaterial: { finish: "semi_matte_vinyl", roughness: 0.44 }
+  animationProfile: { walkCadence: 1.0, gestureEnergy: 0.7 }
+
+continuityState: # Mutable per-scene tracker handed from Scene N -> Scene N+1
+  currentOutfit: "default_locked" # change only when justified by screenplay
+  physicalCondition: "healthy"
+  wetness: 0.0 # 0..1 (persists after rain until sheltered/dried)
+  dirt: 0.0 # 0..1
+  injuries: [] # e.g., ["scraped_knee"]
+  carriedObjects: [] # e.g., ["yellow_ticket"]
+  currentLocation: ""
+  emotionalState: "neutral"
+  justifiedEvents: [] # screenplay event IDs causing state updates
 
 visual:
   skinColor: "#e6be9e"
