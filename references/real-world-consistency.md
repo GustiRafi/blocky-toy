@@ -60,10 +60,10 @@ Outdoor ground, lawns, and vegetation must obey natural growth, moisture, and li
 
 ## 5. Living Creatures & Animals
 
-- Never drop animals into scenes as arbitrary decoration. Include an animal only when its presence fits the biome and time of day (e.g., perched daytime songbirds, leashed park dog, alley/porch cat).
+- Include animals whenever the **biome, setting, and time of day** naturally host them (e.g., daytime songbirds perched on trees/fences, a neighborhood cat resting on a sunny porch, or a leashed dog on a residential sidewalk)—do not omit outdoor wildlife out of laziness, nor drop implausible species (e.g., farm livestock in a dense city subway).
 - Enforce species-specific anatomy, scale, locomotion, and reaction (e.g., cats do not walk bipedally; birds perch/flap rather than slide along asphalt; animals yield to oncoming traffic/humans).
 - **Solid Architecture & Surface Grounding for Animals**: Animals obey walls, fences, furniture, and closed doors/gates just like human actors—never spawn or animate an animal inside a closed door leaf or wall. When sitting, loafing, or lying down (`sit`, `loaf`, `sphinx_lie`, `side_lie`, `curled_sleep`), articulate tucked/folded paws, haunches, and tails cleanly **on top of** the true support elevation (`porchTopY`, `matTopY`, `stepTopY`)—never half-submerged into slabs or floors.
-- If no animal serves the scene, explicitly record `animals.count = 0` in the shared world state rather than leaving animal policy ambiguous.
+- If the scene intentionally has no animals (e.g., indoor room or quiet late-night storm), explicitly record `animals.count = 0` and the `rationale` in `templates/world-state.md`.
 
 ---
 

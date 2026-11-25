@@ -16,6 +16,7 @@ Implement headless/CLI audit scripts evaluating live scene modules so checks sta
    - Zero building-road overlaps, zero building-building overlaps, all non-distant doorways connect to sidewalks with `0` blocking props.
    - Parked vehicles sit inside connected bays/driveways with zero OBB overlap against sidewalks, buildings, or one another.
    - Private fences/yards remain clear of public sidewalks.
+   - **Living-World Population Check**: Verify `ambientNpcs`, `movingVehicles`, `parkedVehicles`, and `animals` match `worldState.population` targets (no deserted daytime outdoor streets unless `rationale` explicitly requires solitude), with zero cloned background NPCs.
 3. **Character Identity Lock & Continuity**:
    - All appearing characters reference locked Registry IDs (`locked: true`), canonical assets/seeds, and matching voice profiles (zero per-scene approximations).
    - `100%` complete `identity` profiles, zero duplicate `(hair + outfit)` or `(outfit + color)` combos, zero headwear/accessory conflicts (`headphones` vs `helmet`/`beanie`/`cap`).

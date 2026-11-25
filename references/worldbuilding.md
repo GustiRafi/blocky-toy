@@ -39,3 +39,18 @@ Divide the district into logical zones with zero overlap (`building vs. road = 0
 - Every parking stall or driveway must connect via an unobstructed apron to a drivable road and leave sidewalks clear.
 - Verify physical length fit before placing a vehicle: a standard passenger car (`~4.4m`) cannot fit in a `< 4.2m` setback without clipping walls or sidewalks—use a scooter (`~1.85m`) or relocate the bay.
 - Separate car bays from scooter bays (`OBB overlap = 0`).
+
+---
+
+## 5. Living World Population & Ambient Life (Avoid Ghost Towns)
+
+Outdoor scenes feel lifeless when only 1–2 hero characters exist on empty roads and sidewalks. Match background **NPCs, vehicles, and biome-fit animals** to `settingType` and `timeOfDay` in `templates/world-state.md` (reduce to `0–2` *only* when the story, storm, or late-night hour explicitly calls for solitude):
+
+| Setting & Time of Day | Background NPCs | Moving + Parked Vehicles | Ambient Animals |
+| :-- | :-- | :-- | :-- |
+| **Commercial / Station (Day–Evening)** | `4–10+` walking sidewalks, browsing shops, sitting at benches | `3–6` moving loop vehicles + `3–8` parked cars/scooters | `2–4` perched/flying birds, leashed dog |
+| **Residential Yard / Lane (Day–Evening)** | `2–5` neighbors walking, tending yards, carrying parcels/mail | `1–3` passing vehicles + `2–5` parked driveway cars/scooters | `1–4` neighborhood cat, leashed dog, songbirds |
+| **Park / Green Plaza (Day)** | `3–6` strolling paths, resting on benches | *(perimeter road traffic only)* | `2–5` perched/hopping birds, dog/cat |
+| **Quiet Late Night / Heavy Storm / Interior** | `0–2` distant passersby (documented in `rationale`) | `0–2` sparse passing cars + parked residents | `0–1` (e.g., alley/porch cat or `0` with `rationale`) |
+
+- **Anti-Clone Background NPCs**: Generate ambient pedestrians from seeded registry presets varying hair, garment silhouettes, colors, and footwear (`references/character-design.md`)—never identical clones—and route all of them through the shared A*/avoidance solver with randomized blink/idle phases (`references/animation-physics.md`).

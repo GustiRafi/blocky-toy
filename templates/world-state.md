@@ -29,9 +29,15 @@ wind:
   speedMps: 0.85
   affectedTargets: ["tree_canopies", "shrubs"] # heavy rigid objects remain still
 
-animals:
-  present: false # set true ONLY if story/biome requires animals with species-authentic behavior
-  rationale: "Quiet late-evening commercial street; avoids gratuitous decorative animals."
+population:
+  settingType: "residential_lane" # commercial_street | residential_lane | pocket_park | station | interior
+  ambientNpcs: 3 # match density table in references/worldbuilding.md (0-2 only for justified solitude/late-night)
+  movingVehicles: 2 # active road loop traffic
+  parkedVehicles: 3 # cars/scooters inside driveways or bays
+  animals:
+    count: 2 # outdoor day/evening scenes normally host biome-fit animals; use 0 only with explicit rationale
+    species: ["neighborhood_cat", "songbird"]
+    rationale: "Evening residential lane: porch cat and perched tree birds match domestic setting."
 
 infrastructure:
   trafficSide: "right" # right | left
