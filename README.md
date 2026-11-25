@@ -13,6 +13,7 @@ cinematic-3d-animation/
 ├── references/                        # Progressive-disclosure domain guides
 │   ├── input-modes-and-script-parsing.md
 │   ├── production-workflow.md
+│   ├── long-form-production.md
 │   ├── worldbuilding.md
 │   ├── real-world-consistency.md
 │   ├── character-design.md
@@ -22,6 +23,7 @@ cinematic-3d-animation/
 │   ├── animation-physics.md
 │   └── quality-assurance.md
 ├── templates/                         # Reusable engine-independent specs
+│   ├── production-plan.md
 │   ├── script-input.md
 │   ├── character-profile.md
 │   ├── scene-definition.md
@@ -46,17 +48,19 @@ This folder follows the standard portable `SKILL.md` convention (`SKILL.md` at s
 
 ## Production Modes & Example Usage
 
-### Idea Mode
+### Idea Mode (Clips to Short Films)
 ```text
 /cinematic-3d "The Last Train Home" --duration 35s --language en-US --format 16:9
+/cinematic-3d --duration 5m "The Last Train Home"
 ```
-Develops original beats, individualized cast, world masterplan, spoken performance, camera choreography, and final render from a concept or title.
+Develops original acts/scenes, individualized locked cast, world masterplan, spoken performance, camera choreography, and incremental scene renders from a concept or title.
 
 ### Script Mode
 ```text
 /cinematic-3d --script ./scripts/my-short-film.md --style "stylized blocky twilight"
+/cinematic-3d --duration 10m --script ./scripts/story.md
 ```
-Preserves author dialogue verbatim, story arc, and ending as source of truth while filling missing staging, lip-sync visemes, camera moves, and environmental continuity.
+Preserves author dialogue verbatim, story arc, and ending as source of truth while filling missing staging, lip-sync visemes, multi-scene continuity, and incremental shot rendering.
 
 ### Example 1 — Short Cinematic Animation with One Speaking Character (Idea Mode)
 > Use `cinematic-3d-animation`. Build a 25-second stylized evening streetlamp scene in English where one character (**Leo**) notices a flickering bench lantern, inspects it, fixes the loose switch, and speaks one quiet line (*"Finally... much better."*). Use wide establishing framing, smooth collision-aware arrival navigation, analytical grounding, zero narration lip-flap, WAV-aligned visemes, and verify with automated spatial checks plus multi-angle inspection renders.

@@ -19,9 +19,9 @@ Never rewrite working project code unnecessarily. Inspect the target codebase fi
 
 Support both modes seamlessly without forcing users to specify every option (`references/input-modes-and-script-parsing.md`):
 
-- **Idea Mode** (e.g. `/cinematic-3d "The Last Train Home"`): Develop full story beats, cast, dialogue, locations, acting, camera, and audio from a short prompt or title.
-- **Script Mode** (e.g. `/cinematic-3d --script ./scripts/my-short-film.md`): Treat the provided script (`.md`, `.txt`, screenplay, outline, dialogue-only, or inline) as **source of truth**. Preserve plot, character motivations, endings, and verbatim dialogue; add missing visual/spatial staging without overriding author intent. Flag technical/logical contradictions before changing them.
-- **Optional Controls**: `--duration`, `--language`, `--style`, `--voice`, `--format`, `--script` (use sensible inferred defaults when omitted).
+- **Idea Mode** (e.g. `/cinematic-3d --duration 5m "The Last Train Home"`): Develop full story beats, cast, dialogue, locations, acting, camera, and audio from a short prompt or title.
+- **Script Mode** (e.g. `/cinematic-3d --duration 10m --script ./scripts/story.md`): Treat the provided script (`.md`, `.txt`, screenplay, outline, dialogue-only, or inline) as **source of truth**. Preserve plot, character motivations, endings, and verbatim dialogue; add missing visual/spatial staging without overriding author intent. Flag technical/logical contradictions before changing them.
+- **Optional Controls**: `--duration` (variable: `15s` clips, `1–3m` stories, `3–15m+` short films—never stretch stories artificially), `--language`, `--style`, `--voice`, `--format`, `--script` (apply sensible defaults when omitted).
 
 ---
 
@@ -49,8 +49,8 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 | 7 | Character Identity & Lock | Define non-cloned canonical profiles (`locked`), asset refs & voice IDs | `references/character-design.md`, `templates/character-profile.md` |
 | 8 | Dialogue & Acting | Build voice lines, WAV-aligned visemes, gaze, gestures & listener reactions | `references/dialogue-and-acting.md`, `references/lip-sync-and-audio.md`, `templates/dialogue-timeline.md` |
 | 9 | Motion & Collision | Implement deterministic waypoint/nav pathing, avoidance, and grounding | `references/animation-physics.md` |
-| 10 | Camera Staging | Compose wide, tracking, and two-shot beats with continuous transitions | `references/cinematography.md`, `templates/scene-definition.md` |
-| 11 | Incremental Build | Wire modules cleanly without monolithic files or copy-paste logic | — |
+| 10 | Camera & Long-Form Plan | Plan Act/Scene/Shot beats, estimate budget (>60s) & camera paths | `references/cinematography.md`, `references/long-form-production.md`, `templates/production-plan.md` |
+| 11 | Incremental Build & Cache | Build per scene/shot; reuse assets & cache unchanged scene renders | `references/long-form-production.md` |
 | 12 | Logic & Scale Audits | Run automated checks for roads, collisions, scale, diversity & lip-sync | `references/quality-assurance.md` |
 | 13 | Visual Inspection | Inspect aerial, street-level, character-close, and final camera renders | `references/quality-assurance.md` |
 | 14 | Fix & Export | Resolve every visual/logic defect, re-render, mux audio, and probe output | `references/quality-assurance.md` |

@@ -12,7 +12,7 @@ Load this file at Stage 1 when starting either from a short creative prompt (**I
 | :-- | :-- | :-- |
 | *(Idea string / bare title)* | Story concept -> **Idea Mode** | Agent authors beats, cast, locations, dialogue & staging |
 | `--script <path>` or pasted script | User screenplay/outline -> **Script Mode** | Supplied script is **source of truth** |
-| `--duration` | Target runtime (e.g., `30s`, `45s`) | Inferred from dialogue length + pacing beats |
+| `--duration` | Target runtime (`15s` clips, `1–3m` stories, `3–15m+` films, e.g. `--duration 5m`) | Inferred from story/script beats; **never artificially stretch** a short story |
 | `--language` | Primary spoken language (`en-US`, `id-ID`, `es-ES`, etc.) | Detected from script lines or user prompt |
 | `--style` | Visual direction | Stylized beveled blocky-toy aesthetic with muted filmic palette |
 | `--voice` | Voice cast/provider override | Persistent zero-key profile assignments (`msedge-tts` fallback) |
