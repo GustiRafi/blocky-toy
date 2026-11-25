@@ -7,21 +7,34 @@ worldId: "district-masterplan-01"
 unitScale: "1 unit = 1 meter"
 
 atmosphere:
-  timeOfDay: "night" # dawn | day | golden_hour | sunset | night | timelapse
+  mood: "warm_nostalgic" # warm_nostalgic | cozy_domestic | melancholic_quiet | tense_mysterious | bright_cheerful
+  timeOfDay: "night" # dawn | morning | noon | afternoon_golden | dusk | night | timelapse
   diurnalCycle: # enable for time-lapse or repeated-location montages (morning -> noon -> afternoon -> night)
     enabled: false
-    phases: ["morning", "noon", "afternoon", "night"] # continuous dayProgress 0..1 or condensed montage steps
+    phases: ["morning", "noon", "afternoon_golden", "dusk", "night"]
     practicalTurnOnSunDeg: 5 # practical lamps/windows stay OFF above 5° and fade ON at dusk
-  weather: "clear_calm" # clear_calm | overcast | light_rain | foggy | windy
+  weather: "clear_calm" # clear_calm | overcast | light_rain | heavy_rain | foggy_mist | windy
+  sunElevationDeg: 32
+  sunAzimuthDeg: -145
+  keyLightColor: "#9fb8df" # match timeOfDay preset in references/real-world-consistency.md
+  keyLightIntensity: 1.15
+  rimLightColor: "#ffd4a3" # subtle warm/cool rim contrast for character silhouette separation
   skyZenithColor: "#090e1c" # never flat neutral gray; always pair distinct zenith/mid/horizon stops
   skyMidColor: "#0d1424"
   skyHorizonColor: "#141d30"
   groundBounceColor: "#1a222b" # turf/earth/pavement bounce for hemisphereLight
   cloudCoverage: 0.25 # 0..1 drifting layered clouds (never empty flat void in daytime/overcast)
+  precipitation:
+    enabled: false
+    intensity: 0.0 # 0..1 rain intensity
+    exposedGroundRoughness: 0.85 # drop to 0.18-0.32 when raining; keep roofed porches matte/dry
+    shelteredDryZones: true
+  ambientParticles: "none" # none | morning_dust_motes | rain_streaks_splashes | drifting_leaves | evening_fireflies
   fogColor: "#141d30" # must match skyHorizonColor
   fogDensity: 0.0115
   primaryLightDirection: [-9, 15, -5] # sun or moon vector; castShadow direction must match
   celestialBodyPos: [-26, 36, -24]
+  soundscapeCues: ["quiet_night_breeze", "distant_crickets"] # synced to weather & timeOfDay
 
 terrainAndFoliage:
   grassPalette: ["#4d6b3c", "#5d7a47", "#3d5730"] # sunlit/mid/shaded turf variation (matte roughness 0.86-0.92)

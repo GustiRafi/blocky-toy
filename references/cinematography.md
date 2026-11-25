@@ -37,10 +37,10 @@ Preserve appealing beveled blocky-toy proportions (`RoundedBoxGeometry` / bevele
 ## 3. Lighting & Atmospheric Composition
 
 - **Full Sky Gradient & Bounce**: Render an atmospheric multi-stop sky dome (`zenith -> mid -> horizon`) with clouds and solar/lunar halo instead of a flat gray/monochrome background; match `fogColor` to `horizonColor` and couple `hemisphereLight` to sky zenith + earth/turf bounce.
-- Match key light shadow angle to visible sky moon/sun (`WORLD_ENVIRONMENT_STATE`).
-- Keep soft sky fill (`hemisphereLight`) + subtle edge rim lighting strong enough that characters remain expressive and legible at night without flattening shadows.
+- **Warm-vs-Cool Mood Separation**: Pair key light color temperature (`#ffd1a3` dawn, `#fff7ea` noon, `#ffbe78` golden hour, `#9fb8df` moonlit night) against opposing fill/practical temperatures (warm `#ffcf87` porch/window glow vs. cool `#1a2847` evening shadows) plus subtle edge rim lighting so silhouettes never turn muddy.
+- **Weather-Responsive Optics & Depth Layering**: Separate Foreground, Midground, and Horizon with soft `fogExp2` atmospheric perspective; keep `Bloom` restrained (`threshold >= 0.90`, `strength <= 0.14`) so dusk lamps/wet street reflections glow gently without blowing out daytime skies; apply subtle distance-tracked `BokehPass` blur during close beats only.
+- Match key light shadow angle and softness to visible sky moon/sun and cloud cover (`WORLD_ENVIRONMENT_STATE`).
 - Anchor practical lights inside streetlamp heads, practical lanterns, and interior window backings.
-- Use restrained post-processing (`Bloom threshold >= 0.90`, `strength <= 0.14`, subtle distance-tracked `BokehPass` blur during close beats only).
 
 ---
 
