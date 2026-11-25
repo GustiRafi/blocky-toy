@@ -1,0 +1,76 @@
+---
+name: cinematic-3d-animation
+description: >-
+  Portable production methodology for creating coherent, story-driven code-based 3D animated videos.
+  Covers worldbuilding, real-world physical/spatial consistency, individualized character design,
+  multilingual dialogue & lip-sync acting, stylized cinematography, collision-safe animation, and
+  multi-perspective QA validation across any 3D engine or project layout.
+---
+
+# Cinematic 3D Animation Production Skill
+
+Build code-based 3D animated films as **coherent, functioning worlds** inhabited by **individual, acting characters**—not isolated assets or recolored clones.
+
+Never rewrite working project code unnecessarily. Inspect the target codebase first, adapt to its engine and directory layout, reuse existing primitives, implement incrementally, and verify visually and programmatically before claiming success.
+
+---
+
+## Pre-Code Gate (Run Before Writing Any Code)
+
+1. **Clarify Story & Scope**: Determine setting, cast, spoken vs. silent format, target **dialogue language(s)** (never hardcode a single language), aspect ratio, duration, and stylized art direction.
+2. **Inspect Target Project**: Read existing scene files, character rigs, materials, camera rig, audio/TTS scripts, and build/render tools before proposing changes.
+3. **Reuse First**: Extend existing registries, materials, colliders, and controllers instead of duplicating logic across scenes.
+4. **Incremental Execution**: Plan changes in small modules, verify each layer, and load only the reference files needed for the current stage.
+
+---
+
+## Adaptive 14-Stage Workflow
+
+Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental piece; omit Stage 5 macro-zoning for a single-room interior).
+
+| Stage | Focus | Action | Load Reference / Template |
+| :-- | :-- | :-- | :-- |
+| 1 | Story & Language | Lock beats, speech vs. narration roles, and dialogue language(s) | `references/production-workflow.md` |
+| 2 | Project Audit | Inspect repo structure, dependencies, and render pipeline | `references/production-workflow.md` |
+| 3 | Runtime Mapping | Map renderer, headless capture, and audio muxing capabilities | `references/production-workflow.md` |
+| 4 | Art Direction & Scale | Establish palette, material rules, lighting, and metric scale (`1u = 1m`) | `references/cinematography.md` |
+| 5 | World Masterplan | Design connected roads, zones, sidewalks, lots, and green spaces **before props** | `references/worldbuilding.md` |
+| 6 | World State & Physics | Set shared sky, weather, wind, light fixtures, and animal rules | `references/real-world-consistency.md`, `templates/world-state.md` |
+| 7 | Character Registry | Define distinct face, hair, garment silhouette, footwear, build, and voice | `references/character-design.md`, `templates/character-profile.md` |
+| 8 | Dialogue & Acting | Build voice lines, WAV-aligned visemes, gaze, gestures & listener reactions | `references/dialogue-and-acting.md`, `references/lip-sync-and-audio.md`, `templates/dialogue-timeline.md` |
+| 9 | Motion & Collision | Implement deterministic waypoint/nav pathing, avoidance, and grounding | `references/animation-physics.md` |
+| 10 | Camera Staging | Compose wide, tracking, and two-shot beats with continuous transitions | `references/cinematography.md`, `templates/scene-definition.md` |
+| 11 | Incremental Build | Wire modules cleanly without monolithic files or copy-paste logic | — |
+| 12 | Logic & Scale Audits | Run automated checks for roads, collisions, scale, diversity & lip-sync | `references/quality-assurance.md` |
+| 13 | Visual Inspection | Inspect aerial, street-level, character-close, and final camera renders | `references/quality-assurance.md` |
+| 14 | Fix & Export | Resolve every visual/logic defect, re-render, mux audio, and probe output | `references/quality-assurance.md` |
+
+---
+
+## Non-Negotiable Production Rules
+
+- **Nothing Without Reason**: Every crosswalk, sign, tree, light pool, vehicle turn, weather effect, or animal behavior must obey real-world cause and effect (`references/real-world-consistency.md`).
+- **World First, Props Second**: Lock connected road/sidewalk/lot geometry before placing buildings, vehicles, or street furniture (`references/worldbuilding.md`).
+- **True Character Diversity**: Differentiate characters via **silhouette, hairstyle (360°), garment geometry, sleeve cut, footwear, proportions, and palette**—never recolored clones (`references/character-design.md`).
+- **Acting ≠ Narration**: Narrators leave character mouths shut. Speaking characters synchronize WAV-aligned visemes, evolving mid-line emotions, gestures, eye contact, and non-speaking listener reactions (`references/dialogue-and-acting.md`).
+- **Zero-Cost Replaceable Audio**: Support any requested language via configurable phonetic rules and a clean TTS provider interface. Keep free/local or zero-key neural options (such as `msedge-tts` + FFmpeg) as fallback; never force paid APIs or keys (`references/lip-sync-and-audio.md`).
+- **Zero-Defect Motion**: Eliminate character jitter, obstacle clipping, floating props, and route-end vehicle teleportation (`references/animation-physics.md`).
+
+---
+
+## Token Efficiency & Clean Code Rules
+
+1. **Progressive Disclosure**: Read only the `references/` and `templates/` rows relevant to the user's request.
+2. **Dry & Parameterized**: Extract shared helpers and data tables instead of duplicating components per character, building, or test act.
+3. **Engine Independence**: Adapt instructions to the project's stack (Three.js/R3F, Blender Python, Godot, Unity, WebGL, etc.) without imposing alien directory trees.
+
+---
+
+## Truthful Validation & Status Reporting
+
+Never report a capability as working unless tested after the final edit. Classify every deliverable strictly as:
+
+- **Implemented and verified**: Code runs cleanly and automated checks + visual/audio inspection pass.
+- **Implemented but not verified**: Code written, pending execution or render inspection.
+- **Planned but not implemented**: Designed only.
+- **Unsupported by current runtime**: Blocked by missing engine/runtime capability (state exact gap).
