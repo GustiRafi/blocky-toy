@@ -8,6 +8,49 @@ import fs from 'node:fs';
  * screenplay, or plain-text scripts without altering original dialogue text.
  */
 
+const FORMAT_PRESETS = {
+  '9:16': { format: '9:16', orientation: 'portrait', preset: 'reels', resolution: [1080, 1920] },
+  portrait: { format: '9:16', orientation: 'portrait', preset: 'reels', resolution: [1080, 1920] },
+  reels: { format: '9:16', orientation: 'portrait', preset: 'reels', resolution: [1080, 1920] },
+  vertical: { format: '9:16', orientation: 'portrait', preset: 'reels', resolution: [1080, 1920] },
+  shorts: { format: '9:16', orientation: 'portrait', preset: 'reels', resolution: [1080, 1920] },
+  tiktok: { format: '9:16', orientation: 'portrait', preset: 'reels', resolution: [1080, 1920] },
+  '16:9': { format: '16:9', orientation: 'landscape', preset: 'widescreen', resolution: [1920, 1080] },
+  landscape: { format: '16:9', orientation: 'landscape', preset: 'widescreen', resolution: [1920, 1080] },
+  widescreen: { format: '16:9', orientation: 'landscape', preset: 'widescreen', resolution: [1920, 1080] },
+  horizontal: { format: '16:9', orientation: 'landscape', preset: 'widescreen', resolution: [1920, 1080] },
+  youtube: { format: '16:9', orientation: 'landscape', preset: 'widescreen', resolution: [1920, 1080] },
+  '4:5': { format: '4:5', orientation: 'portrait', preset: 'feed_portrait', resolution: [1080, 1350] },
+  '1:1': { format: '1:1', orientation: 'square', preset: 'square', resolution: [1080, 1080] },
+  square: { format: '1:1', orientation: 'square', preset: 'square', resolution: [1080, 1080] },
+};
+
+/**
+ * Resolve user-selected video format or default to Reels portrait (9:16 / 1080x1920).
+ */
+export function resolveVideoFormat(rawFormat) {
+  if (!rawFormat || !String(rawFormat).trim()) {
+    return { ...FORMAT_PRESETS.reels, isDefault: true };
+  }
+  const key = String(rawFormat).trim().toLowerCase();
+  if (FORMAT_PRESETS[key]) {
+    return { ...FORMAT_PRESETS[key], isDefault: false };
+  }
+  const whMatch = key.match(/^(\d{3,4})\s*[x×]\s*(\d{3,4})$/);
+  if (whMatch) {
+    const w = Number(whMatch[1]);
+    const h = Number(whMatch[2]);
+    return {
+      format: `${w}x${h}`,
+      orientation: w > h ? 'landscape' : w < h ? 'portrait' : 'square',
+      preset: 'custom',
+      resolution: [w, h],
+      isDefault: false,
+    };
+  }
+  return { ...FORMAT_PRESETS.reels, isDefault: true };
+}
+
 export function parseScriptOutline(rawText, options = {}) {
   const lines = rawText.replace(/\r\n/g, '\n').split('\n');
   const scenes = [];
@@ -17,6 +60,8 @@ export function parseScriptOutline(rawText, options = {}) {
     language: options.language || null,
     duration: options.duration || null,
     format: options.format || null,
+    orientation: null,
+    resolution: null,
     style: options.style || null,
   };
 
@@ -56,7 +101,7 @@ export function parseScriptOutline(rawText, options = {}) {
     if (/^(Language|Duration|Format|Style)\s*:/i.test(line)) {
       const langM = line.match(/Language\s*:\s*([A-Za-z-]+)/i);
       const durM = line.match(/Duration\s*:\s*([0-9.]+s?)/i);
-      const fmtM = line.match(/Format\s*:\s*([0-9:x]+)/i);
+      const fmtM = line.match(/Format\s*:\s*([A-Za-z0-9:x×_-]+)/i);
       const styM = line.match(/Style\s*:\s*([^|]+)/i);
       if (langM && !metadata.language) metadata.language = langM[1];
       if (durM && !metadata.duration) metadata.duration = durM[1];
@@ -110,6 +155,11 @@ export function parseScriptOutline(rawText, options = {}) {
     scene.actions.push(line.replace(/^[-*]\s+/, ''));
   }
 
+  const resolvedFormat = resolveVideoFormat(metadata.format);
+  metadata.format = resolvedFormat.format;
+  metadata.orientation = resolvedFormat.orientation;
+  metadata.resolution = resolvedFormat.resolution;
+
   return {
     mode: 'script',
     metadata,
@@ -122,7 +172,7 @@ export function parseScriptOutline(rawText, options = {}) {
 
 function runSelfTest() {
   const sample = `# Title: Platform Echo
-Language: en-US | Duration: 25s | Format: 16:9
+Language: en-US | Duration: 25s
 
 ## Scene 1 — EXT. STATION PLATFORM - NIGHT RAIN
 - Camera: Wide establishing shot under station awning.
@@ -133,6 +183,17 @@ MINA (O.S.): Hold on—I see the headlight!`;
 
   const parsed = parseScriptOutline(sample);
   if (parsed.metadata.title !== 'Platform Echo') throw new Error('Title mismatch');
+  if (parsed.metadata.format !== '9:16' || parsed.metadata.resolution[0] !== 1080 || parsed.metadata.resolution[1] !== 1920) {
+    throw new Error(`Expected default Reels 9:16 [1080,1920], got ${JSON.stringify(parsed.metadata)}`);
+  }
+  const landscapeParsed = parseScriptOutline(`Format: landscape\n## Scene 1\nLEO: Hi.`);
+  if (landscapeParsed.metadata.format !== '16:9' || landscapeParsed.metadata.resolution[0] !== 1920) {
+    throw new Error(`Expected landscape 16:9 [1920,1080], got ${JSON.stringify(landscapeParsed.metadata)}`);
+  }
+  const portraitAlias = resolveVideoFormat('portrait');
+  if (portraitAlias.format !== '9:16' || portraitAlias.orientation !== 'portrait') {
+    throw new Error(`Expected portrait -> 9:16, got ${JSON.stringify(portraitAlias)}`);
+  }
   if (parsed.sceneCount !== 1) throw new Error(`Expected 1 scene, got ${parsed.sceneCount}`);
   if (parsed.characters.length !== 2) throw new Error(`Expected 2 chars, got ${parsed.characters.length}`);
   if (parsed.scenes[0].speechLines[0].text !== "We shouldn't have waited this long.") {
@@ -142,7 +203,7 @@ MINA (O.S.): Hold on—I see the headlight!`;
     throw new Error('Expected O.S. line to classify as environmental');
   }
   console.log(
-    `SELF-TEST PASSED: scenes=${parsed.sceneCount}, chars=[${parsed.characters.join(',')}], lines=${parsed.totalSpeechLines}, verbatimPreserved=true`
+    `SELF-TEST PASSED: scenes=${parsed.sceneCount}, chars=[${parsed.characters.join(',')}], lines=${parsed.totalSpeechLines}, defaultFormat=${parsed.metadata.format}(${parsed.metadata.resolution.join('x')}), verbatimPreserved=true`
   );
 }
 
@@ -157,7 +218,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     };
     const scriptPath = getArg('--script');
     if (!scriptPath) {
-      console.error('Usage: node parse-script-outline.mjs --script <file.md|txt> [--language en-US] [--duration 30s] [--format 16:9] | --self-test');
+      console.error('Usage: node parse-script-outline.mjs --script <file.md|txt> [--language en-US] [--duration 30s] [--format 9:16|portrait|reels|16:9|landscape] | --self-test');
       process.exit(1);
     }
     const raw = fs.readFileSync(scriptPath, 'utf8');
