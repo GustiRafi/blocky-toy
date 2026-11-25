@@ -56,7 +56,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 | 6 | World State & Physics | Set shared sky, weather, wind, light fixtures, and animal rules | `references/real-world-consistency.md`, `templates/world-state.md` |
 | 7 | Character Identity & Lock | Define non-cloned canonical profiles (`locked`), asset refs & voice IDs | `references/character-design.md`, `templates/character-profile.md` |
 | 8 | Dialogue & Acting | Build voice lines, WAV-aligned visemes, gaze, gestures & listener reactions | `references/dialogue-and-acting.md`, `references/lip-sync-and-audio.md`, `templates/dialogue-timeline.md` |
-| 9 | Motion & Collision | Implement deterministic waypoint/nav pathing, avoidance, and grounding | `references/animation-physics.md` |
+| 9 | Motion & Collision | Implement nav pathing, articulated resting poses, full-body/door avoidance & surface grounding | `references/animation-physics.md` |
 | 10 | Camera & Long-Form Plan | Plan Act/Scene/Shot beats, estimate budget (>60s) & camera paths | `references/cinematography.md`, `references/long-form-production.md`, `templates/production-plan.md` |
 | 11 | Incremental Build & Cache | Build per scene/shot; reuse assets & cache unchanged scene renders | `references/long-form-production.md` |
 | 12 | Logic & Scale Audits | Run automated checks for roads, collisions, scale, diversity & lip-sync | `references/quality-assurance.md` |
@@ -72,7 +72,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 - **True Character Diversity & Identity Lock**: Differentiate characters via **silhouette, hairstyle (360°), garment geometry, sleeve cut, footwear, proportions, and palette**—never recolored clones. Once locked, reuse the canonical character asset/seed and propagate scene-aware continuity state across cuts (`references/character-design.md`).
 - **Acting ≠ Narration**: Narrators leave character mouths shut. Speaking characters synchronize WAV-aligned visemes, evolving mid-line emotions, gestures, eye contact, and non-speaking listener reactions (`references/dialogue-and-acting.md`).
 - **Zero-Cost Replaceable Audio**: Support any requested language via configurable phonetic rules and a clean TTS provider interface. Keep free/local or zero-key neural options (such as `msedge-tts` + FFmpeg) as fallback; never force paid APIs or keys (`references/lip-sync-and-audio.md`).
-- **Zero-Defect Motion**: Eliminate character jitter, obstacle clipping, floating props, and route-end vehicle teleportation (`references/animation-physics.md`).
+- **Zero-Defect Motion & Grounding**: Eliminate jitter, obstacle/door clipping (humans, animals & props), floating or sinking objects across all postures (`stand`, `sit`, `loaf`, `lie_down` with detailed resting limb articulation), and vehicle teleports (`references/animation-physics.md`).
 
 ---
 

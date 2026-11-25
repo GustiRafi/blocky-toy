@@ -20,7 +20,8 @@ Implement headless/CLI audit scripts evaluating live scene modules so checks sta
    - All appearing characters reference locked Registry IDs (`locked: true`), canonical assets/seeds, and matching voice profiles (zero per-scene approximations).
    - `100%` complete `identity` profiles, zero duplicate `(hair + outfit)` or `(outfit + color)` combos, zero headwear/accessory conflicts (`headphones` vs `helmet`/`beanie`/`cap`).
    - Incoming/outgoing `continuityState` (outfit, wetness, dirt, injuries, carried props) matches prior scenes and cites screenplay events for every change.
-   - `0` static collider penetrations and `0` pedestrian overlaps across `0..duration` sampled every `2–3` frames.
+   - **Full-Body & Articulated-Door Non-Penetration**: Sample every `2–3` frames across `0..duration` and evaluate **all child sub-part world bounds (head/snout, ears, limbs, paws, tail, torso, held props)**—not only root center points—for humans, animals, and dynamic props against walls, fences, porches, furniture, other actors, and **dynamic/closed door & gate leaves** (`penetrationDepth === 0`).
+   - **Zero Ground/Surface Sinking & Floating (All Postures)**: Across every standing, walking, kneeling, sitting, loafing, and lying (`rebahan`) beat, verify every grounded actor and placed prop satisfies `surfaceTopY(x, z) - 0.005m <= poseWorldMinY <= surfaceTopY(x, z) + 0.015m` (zero sub-surface sinking into porches, rugs, steps, seats, or beds; zero unintentional floating).
 4. **Dialogue & Lip-Sync (when speech exists)**:
    - Narration & internal monologue keep all character mouths at `0`.
    - Active speakers emit non-zero visemes strictly inside voiced WAV spans, dropping cleanly to `0` during pauses and after `endSec` / `interruptedAtSec`.
@@ -34,8 +35,8 @@ Render and visually inspect frames from **4 distinct camera angles** (do not val
 
 1. **Wide Elevated / Aerial Overview**: Inspect road network connectivity, intersections, zoning, parking stalls (check cars vs. scooters!), and background continuity.
 2. **Street-Level Infrastructure View**: Inspect sidewalks, curbs, fences, doorways, traffic signs, and parked driveway aprons.
-3. **Character Turnaround (Front / 3/4 Side / Back)**: Inspect cast diversity, hair silhouettes, sleeve/shoe geometry, and glasses/hat/bag intersections.
-4. **Final Film Camera & Key Action Beats**: Inspect composition, lighting shadow direction, prop hand contact, expression clarity, and lip-sync mouth shapes.
+3. **Character & Creature Turnaround + Low-Angle Contact Check (Front / 3/4 Side / Back)**: Inspect cast diversity, hair silhouettes, sleeve/shoe geometry, glasses/hat/bag intersections, **and low-angle surface contact** during sitting/lying/loafing beats (belly, folded paws, tail, shoes flush on `surfaceTopY`, zero submerged geometry).
+4. **Final Film Camera & Key Action Beats**: Inspect composition, lighting shadow direction, prop hand contact, **doorway/wall clearances (no snouts, paws, tails, or limbs poking through doors/walls)**, expression clarity, and lip-sync mouth shapes.
 
 ---
 

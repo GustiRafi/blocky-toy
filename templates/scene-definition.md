@@ -12,14 +12,21 @@ worldStateRef: "templates/world-state.md"
 cast:
   - characterId: "leo" # must match locked Registry ID (never redefine geometry inline)
     roleInScene: "protagonist"
-    startPos: [4.05, 0.125, -11.5] # [x, y, z] in meters
+    startPos: [4.05, 0.125, -11.5] # [x, y, z] in meters; y resolved from surfaceTopY(x, z)
+    initialPosture: "standing" # standing | sit | loaf | sphinx_lie | side_lie | curled_sleep | recline
+    supportSurface: "sidewalk_east" # ground | sidewalk | porch_slab | stair_step | mat | bench | bed
     continuityIn: { wetness: 0.0, carriedObjects: [], condition: "healthy" }
     continuityOut: { wetness: 0.0, carriedObjects: [], condition: "healthy", reason: "clear night repair" }
   - characterId: "mina"
     roleInScene: "deuteragonist"
     startPos: [3.75, 0.125, 5.1]
+    initialPosture: "standing"
+    supportSurface: "sidewalk_east"
     continuityIn: { wetness: 0.0, carriedObjects: [], condition: "healthy" }
     continuityOut: { wetness: 0.0, carriedObjects: [], condition: "healthy" }
+
+doorsAndPortals: # track solid door/gate leaves so neither characters nor animals clip closed panels
+  - { id: "front-gate-01", initialState: "closed", openEvents: [] }
 
 beats:
   - id: "beat-1-establishing"

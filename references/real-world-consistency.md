@@ -42,8 +42,9 @@ Maintain a single immutable/shared state object (`templates/world-state.md`) con
 
 ## 5. Living Creatures & Animals
 
-- Never drop animals into scenes as arbitrary decoration. Include an animal only when its presence fits the biome and time of day (e.g., perched daytime songbirds, leashed park dog, alley cat).
+- Never drop animals into scenes as arbitrary decoration. Include an animal only when its presence fits the biome and time of day (e.g., perched daytime songbirds, leashed park dog, alley/porch cat).
 - Enforce species-specific anatomy, scale, locomotion, and reaction (e.g., cats do not walk bipedally; birds perch/flap rather than slide along asphalt; animals yield to oncoming traffic/humans).
+- **Solid Architecture & Surface Grounding for Animals**: Animals obey walls, fences, furniture, and closed doors/gates just like human actors—never spawn or animate an animal inside a closed door leaf or wall. When sitting, loafing, or lying down (`sit`, `loaf`, `sphinx_lie`, `side_lie`, `curled_sleep`), articulate tucked/folded paws, haunches, and tails cleanly **on top of** the true support elevation (`porchTopY`, `matTopY`, `stepTopY`)—never half-submerged into slabs or floors.
 - If no animal serves the scene, explicitly record `animals.count = 0` in the shared world state rather than leaving animal policy ambiguous.
 
 ---
@@ -51,5 +52,5 @@ Maintain a single immutable/shared state object (`templates/world-state.md`) con
 ## 6. Cause-and-Effect & Cross-Shot Continuity
 
 - Story actions must show physical contact and causal timing (e.g., kneeling + reaching to a lamp junction box precedes the wire sliding home and light turning on).
-- Characters never walk through closed doors, sit in midair, or ignore loud nearby environmental events.
+- Neither characters nor animals pass through closed doors, gates, fences, or walls, sit in midair, sink into floors, or ignore loud nearby environmental events; crossing a closed door/gate requires visible latch/swing animation first.
 - Weather, road layouts, building positions, and prop states persist continuously across all cuts unless a story event explicitly transforms them.
