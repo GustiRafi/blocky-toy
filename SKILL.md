@@ -1,7 +1,7 @@
 ---
-name: cinematic-3d-animation
+name: blocky-toy
 description: >-
-  Portable production methodology for creating coherent, story-driven code-based 3D animated videos.
+  BLOCKY TOY — Portable production methodology for creating coherent, story-driven code-based 3D animated videos.
   Covers worldbuilding, real-world physical/spatial consistency, individualized character design,
   multilingual dialogue & lip-sync acting, stylized cinematography, collision-safe animation, and
   multi-perspective QA validation across any 3D engine or project layout.
@@ -9,12 +9,13 @@ compatibility: >-
   Open Agent Skills (SKILL.md) standard. Supports Google Antigravity, Claude Code, OpenCode,
   OpenAI Codex CLI, Cursor, and generic coding agents. Bundled CLI scripts use Node.js (>=18) only.
 metadata:
+  displayName: "BLOCKY TOY"
   version: "1.1.0"
   modes: "idea, script"
   duration: "15s-15m+"
 ---
 
-# Cinematic 3D Animation Production Skill
+# BLOCKY TOY — 3D Animation Production Skill
 
 Build code-based 3D animated films as **coherent, functioning worlds** inhabited by **individual, acting characters**—not isolated assets or recolored clones.
 
@@ -26,8 +27,8 @@ Never rewrite working project code unnecessarily. Inspect the target codebase fi
 
 Support both modes seamlessly without forcing users to specify every option (`references/input-modes-and-script-parsing.md`):
 
-- **Idea Mode** (e.g. `/cinematic-3d --duration 5m "The Last Train Home"`): Develop full story beats, cast, dialogue, locations, acting, camera, and audio from a short prompt or title.
-- **Script Mode** (e.g. `/cinematic-3d --duration 10m --script ./scripts/story.md`): Treat the provided script (`.md`, `.txt`, screenplay, outline, dialogue-only, or inline) as **source of truth**. Preserve plot, character motivations, endings, and verbatim dialogue; add missing visual/spatial staging without overriding author intent. Flag technical/logical contradictions before changing them.
+- **Idea Mode** (e.g. `/blocky-toy --duration 5m "The Last Train Home"`): Develop full story beats, cast, dialogue, locations, acting, camera, and audio from a short prompt or title.
+- **Script Mode** (e.g. `/blocky-toy --duration 10m --script ./scripts/story.md`): Treat the provided script (`.md`, `.txt`, screenplay, outline, dialogue-only, or inline) as **source of truth**. Preserve plot, character motivations, endings, and verbatim dialogue; add missing visual/spatial staging without overriding author intent. Flag technical/logical contradictions before changing them.
 - **Optional Controls**: `--duration` (variable: `15s` clips, `1–3m` stories, `3–15m+` short films—never stretch stories artificially), `--language`, `--style`, `--voice`, `--format`, `--script` (apply sensible defaults when omitted).
 
 ---

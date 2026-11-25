@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const SKILL_ROOT = path.resolve(__dirname, '..');
-const SKILL_NAME = 'cinematic-3d-animation';
+const SKILL_NAME = 'blocky-toy';
 
 const TARGET_MAP = {
   universal: {
@@ -139,7 +139,7 @@ function runSelfTest() {
 }
 
 function printHelp() {
-  console.log(`Cinematic 3D Animation Skill Installer
+  console.log(`BLOCKY TOY — 3D Animation Skill Installer
 
 Usage:
   node scripts/install.mjs --target <target> [options]
