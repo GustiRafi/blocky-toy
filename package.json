@@ -1,0 +1,47 @@
+{
+  "name": "blocky-toy",
+  "version": "1.1.0",
+  "description": "BLOCKY TOY — Portable Agent Skill (SKILL.md) and CLI installer for creating coherent, story-driven code-based 3D animated videos across Antigravity, Claude Code, OpenCode, Codex CLI, and Cursor.",
+  "license": "MIT",
+  "author": "GustiRafi",
+  "type": "module",
+  "bin": {
+    "blocky-toy": "./scripts/install.mjs"
+  },
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "LICENSE",
+    "references/**",
+    "templates/**",
+    "scripts/**",
+    "docs/INSTALLATION.md",
+    "docs/SHOWCASE.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GustiRafi/blocky-toy.git"
+  },
+  "homepage": "https://github.com/GustiRafi/blocky-toy#readme",
+  "bugs": {
+    "url": "https://github.com/GustiRafi/blocky-toy/issues"
+  },
+  "keywords": [
+    "agent-skill",
+    "skill-md",
+    "3d-animation",
+    "threejs",
+    "react-three-fiber",
+    "blender",
+    "lip-sync",
+    "blocky-toy",
+    "ai-agent"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node scripts/install.mjs --self-test && node scripts/parse-script-outline.mjs --self-test && node scripts/wav-rms-viseme-aligner.mjs --self-test",
+    "install:skill": "node scripts/install.mjs"
+  }
+}
