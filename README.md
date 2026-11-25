@@ -5,22 +5,27 @@
 **BLOCKY TOY** (`blocky-toy`) is a portable, engine-agnostic **Agent Skill** (`SKILL.md` open standard) compatible with **Google Antigravity**, **Claude Code**, **OpenCode**, **OpenAI Codex CLI**, **Cursor**, and any coding agent that reads Markdown instructions.
 
 <p align="center">
-  <img src="./docs/media/world-street-avenue.png" alt="Commercial avenue street-level render" width="32%" />
-  <img src="./docs/media/cast-diversity-front.png" alt="Distinct non-cloned character lineup" width="32%" />
-  <img src="./docs/media/scene-dialogue-twoshot.png" alt="Scene 4 character dialogue two-shot" width="22%" />
+  <img src="./docs/media/world-street-avenue.png" alt="test-ai-video commercial avenue street-level render" width="24%" />
+  <img src="./docs/media/cast-diversity-front.png" alt="test-ai-video non-cloned character lineup" width="24%" />
+  <img src="./docs/media/test1-dialogue-twoshot.png" alt="test-1 Rumah Sebelah dialogue two-shot" width="24%" />
+  <img src="./docs/media/test1-finale-street.png" alt="test-1 Rumah Sebelah neighborhood finale" width="24%" />
 </p>
 
-- **Watch Reference Film Showcase (`42s`, stereo mix)**: [`docs/media/showcase-film-540p.mp4`](./docs/media/showcase-film-540p.mp4)
-- **Watch 7-Act Dialogue & Lip-Sync QA Video (`41s`)**: [`docs/media/dialogue-qa-demo.mp4`](./docs/media/dialogue-qa-demo.mp4)
-- **Full Visual Gallery & Breakdown**: [`docs/SHOWCASE.md`](./docs/SHOWCASE.md)
+- **Project `test-ai-video` — *The Last Little Light* (`42s`, `9:16` Reels, stereo mix)**: [`docs/media/showcase-film-540p.mp4`](./docs/media/showcase-film-540p.mp4)
+- **Project `test-ai-video` — 7-Act Dialogue & Lip-Sync QA (`41s`)**: [`docs/media/dialogue-qa-demo.mp4`](./docs/media/dialogue-qa-demo.mp4)
+- **Project `test-1` — *Rumah Sebelah* (`180s / 3m`, `16:9` `id-ID` Script Mode)**: [`docs/media/test1-rumah-sebelah-540p.mp4`](./docs/media/test1-rumah-sebelah-540p.mp4)
+- **Full Visual Gallery, Renders & Breakdown**: [`docs/SHOWCASE.md`](./docs/SHOWCASE.md)
 
 ---
 
 ## Features at a Glance
 
 - **Two Authoring Modes (`Idea Mode` & `Script Mode`)**: Generate a full animated film from a title/concept (`/blocky-toy "The Last Train Home"`) OR translate an author's Markdown/plain-text screenplay verbatim (`/blocky-toy --script ./scripts/story.md`) without rewriting lines or endings.
-- **Flexible Runtime (`15s` to `15m+`)**: Supports short clips (`15–60s`), stories (`1–3m`), and multi-act short films (`3–15m+`) with a mandatory pre-build estimation gate and incremental per-scene cached rendering.
-- **Real-World Consistency**: Enforces connected roads, intersection-only crosswalks, cornering braking, zero vehicle teleports, sky/moon/shadow correspondence, phase-staggered foliage wind, and species-authentic animal behavior.
+- **Selectable Output Aspect Ratio (Reels `9:16` Default)**: Defaults cleanly to **`9:16` Reels portrait (`1080×1920`)** when omitted; switch effortlessly via `--format landscape` (`16:9`), `portrait`/`reels`, `4:5`, `1:1`, or `WxH` with aspect-aware camera blocking (`scripts/parse-script-outline.mjs`).
+- **Flexible Runtime (`15s` to `15m+`) & Strict Project Isolation**: Supports short clips (`15–60s`), stories (`1–3m`), and multi-act short films (`3–15m+`) with a mandatory pre-build estimation gate and strictly project-local incremental caching (zero asset or render-cache carryover from prior projects).
+- **Atmospheric Sky, Layered Nature & Diurnal Time-Lapse**: Enforces multi-stop vertical sky domes (never flat gray), drifting clouds, soil-bordered lawns with 3D instanced grass tufts, and visible `morning → noon → afternoon → night` progression (sweeping sun shadows + dusk practicals turning on) for time-lapse or repeated-location montages.
+- **Living-World Population & Real-World Consistency**: Enforces connected roads, intersection-only crosswalks, cornering braking, zero vehicle teleports, and context-fit background NPCs, traffic, and biome-authentic animals so outdoor streets feel alive.
+- **Pose-Aware Grounding & Full-Body Collision**: Solves `surfaceTopY(x, z)` and exact posed mesh bounds (`poseMinY`) across standing, sitting, and detailed resting (`loaf`, `sphinx_lie`, `side_lie`, `curled_sleep`, `recline`) poses—plus full sub-mesh & articulated-door collision for humans, animals, and props.
 - **Identity Lock & Cast Diversity**: Prevents "recolored clone" characters via structured `CharacterIdentityProfile` geometry (hair, silhouettes, sleeves, footwear) plus `locked: true` canonical asset reuse and cross-scene `continuityState`.
 - **Multilingual Dialogue & Zero-Key Voice Acting**: Separates external `narration` (mouths shut) from `dialogue` (WAV RMS-aligned visemes, mid-sentence `expressionArc`, gaze tracking, listener reactions, and interruption cutoffs) with zero mandatory API keys (`msedge-tts` default fallback).
 - **Token-Efficient & Engine-Agnostic**: Progressive disclosure (`SKILL.md` is `< 95` lines) adapts to Three.js/R3F, Blender `bpy`, Godot, or Unity without forcing heavy boilerplate.
@@ -65,14 +70,19 @@ blocky-toy/
 │   ├── INSTALLATION.md                    # Detailed setup for Antigravity, Claude Code, OpenCode, Codex, Cursor
 │   ├── SHOWCASE.md                        # Visual gallery & demo video breakdown
 │   └── media/                             # Verified screenshots & H.264 showcase MP4s
-│       ├── showcase-film-540p.mp4
-│       ├── dialogue-qa-demo.mp4
+│       ├── showcase-film-540p.mp4         # test-ai-video (42s, 9:16 Reels showcase)
+│       ├── dialogue-qa-demo.mp4           # test-ai-video (41s, 7-act dialogue QA)
+│       ├── test1-rumah-sebelah-540p.mp4   # test-1 (180s, 16:9 id-ID Script Mode)
 │       ├── world-aerial-masterplan.png
 │       ├── world-street-avenue.png
 │       ├── cast-diversity-front.png
 │       ├── cast-diversity-back.png
 │       ├── scene-dialogue-twoshot.png
-│       └── dialogue-qa-reaction.png
+│       ├── dialogue-qa-reaction.png
+│       ├── test1-aerial-neighborhood.png
+│       ├── test1-cast-lineup.png
+│       ├── test1-dialogue-twoshot.png
+│       └── test1-finale-street.png
 ├── references/                            # Loaded on-demand via progressive disclosure
 │   ├── input-modes-and-script-parsing.md
 │   ├── production-workflow.md

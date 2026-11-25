@@ -1,17 +1,19 @@
-# BLOCKY TOY Showcase — *The Last Little Light*
+# BLOCKY TOY Showcase — Production Outputs & Render Gallery
 
-These verified screenshots and videos were produced with the methodology encoded in **BLOCKY TOY** (`blocky-toy`) using a code-based Three.js / React Three Fiber + Playwright Chromium + FFmpeg + zero-key `msedge-tts` pipeline (`42s`, `1080×1920 @ 30 FPS`).
+Verified outputs and inspection renders generated with **BLOCKY TOY** (`blocky-toy`) using Three.js / React Three Fiber + Playwright Chromium + FFmpeg + zero-key `msedge-tts`.
 
 ---
 
-## Video Demos
+## Project 1 (`test-ai-video`) — *The Last Little Light* (`42s`, `9:16` Reels)
+
+Produced in **Idea Mode** (`1080×1920 @ 30 FPS` master, `540×960` showcase encode) featuring connected urban districts, 8 distinct non-cloned characters, moonlit practical streetlamps, and synchronized WAV RMS lip-sync.
+
+### Video Demos (`test-ai-video`)
 
 - **Full Short Film Showcase (540×960, 42s, mixed audio)**: [`docs/media/showcase-film-540p.mp4`](./media/showcase-film-540p.mp4)
 - **Dialogue Performance & Lip-Sync QA Suite (960×540, 41s, 7 acts)**: [`docs/media/dialogue-qa-demo.mp4`](./media/dialogue-qa-demo.mp4)
 
----
-
-## 1. Worldbuilding & Spatial Common Sense
+### 1. Worldbuilding & Spatial Common Sense
 
 Connected urban blocks (`Commercial`, `Residential Maple Lane`, `Pocket Park`, `Commercial Parking Lot`, and outer perimeter connectors), intersection-only zebra crossings, lane-facing signs, and zero parked vehicle overlaps:
 
@@ -19,9 +21,7 @@ Connected urban blocks (`Commercial`, `Residential Maple Lane`, `Pocket Park`, `
 | :---: | :---: |
 | ![Elevated urban masterplan overview](./media/world-aerial-masterplan.png) | ![Main Commercial Avenue street-level traffic](./media/world-street-avenue.png) |
 
----
-
-## 2. Character Identity Lock & Visual Diversity
+### 2. Character Identity Lock & Visual Diversity
 
 Eight distinct individuals (`Leo`, `Mina`, `Andi`, `Raka`, `Bintang`, `Dina`, `Sari`, `Pak Hendra`) featuring non-cloned silhouettes, varied sleeves (`long` vs. `rolled`), footwear (`hi_tops`, `sneakers`, `loafers`, `boots`), facial details, and 360°-readable hairstyles:
 
@@ -29,12 +29,32 @@ Eight distinct individuals (`Leo`, `Mina`, `Andi`, `Raka`, `Bintang`, `Dina`, `S
 | :---: | :---: |
 | ![All 8 characters front view](./media/cast-diversity-front.png) | ![All 8 characters back view](./media/cast-diversity-back.png) |
 
----
-
-## 3. Character Acting, Dialogue Turn-Taking & Lighting Continuity
+### 3. Character Acting, Dialogue Turn-Taking & Lighting Continuity
 
 On-screen character conversation with WAV RMS-aligned visemes, closed mouths during external narration, eye-contact tracking, delayed listener reactions, and moonlit key shadows synchronized to sky/fixture sources:
 
 | Film Scene 4 — Leo & Mina Dialogue Two-Shot | Dialogue QA Act 3 — Expressive Reaction & Gaze |
 | :---: | :---: |
 | ![Scene 4 Leo and Mina dialogue beside the glowing lamp](./media/scene-dialogue-twoshot.png) | ![Dialogue QA expressive reaction frame](./media/dialogue-qa-reaction.png) |
+
+---
+
+## Project 2 (`test-1`) — *Rumah Sebelah* (`3:00` / `180s`, `16:9` Indonesian Script Mode)
+
+Produced in **Script Mode** (`1280×720 @ 30 FPS` master, `960×540` showcase encode, `5,400` frames across 6 scenes) in Indonesian (`id-ID`) with locked cast (`Raka`, `Pak Arman`, `Kucing Tua`) and incremental per-scene rendering.
+
+### Video Output (`test-1`)
+
+- **Full 3-Minute Short Film Output (960×540, 180s, stereo audio)**: [`docs/media/test1-rumah-sebelah-540p.mp4`](./media/test1-rumah-sebelah-540p.mp4)
+
+### Render Gallery (`test-1`)
+
+| Aerial Residential Street (*Jalan Kenanga*) | Locked Cast Lineup (`Raka`, `Pak Arman`, `Kucing Tua`) |
+| :---: | :---: |
+| ![test-1 aerial residential street](./media/test1-aerial-neighborhood.png) | ![test-1 cast lineup](./media/test1-cast-lineup.png) |
+
+| Scene 4 — OTS Dialogue Two-Shot | Scene 6 — Morning Finale Wide Shot |
+| :---: | :---: |
+| ![test-1 dialogue two-shot](./media/test1-dialogue-twoshot.png) | ![test-1 morning finale street](./media/test1-finale-street.png) |
+
+> **Skill Evolution Driven by `test-1` Audit**: Real-world visual audits from `test-1` directly motivated `blocky-toy` updates for **pose-aware grounding & detailed resting poses** (preventing resting animals from sinking into porches), **full sub-mesh & closed-door collision**, **multi-stop sky domes & 3D instanced grass tufts**, **living-world ambient NPC/traffic/animal budgets**, **diurnal morning-to-night time-lapse rules**, **strict project isolation**, and **`9:16` Reels default formatting**.
