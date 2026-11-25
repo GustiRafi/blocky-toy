@@ -1,8 +1,8 @@
-# Cinematic 3D Animation Skill
+# BLOCKY TOY — 3D Animation Skill
 
 > Build code-based 3D animated films as **coherent, functioning worlds** inhabited by **distinct, acting individuals**—from 20-second clips to multi-act 15-minute short films—with any AI coding agent.
 
-`cinematic-3d-animation` is a portable, engine-agnostic **Agent Skill** (`SKILL.md` open standard) compatible with **Google Antigravity**, **Claude Code**, **OpenCode**, **OpenAI Codex CLI**, **Cursor**, and any coding agent that reads Markdown instructions.
+**BLOCKY TOY** (`blocky-toy`) is a portable, engine-agnostic **Agent Skill** (`SKILL.md` open standard) compatible with **Google Antigravity**, **Claude Code**, **OpenCode**, **OpenAI Codex CLI**, **Cursor**, and any coding agent that reads Markdown instructions.
 
 <p align="center">
   <img src="./docs/media/world-street-avenue.png" alt="Commercial avenue street-level render" width="32%" />
@@ -18,7 +18,7 @@
 
 ## Features at a Glance
 
-- **Two Authoring Modes (`Idea Mode` & `Script Mode`)**: Generate a full animated film from a title/concept (`/cinematic-3d "The Last Train Home"`) OR translate an author's Markdown/plain-text screenplay verbatim (`/cinematic-3d --script ./scripts/story.md`) without rewriting lines or endings.
+- **Two Authoring Modes (`Idea Mode` & `Script Mode`)**: Generate a full animated film from a title/concept (`/blocky-toy "The Last Train Home"`) OR translate an author's Markdown/plain-text screenplay verbatim (`/blocky-toy --script ./scripts/story.md`) without rewriting lines or endings.
 - **Flexible Runtime (`15s` to `15m+`)**: Supports short clips (`15–60s`), stories (`1–3m`), and multi-act short films (`3–15m+`) with a mandatory pre-build estimation gate and incremental per-scene cached rendering.
 - **Real-World Consistency**: Enforces connected roads, intersection-only crosswalks, cornering braking, zero vehicle teleports, sky/moon/shadow correspondence, phase-staggered foliage wind, and species-authentic animal behavior.
 - **Identity Lock & Cast Diversity**: Prevents "recolored clone" characters via structured `CharacterIdentityProfile` geometry (hair, silhouettes, sleeves, footwear) plus `locked: true` canonical asset reuse and cross-scene `continuityState`.
@@ -33,10 +33,10 @@ Run our zero-dependency installer from anywhere (`Node.js >= 18`):
 
 ```bash
 # Install for your current project across Antigravity, Claude Code, OpenCode, Codex CLI & Cursor:
-node /Users/macos/Developer/cinematic-3d-animation/scripts/install.mjs --target all --project /path/to/your-project
+node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --project /path/to/your-project
 
 # Or install globally in your home directory (~/.agents, ~/.claude, ~/.config/opencode, ~/.codex, ~/.cursor):
-node /Users/macos/Developer/cinematic-3d-animation/scripts/install.mjs --target all --scope global
+node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --scope global
 ```
 
 ### Target-Specific One-Liners
@@ -58,7 +58,7 @@ node /Users/macos/Developer/cinematic-3d-animation/scripts/install.mjs --target 
 ## Repository Structure
 
 ```text
-cinematic-3d-animation/
+blocky-toy/
 ├── SKILL.md                               # Concise entrypoint & 14-stage adaptive workflow
 ├── README.md                              # Complete overview, installation & usage docs
 ├── docs/
@@ -104,10 +104,10 @@ cinematic-3d-animation/
 
 ```text
 # Idea Mode (short clip or full multi-act short film)
-/cinematic-3d-animation "The Last Train Home" --duration 5m --language en-US --format 16:9
+/blocky-toy "The Last Train Home" --duration 5m --language en-US --format 16:9
 
 # Script Mode (script is source of truth; dialogue & ending preserved verbatim)
-/cinematic-3d-animation --script ./scripts/story.md --duration 10m --style "stylized blocky twilight"
+/blocky-toy --script ./scripts/story.md --duration 10m --style "stylized blocky twilight"
 ```
 
 Optional controls (`--duration`, `--language`, `--style`, `--voice`, `--format`, `--script`) all fall back to sensible inferred defaults when omitted.
@@ -115,11 +115,11 @@ Optional controls (`--duration`, `--language`, `--style`, `--voice`, `--format`,
 ### Example Prompts
 
 1. **One-Speaker Character Clip (`Idea Mode`)**:
-   > Use `cinematic-3d-animation`. Build a 25-second stylized evening streetlamp scene in English where one character (**Leo**) notices a flickering lantern, fixes the loose switch, and speaks one quiet line (*"Finally... much better."*). Verify spatial clearance, grounding, WAV-aligned visemes, and 4-view renders.
+   > Use `blocky-toy`. Build a 25-second stylized evening streetlamp scene in English where one character (**Leo**) notices a flickering lantern, fixes the loose switch, and speaks one quiet line (*"Finally... much better."*). Verify spatial clearance, grounding, WAV-aligned visemes, and 4-view renders.
 2. **Multilingual Conversation (`Script Mode` / Dialogue)**:
-   > Use `cinematic-3d-animation`. Create a 15-second cafe patio dialogue between **Dina** (`es-ES`) and **Andi** (`en-US`) with a mid-sentence interruption. Design distinct non-cloned character silhouettes, persistent zero-key `msedge-tts` profiles, eye-contact tracking, delayed listener reactions, and `'rest'` pause spans verified by `scripts/wav-rms-viseme-aligner.mjs`.
+   > Use `blocky-toy`. Create a 15-second cafe patio dialogue between **Dina** (`es-ES`) and **Andi** (`en-US`) with a mid-sentence interruption. Design distinct non-cloned character silhouettes, persistent zero-key `msedge-tts` profiles, eye-contact tracking, delayed listener reactions, and `'rest'` pause spans verified by `scripts/wav-rms-viseme-aligner.mjs`.
 3. **Coherent Stylized City Tour (`Weather + Traffic + Animals`)**:
-   > Use `cinematic-3d-animation`. Create a 20-second silent camera tour of a stylized rainy twilight city using Three.js. Enforce connected intersections, corner-braking closed traffic loops, wet pavement reflections, umbrellas, wind-staggered canopies, and perched park birds before rendering final aerial, street-level, and hero views.
+   > Use `blocky-toy`. Create a 20-second silent camera tour of a stylized rainy twilight city using Three.js. Enforce connected intersections, corner-braking closed traffic loops, wet pavement reflections, umbrellas, wind-staggered canopies, and perched park birds before rendering final aerial, street-level, and hero views.
 
 ---
 

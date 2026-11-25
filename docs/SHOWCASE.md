@@ -1,6 +1,6 @@
-# Production Showcase — *The Last Little Light*
+# BLOCKY TOY Showcase — *The Last Little Light*
 
-These verified screenshots and videos were produced with the methodology encoded in `cinematic-3d-animation` using a code-based Three.js / React Three Fiber + Playwright Chromium + FFmpeg + zero-key `msedge-tts` pipeline (`42s`, `1080×1920 @ 30 FPS`).
+These verified screenshots and videos were produced with the methodology encoded in **BLOCKY TOY** (`blocky-toy`) using a code-based Three.js / React Three Fiber + Playwright Chromium + FFmpeg + zero-key `msedge-tts` pipeline (`42s`, `1080×1920 @ 30 FPS`).
 
 ---
 

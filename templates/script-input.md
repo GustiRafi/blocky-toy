@@ -1,6 +1,6 @@
 # Flexible Script Input Template
 
-Scripts supplied to `/cinematic-3d --script <path>` do NOT need strict formatting. Any combination of headings, stage directions, speaker lines, and cues works:
+Scripts supplied to `/blocky-toy --script <path>` do NOT need strict formatting. Any combination of headings, stage directions, speaker lines, and cues works:
 
 ```markdown
 # Title: The Last Train Home
