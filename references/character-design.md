@@ -42,8 +42,8 @@ Never create cast variety by cloning one torso/jacket rig and swapping shirt col
 
 Once a character design is finalized, mark its registry entry as **locked**:
 - Assign a stable unique `id`, canonical model/component reference (`assetRef`) or deterministic `proceduralSeed`, and bound voice profile (`voice.profileId`).
-- **Never regenerate, approximate, or silently swap** a locked character across scenes or camera shots. Camera angles, lighting, expressions, and poses change freely—underlying face structure, hair geometry, proportions, materials, and wardrobe remain invariant unless modified by an approved story event.
-- Reuse one canonical rig/component per `characterId` across all scenes and preview harnesses.
+- **Never regenerate, approximate, or silently swap** a locked character across scenes or camera shots **within that project**. Camera angles, lighting, expressions, and poses change freely—underlying face structure, hair geometry, proportions, materials, and wardrobe remain invariant unless modified by an approved story event.
+- Reuse one canonical rig/component per `characterId` across all scenes and preview harnesses of the **current project**—never import cast profiles or rigs from an unrelated prior project (e.g., `test-ai-video`) into a new story unless the user explicitly asks to continue that exact series.
 
 ---
 

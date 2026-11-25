@@ -10,8 +10,9 @@ Run a targeted scan before designing new modules:
 
 1. **Dependencies & Tooling**: Check manifest (`package.json`, `pyproject.toml`, `project.godot`, etc.) for 3D engine, physics/navigation, headless renderer/browser, audio/TTS, and encoder (`ffmpeg`).
 2. **Entrypoint & Timebase**: Identify how animation time advances (`time = frame / fps`, deterministic render stepping vs. real-time delta). **Deterministic frame-stepping** is required for reproducible video exports and lip-sync lock.
-3. **Existing Registries**: Look for centralized palette, scale metrics, collider tables, character cast definitions, or voice profiles. Extend these instead of creating parallel configs.
-4. **Test / Preview Harnesses**: Check whether multi-angle or isolation test scenes exist. Reuse them before building a new scene from scratch.
+3. **Existing Registries (Within Active Workspace Only)**: Look for centralized palette, scale metrics, collider tables, character cast definitions, or voice profiles **inside the current project**. Extend these instead of creating parallel configs.
+4. **Strict Project Isolation (Zero Cross-Project Carryover)**: Never copy, import, symlink, or carry over 3D assets, character meshes, textures, TTS WAVs, or render caches (`output/`, `frames/`, `renders/`, `.cache/`) from another project on disk (e.g., `test-ai-video` or prior film repos) or from the skill's `docs/media/` showcase folder. Every new project builds fresh story-specific assets and its own clean local cache.
+5. **Test / Preview Harnesses**: Check whether multi-angle or isolation test scenes exist inside the current project. Reuse them before building a new scene from scratch.
 
 ---
 

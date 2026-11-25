@@ -36,8 +36,8 @@ Support both modes seamlessly without forcing users to specify every option (`re
 ## Pre-Code Gate (Run Before Writing Any Code)
 
 1. **Detect Mode & Story Scope**: Identify Idea Mode vs. Script Mode (`scripts/parse-script-outline.mjs`), spoken vs. silent format, target **dialogue language(s)** (never hardcode one language), aspect ratio, and visual direction.
-2. **Inspect Target Project**: Read existing scene files, character rigs, materials, camera rig, audio/TTS scripts, and build/render tools before proposing changes.
-3. **Reuse First**: Extend existing registries, materials, colliders, and controllers instead of duplicating logic across scenes.
+2. **Inspect Target Project**: Read **only the active workspace's** existing scene files, character rigs, materials, camera rig, audio/TTS scripts, and build/render tools before proposing changes.
+3. **Reuse Locally, Isolate Strictly**: Extend registries, materials, colliders, and controllers **within the current project** across its scenes. **Never** copy, import, or reuse 3D assets, character rigs, audio WAVs, or render caches (`output/`, `frames/`, `.cache/`) from external/previous projects (e.g., `test-ai-video` or sibling repos) or `docs/media/` into a new project.
 4. **Incremental Execution**: Plan changes in small modules, verify each layer, and load only the reference files needed for the current stage.
 
 ---
@@ -58,7 +58,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 | 8 | Dialogue & Acting | Build voice lines, WAV-aligned visemes, gaze, gestures & listener reactions | `references/dialogue-and-acting.md`, `references/lip-sync-and-audio.md`, `templates/dialogue-timeline.md` |
 | 9 | Motion & Collision | Implement nav pathing, articulated resting poses, full-body/door avoidance & surface grounding | `references/animation-physics.md` |
 | 10 | Camera & Long-Form Plan | Plan Act/Scene/Shot beats, estimate budget (>60s) & camera paths | `references/cinematography.md`, `references/long-form-production.md`, `templates/production-plan.md` |
-| 11 | Incremental Build & Cache | Build per scene/shot; reuse assets & cache unchanged scene renders | `references/long-form-production.md` |
+| 11 | Incremental Build & Cache | Build per scene/shot; reuse **project-local** assets & **project-local** scene cache | `references/long-form-production.md` |
 | 12 | Logic & Scale Audits | Run automated checks for roads, collisions, scale, diversity & lip-sync | `references/quality-assurance.md` |
 | 13 | Visual Inspection | Inspect aerial, street-level, character-close, and final camera renders | `references/quality-assurance.md` |
 | 14 | Fix & Export | Resolve every visual/logic defect, re-render, mux audio, and probe output | `references/quality-assurance.md` |

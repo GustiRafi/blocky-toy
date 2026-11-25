@@ -47,7 +47,7 @@ Build and validate scene by scene—never generate an entire multi-minute film b
 
 Avoid re-rendering an entire long film when only one scene or shot changes:
 
-1. **Per-Scene Output Directories**: Render frames/clips per scene (`output/scenes/scene_01/frame_%04d.png` -> `output/scenes/scene_01.mp4`) alongside scene-local dialogue WAV stems.
-2. **Invalidation Manifest**: Hash each scene's dependencies (`sceneSpec`, `worldState`, participating locked `characterProfile`s, dialogue WAVs). Skip rendering untouched scenes whose cached clip hash matches.
-3. **Shared Asset Reuse**: Mount the exact same character rigs, environment buildings, materials, animation helpers, and cached voice WAVs across every scene.
+1. **Per-Scene Output Directories (Strictly Project-Local)**: Render frames/clips into a clean directory inside the **current workspace** (`output/scenes/scene_01/frame_%04d.png` -> `output/scenes/scene_01.mp4`) alongside scene-local dialogue WAV stems. Never seed or copy render caches, frames, or WAVs from prior/external projects (such as `test-ai-video`).
+2. **Invalidation Manifest**: Hash each scene's dependencies (`sceneSpec`, `worldState`, participating locked `characterProfile`s, dialogue WAVs) within the current project. Skip rendering untouched scenes whose local cached clip hash matches.
+3. **Within-Project Asset Reuse**: Mount the exact same character rigs, environment buildings, materials, animation helpers, and cached voice WAVs across every scene **of the same project**—never pull assets from unrelated projects.
 4. **Master Assembly (`ffmpeg`)**: Concatenate validated per-scene video clips seamlessly (`ffmpeg -f concat`) and mux the full synchronized 48 kHz dialogue + score + SFX bed (`+faststart`), verifying continuity and duration with `ffprobe`.
