@@ -6,17 +6,20 @@
 
 ## Quick One-Command Installer
 
-Run from inside `/Users/macos/Developer/blocky-toy` (or point `node` to `scripts/install.mjs`):
+Run via `npx blocky-toy` (once published to npm) or directly from `/Users/macos/Developer/blocky-toy`:
 
 ```bash
-# Install for your current project across ALL major agent directories (.agents, .claude, .opencode, .cursor)
+# Via npx (once published):
+npx blocky-toy --target all --project /path/to/your-project
+
+# Or from a local clone across ALL major agent directories (.agents, .claude, .opencode, .cursor):
 node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --project /path/to/your-project
 
 # Or install globally in your home directory so every workspace sees it automatically:
 node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --scope global
 ```
 
-> **Tip**: By default `install.mjs` creates a clean directory symlink (instant updates, zero duplication). Add `--copy` if you want standalone copied files (which automatically skips heavy `docs/media/` demo videos unless `--with-media` is passed). Use `--dry-run` first to preview exact paths.
+> **Tip**: Local clones default to a clean directory symlink; `npx` automatically defaults to standalone `--copy` (skipping heavy `docs/media/` assets) so installs never break if the `_npx` cache clears. Use `--dry-run` first to preview exact paths.
 
 ---
 

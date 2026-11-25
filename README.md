@@ -34,10 +34,13 @@
 
 ## Quick Installation (Any Agentic AI)
 
-Run our zero-dependency installer from anywhere (`Node.js >= 18`):
+Run via `npx` (once published to npm) or directly from a local clone (`Node.js >= 18`):
 
 ```bash
-# Install for your current project across Antigravity, Claude Code, OpenCode, Codex CLI & Cursor:
+# Via npx (after npm publish) into your current project:
+npx blocky-toy --target all --project /path/to/your-project
+
+# Or from a local clone across Antigravity, Claude Code, OpenCode, Codex CLI & Cursor:
 node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --project /path/to/your-project
 
 # Or install globally in your home directory (~/.agents, ~/.claude, ~/.config/opencode, ~/.codex, ~/.cursor):
