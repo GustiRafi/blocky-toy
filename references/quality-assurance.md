@@ -22,7 +22,10 @@ Implement headless/CLI audit scripts evaluating live scene modules so checks sta
    - Incoming/outgoing `continuityState` (outfit, wetness, dirt, injuries, carried props) matches prior scenes and cites screenplay events for every change.
    - **Full-Body & Articulated-Door Non-Penetration**: Sample every `2–3` frames across `0..duration` and evaluate **all child sub-part world bounds (head/snout, ears, limbs, paws, tail, torso, held props)**—not only root center points—for humans, animals, and dynamic props against walls, fences, porches, furniture, other actors, and **dynamic/closed door & gate leaves** (`penetrationDepth === 0`).
    - **Zero Ground/Surface Sinking & Floating (All Postures)**: Across every standing, walking, kneeling, sitting, loafing, and lying (`rebahan`) beat, verify every grounded actor and placed prop satisfies `surfaceTopY(x, z) - 0.005m <= poseWorldMinY <= surfaceTopY(x, z) + 0.015m` (zero sub-surface sinking into porches, rugs, steps, seats, or beds; zero unintentional floating).
-4. **Dialogue & Lip-Sync (when speech exists)**:
+4. **Sky, Terrain & Natural Environment Fidelity**:
+   - Confirm active sky dome/shader uses a multi-stop vertical gradient (`zenith !== horizon`, never flat monochrome gray `#808080` void), coupled `fogColor`, and directional sun/moon alignment (`dot(keyLightDir, celestialDir) > 0.95`).
+   - Verify outdoor grass/lawns include spatial color/roughness variation, soil/border separation, and instanced 3D tufts/foliage rooted cleanly at `surfaceTopY` with zero floating trees/shrubs or wall-clipping branches.
+5. **Dialogue & Lip-Sync (when speech exists)**:
    - Narration & internal monologue keep all character mouths at `0`.
    - Active speakers emit non-zero visemes strictly inside voiced WAV spans, dropping cleanly to `0` during pauses and after `endSec` / `interruptedAtSec`.
    - Non-speaking listeners keep `mouthOpen === 0` while tracking the speaker (`headYaw`, `eyeLookX`) and executing delayed reactions.
@@ -33,8 +36,8 @@ Implement headless/CLI audit scripts evaluating live scene modules so checks sta
 
 Render and visually inspect frames from **4 distinct camera angles** (do not validate only the hero close-up):
 
-1. **Wide Elevated / Aerial Overview**: Inspect road network connectivity, intersections, zoning, parking stalls (check cars vs. scooters!), and background continuity.
-2. **Street-Level Infrastructure View**: Inspect sidewalks, curbs, fences, doorways, traffic signs, and parked driveway aprons.
+1. **Wide Elevated / Aerial Overview**: Inspect road network connectivity, intersections, zoning, parking stalls (check cars vs. scooters!), **sky gradient/clouds, natural lawn/soil borders, tree root placement**, and background continuity.
+2. **Street-Level Infrastructure View**: Inspect sidewalks, curbs, fences, doorways/gates, traffic signs, porches/steps, **grass tuft seams along curbs/fences**, and parked driveway aprons.
 3. **Character & Creature Turnaround + Low-Angle Contact Check (Front / 3/4 Side / Back)**: Inspect cast diversity, hair silhouettes, sleeve/shoe geometry, glasses/hat/bag intersections, **and low-angle surface contact** during sitting/lying/loafing beats (belly, folded paws, tail, shoes flush on `surfaceTopY`, zero submerged geometry).
 4. **Final Film Camera & Key Action Beats**: Inspect composition, lighting shadow direction, prop hand contact, **doorway/wall clearances (no snouts, paws, tails, or limbs poking through doors/walls)**, expression clarity, and lip-sync mouth shapes.
 

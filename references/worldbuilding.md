@@ -19,8 +19,8 @@ Load this file at Stage 5 before placing any buildings, vehicles, props, or char
 
 Divide the district into logical zones with zero overlap (`building vs. road = 0`, `building vs. building = 0`):
 - **Commercial**: Flush storefronts facing primary sidewalks (`min width >= 1.5m`), rear service alleys/courtyards instead of bare void behind shops.
-- **Residential**: Houses set back cleanly inside private yards with fences/walks stopping **strictly outside** public sidewalk bounds.
-- **Green Spaces / Pocket Parks**: Linked directly to adjacent sidewalks via paved entrance paths, framed by low curbs, benches, trees, and warm bollard lighting.
+- **Residential**: Houses set back cleanly inside private yards with fences/walks stopping **strictly outside** public sidewalk bounds. Frame yard lawns with soil/gravel strips along walls and fences, stepping stones flush with turf, and 3D grass tufts around edges and tree bases (never a bare flat green slab).
+- **Green Spaces / Pocket Parks**: Linked directly to adjacent sidewalks via paved entrance paths, framed by low curbs, soil/mulch tree beds, layered grass variation + instanced tuft clusters, benches, multi-cluster trees, and warm bollard lighting.
 - **Background & Distant Districts**: Never replace distant architecture with flat dark silhouettes. Preserve floor bands, roofs, windows, and street-facing entrances across a clear Foreground / Midground / Background LOD hierarchy.
 
 ---

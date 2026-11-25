@@ -53,7 +53,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 | 3 | Runtime Mapping | Map renderer, headless capture, and audio muxing capabilities | `references/production-workflow.md` |
 | 4 | Art Direction & Scale | Establish palette, material rules, lighting, and metric scale (`1u = 1m`) | `references/cinematography.md` |
 | 5 | World Masterplan | Design connected roads, zones, sidewalks, lots, and green spaces **before props** | `references/worldbuilding.md` |
-| 6 | World State & Physics | Set shared sky, weather, wind, light fixtures, and animal rules | `references/real-world-consistency.md`, `templates/world-state.md` |
+| 6 | World State & Physics | Set multi-stop sky, natural terrain/grass, weather, wind, light fixtures & animal rules | `references/real-world-consistency.md`, `templates/world-state.md` |
 | 7 | Character Identity & Lock | Define non-cloned canonical profiles (`locked`), asset refs & voice IDs | `references/character-design.md`, `templates/character-profile.md` |
 | 8 | Dialogue & Acting | Build voice lines, WAV-aligned visemes, gaze, gestures & listener reactions | `references/dialogue-and-acting.md`, `references/lip-sync-and-audio.md`, `templates/dialogue-timeline.md` |
 | 9 | Motion & Collision | Implement nav pathing, articulated resting poses, full-body/door avoidance & surface grounding | `references/animation-physics.md` |
@@ -67,7 +67,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 
 ## Non-Negotiable Production Rules
 
-- **Nothing Without Reason**: Every crosswalk, sign, tree, light pool, vehicle turn, weather effect, or animal behavior must obey real-world cause and effect (`references/real-world-consistency.md`).
+- **Nothing Without Reason & Natural Law**: Every crosswalk, sign, tree, multi-stop sky/cloud layer, soil-and-tuft lawn, light pool, vehicle turn, weather effect, or animal behavior must obey real-world physics and nature (`references/real-world-consistency.md`).
 - **World First, Props Second**: Lock connected road/sidewalk/lot geometry before placing buildings, vehicles, or street furniture (`references/worldbuilding.md`).
 - **True Character Diversity & Identity Lock**: Differentiate characters via **silhouette, hairstyle (360°), garment geometry, sleeve cut, footwear, proportions, and palette**—never recolored clones. Once locked, reuse the canonical character asset/seed and propagate scene-aware continuity state across cuts (`references/character-design.md`).
 - **Acting ≠ Narration**: Narrators leave character mouths shut. Speaking characters synchronize WAV-aligned visemes, evolving mid-line emotions, gestures, eye contact, and non-speaking listener reactions (`references/dialogue-and-acting.md`).

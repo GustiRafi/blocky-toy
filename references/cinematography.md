@@ -30,12 +30,13 @@ Preserve appealing beveled blocky-toy proportions (`RoundedBoxGeometry` / bevele
 
 - **Intentional Muted Palette**: Favor muted navy, dusty blue, warm beige, terracotta, soft olive, warm cream, charcoal masonry, and restrained teal/mustard accents.
 - **Avoid AI Clichés**: Reject uncontrolled neon saturation, random primary rainbow buildings, and heavy blue-orange clichés.
-- **Material Separation**: Differentiate matte masonry (`roughness ~0.82`), satin fabric (`~0.68`), semi-matte vinyl skin (`~0.44`), rubber tires/soles (`~0.82`), satin wood, brushed metal (`clearcoat/metalness`), and translucent glass.
+- **Material Separation**: Differentiate matte masonry (`roughness ~0.82`), organic turf/soil (`roughness ~0.86–0.92`, `metalness = 0`, spatial shade variation—never shiny plastic green slabs), satin fabric (`~0.68`), semi-matte vinyl skin (`~0.44`), rubber tires/soles (`~0.82`), satin wood, brushed metal (`clearcoat/metalness`), and translucent glass.
 
 ---
 
 ## 3. Lighting & Atmospheric Composition
 
+- **Full Sky Gradient & Bounce**: Render an atmospheric multi-stop sky dome (`zenith -> mid -> horizon`) with clouds and solar/lunar halo instead of a flat gray/monochrome background; match `fogColor` to `horizonColor` and couple `hemisphereLight` to sky zenith + earth/turf bounce.
 - Match key light shadow angle to visible sky moon/sun (`WORLD_ENVIRONMENT_STATE`).
 - Keep soft sky fill (`hemisphereLight`) + subtle edge rim lighting strong enough that characters remain expressive and legible at night without flattening shadows.
 - Anchor practical lights inside streetlamp heads, practical lanterns, and interior window backings.

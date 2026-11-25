@@ -7,28 +7,46 @@ Load this file at Stage 6 to lock shared world physics, lighting, weather, anima
 ## 1. Shared World Environment State
 
 Maintain a single immutable/shared state object (`templates/world-state.md`) consumed by all scenes and preview cameras so weather, lighting, and physics never contradict between shots:
-- `timeOfDay` & sky gradient / moon or sun position
+- `timeOfDay` & multi-stop sky gradient (`skyZenithColor`, `skyMidColor`, `skyHorizonColor`) + moon/sun position
 - Directional key vector (shadows **must** correspond to the visible sun/moon direction)
-- `weather` state (`clear_calm`, `overcast`, `light_rain`, `foggy`, `windy`)
+- `weather` state (`clear_calm`, `overcast`, `light_rain`, `foggy`, `windy`) + `cloudCoverage`
 - Wind vector & base speed
 - Anchored light fixtures (`pointLight` / spot origins matching physical lamp heads)
 
 ---
 
-## 2. Sky, Weather & Lighting Logic
+## 2. Sky, Atmosphere & Lighting Logic (Never Flat Gray)
 
-- **Night scenes**: Restrained ambient fill, visible moon/sky zenith gradient, active practical streetlights/windows, fog toned to horizon color (never daylight brightness).
-- **Rain**: Lower sky brightness, wet specular/low-roughness road & sidewalk surfaces, optional puddles/ripples, reduced visibility, and reactive characters (coats, umbrellas, seeking shelter, faster walk cadence).
-- **Fog**: Attenuates distant buildings smoothly (`fogExp2`) without obscuring nearby characters or foreground props.
+**Never leave the sky as a flat solid gray/monochrome `clearColor` or blank void**—even in `overcast` or `day` scenes:
+
+- **Multi-Stop Sky Dome & Atmospheric Gradient**: Always build a vertical sky dome/shader interpolating cleanly from `skyZenithColor` -> `skyMidColor` -> `skyHorizonColor` (plus warm/cool atmospheric scattering around the sun or moon azimuth).
+  - **Day (`clear_calm`)**: Crisp azure zenith (`#4a86c8`), pale cerulean mid-sky, warm hazy horizon mist (`#d8e6f2`), visible directional sun glow.
+  - **Overcast / Rain**: Never flat `#808080` gray—use a cool slate-blue zenith transitioning to luminous silver-blue horizon haze, paired with multi-layered soft drifting cloud banks that modulate ambient light.
+  - **Dawn / Sunset**: Warm amber/peach/coral horizon bands rising smoothly into dusty lavender or slate-blue zenith.
+  - **Night**: Deep indigo zenith, subtle midnight-blue horizon glow, visible moon disc + sparse stars, active practical streetlights/windows, and horizon-matched fog (never daylight brightness).
+- **Layered Clouds**: Place beveled/stylized multi-puff cloud clusters at staggered altitudes drifting slowly along `wind.direction`.
+- **Coupled Fog & Sky/Ground Bounce**: Match `fogColor` strictly to `skyHorizonColor` (`fogExp2` attenuates distant silhouettes smoothly without obscuring foreground characters) and drive `hemisphereLight(skyZenithColor, groundBounceColor)` from the real sky and turf/pavement colors.
 - **Practicals**: Every floating `pointLight` pool must map to an actual fixture (streetlight head, lantern, storefront sign, porch lamp).
 
 ---
 
-## 3. Wind & Physical Weight
+## 3. Natural Terrain, Grass, Foliage & Wind Physics
 
-- Wind affects **only lightweight/flexible elements**: tree canopies, leaves, shrubs, loose paper, cloth banners/curtains, and long hair strands.
-- **Phase Staggering**: Derive phase offsets from spatial world coordinates (`phase = x * 0.43 + z * 0.37`) so adjacent trees never sway in robotic lockstep.
-- Heavy rigid objects (cars, benches, buildings, brick planters, utility boxes) must remain 100% static under normal wind. Calm nights favor stillness.
+Outdoor ground, lawns, and vegetation must obey natural growth, moisture, and light laws—**never represent grass as a single flat, uniform green plane**:
+
+- **Layered Ground & Soil Anatomy**:
+  - Separate soil/earth beds (`loam`, `mulch`, `gravel`) beneath fences, tree trunks, hedges, and lawn margins from green turf surfaces.
+  - Frame lawns cleanly with stone/brick curbs, porch edges, or stepping stones seated flush (`poseMinY === surfaceTopY`) rather than harsh razor intersections.
+- **Organic Grass & Turf Detailing**:
+  - Vary grass color and roughness naturally across space (sunlit warm olive/sage patches vs. cooler, slightly darker damp greens in tree/eave shade; `roughness ~0.85–0.92`, `metalness = 0`, zero plastic sheen).
+  - Populate **3D instanced grass blade/tuft clusters** (`InstancedMesh` or layered tufts with slight height/yaw/lean jitter), concentrated naturally along fence lines, stepping stones, curb edges, and tree bases so edges read organically from street and close-up cameras.
+- **Botanical Structure (Trees & Shrubs)**:
+  - Ground every tree in a soil bed or tree pit with slight trunk taper/root flare seated into the earth (never bare cylinders stabbed into flat pavement or floating).
+  - Build asymmetric, multi-cluster crowns (`3–6` overlapping beveled foliage volumes per tree with varied leaf shades) and ensure branches never clip through walls, roofs, or fences.
+- **Wind & Physical Weight**:
+  - Wind affects **only lightweight/flexible elements**: grass blade tips (anchored strictly at roots `y = surfaceTopY`), tree canopies, leaves, shrubs, loose paper, cloth banners/curtains, and long hair strands.
+  - **Phase Staggering**: Derive phase offsets from spatial world coordinates (`phase = x * 0.43 + z * 0.37`) so grass tufts and adjacent trees sway organically in waves rather than robotic lockstep.
+  - Heavy rigid objects (cars, benches, buildings, brick planters, utility boxes) remain 100% static under normal wind. Calm nights favor stillness.
 
 ---
 
