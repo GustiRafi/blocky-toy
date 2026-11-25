@@ -5,6 +5,13 @@ description: >-
   Covers worldbuilding, real-world physical/spatial consistency, individualized character design,
   multilingual dialogue & lip-sync acting, stylized cinematography, collision-safe animation, and
   multi-perspective QA validation across any 3D engine or project layout.
+compatibility: >-
+  Open Agent Skills (SKILL.md) standard. Supports Google Antigravity, Claude Code, OpenCode,
+  OpenAI Codex CLI, Cursor, and generic coding agents. Bundled CLI scripts use Node.js (>=18) only.
+metadata:
+  version: "1.1.0"
+  modes: "idea, script"
+  duration: "15s-15m+"
 ---
 
 # Cinematic 3D Animation Production Skill
