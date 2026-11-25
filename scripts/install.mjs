@@ -111,12 +111,35 @@ function installToPath(dest, { mode, dryRun, includeMedia, uninstall }) {
   }
 }
 
+export function resolveDefaultInstallMode(args, skillRoot = SKILL_ROOT) {
+  if (args.includes('--copy')) return 'copy';
+  if (args.includes('--symlink')) return 'symlink';
+  // Temporary npx cache paths can be evicted, so default to standalone copy under _npx/node_modules
+  if (skillRoot.includes(`${path.sep}_npx${path.sep}`)) return 'copy';
+  return 'symlink';
+}
+
+function isDirectCliInvocation() {
+  if (!process.argv[1]) return false;
+  try {
+    return fs.realpathSync(process.argv[1]) === fs.realpathSync(__filename);
+  } catch {
+    return path.resolve(process.argv[1]) === path.resolve(__filename);
+  }
+}
+
 function runSelfTest() {
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cinematic-skill-install-test-'));
   try {
     const allTargets = resolveInstallPaths({ target: 'all', scope: 'project', projectDir: tmpRoot });
     if (allTargets.length !== 4) {
       throw new Error(`Expected 4 unique project install paths (deduped universal/codex), got ${allTargets.length}`);
+    }
+    if (resolveDefaultInstallMode([], `${path.sep}tmp${path.sep}_npx${path.sep}abc${path.sep}blocky-toy`) !== 'copy') {
+      throw new Error('Expected _npx cache invocation to default to copy mode');
+    }
+    if (resolveDefaultInstallMode([], SKILL_ROOT) !== 'symlink') {
+      throw new Error('Expected local repo invocation to default to symlink mode');
     }
     for (const entry of allTargets) {
       installToPath(entry.dest, { mode: 'copy', dryRun: false, includeMedia: false, uninstall: false });
@@ -131,7 +154,7 @@ function runSelfTest() {
       throw new Error(`Unexpected OpenCode global path: ${globalOpenCode[0].dest}`);
     }
     console.log(
-      `SELF-TEST PASSED: verified project paths for Antigravity/Universal, Claude Code, OpenCode, Codex, Cursor (${allTargets.length} dirs) + lightweight copy.`
+      `SELF-TEST PASSED: verified project paths for Antigravity/Universal, Claude Code, OpenCode, Codex, Cursor (${allTargets.length} dirs) + npx copy-mode fallback.`
     );
   } finally {
     fs.rmSync(tmpRoot, { recursive: true, force: true });
@@ -142,6 +165,7 @@ function printHelp() {
   console.log(`BLOCKY TOY — 3D Animation Skill Installer
 
 Usage:
+  npx blocky-toy --target <target> [options]
   node scripts/install.mjs --target <target> [options]
 
 Targets:
@@ -156,7 +180,8 @@ Targets:
 Options:
   --scope <project|global>   Install inside target repo or user home (default: project)
   --project <path>           Target project root for --scope project (default: cwd)
-  --copy                     Copy core skill files instead of symlinking
+  --copy                     Copy core skill files instead of symlinking (auto under npx)
+  --symlink                  Force directory symlink instead of copying
   --with-media               Include docs/media screenshots & demo MP4 when using --copy
   --dry-run                  Preview exact destination paths without modifying disk
   --uninstall                Remove installed skill directory/symlink
@@ -164,7 +189,7 @@ Options:
 `);
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(__filename)) {
+if (isDirectCliInvocation()) {
   const args = process.argv.slice(2);
   if (args.includes('--help') || args.includes('-h')) {
     printHelp();
@@ -183,7 +208,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(__filename
   const target = getArg('--target', 'universal');
   const scope = getArg('--scope', 'project');
   const projectDir = getArg('--project', process.cwd());
-  const mode = args.includes('--copy') ? 'copy' : 'symlink';
+  const mode = resolveDefaultInstallMode(args);
   const includeMedia = args.includes('--with-media');
   const dryRun = args.includes('--dry-run');
   const uninstall = args.includes('--uninstall');
