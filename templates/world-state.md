@@ -7,7 +7,11 @@ worldId: "district-masterplan-01"
 unitScale: "1 unit = 1 meter"
 
 atmosphere:
-  timeOfDay: "night" # dawn | day | golden_hour | sunset | night
+  timeOfDay: "night" # dawn | day | golden_hour | sunset | night | timelapse
+  diurnalCycle: # enable for time-lapse or repeated-location montages (morning -> noon -> afternoon -> night)
+    enabled: false
+    phases: ["morning", "noon", "afternoon", "night"] # continuous dayProgress 0..1 or condensed montage steps
+    practicalTurnOnSunDeg: 5 # practical lamps/windows stay OFF above 5° and fade ON at dusk
   weather: "clear_calm" # clear_calm | overcast | light_rain | foggy | windy
   skyZenithColor: "#090e1c" # never flat neutral gray; always pair distinct zenith/mid/horizon stops
   skyMidColor: "#0d1424"

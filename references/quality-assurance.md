@@ -25,6 +25,7 @@ Implement headless/CLI audit scripts evaluating live scene modules so checks sta
    - **Zero Ground/Surface Sinking & Floating (All Postures)**: Across every standing, walking, kneeling, sitting, loafing, and lying (`rebahan`) beat, verify every grounded actor and placed prop satisfies `surfaceTopY(x, z) - 0.005m <= poseWorldMinY <= surfaceTopY(x, z) + 0.015m` (zero sub-surface sinking into porches, rugs, steps, seats, or beds; zero unintentional floating).
 4. **Sky, Terrain & Natural Environment Fidelity**:
    - Confirm active sky dome/shader uses a multi-stop vertical gradient (`zenith !== horizon`, never flat monochrome gray `#808080` void), coupled `fogColor`, and directional sun/moon alignment (`dot(keyLightDir, celestialDir) > 0.95`).
+   - **Time-Lapse / Repeated-Beat Progression**: Whenever a scene is tagged as `timelapse` or `montage_steps`, verify visible progression across `morning -> noon -> afternoon -> night` (sweeping directional shadow vector, distinct sky color stops per phase, accelerated cloud drift, and practical lamps `OFF` at midday -> `ON` at dusk/night).
    - Verify outdoor grass/lawns include spatial color/roughness variation, soil/border separation, and instanced 3D tufts/foliage rooted cleanly at `surfaceTopY` with zero floating trees/shrubs or wall-clipping branches.
 5. **Dialogue & Lip-Sync (when speech exists)**:
    - Narration & internal monologue keep all character mouths at `0`.

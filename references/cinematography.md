@@ -50,3 +50,4 @@ Preserve appealing beveled blocky-toy proportions (`RoundedBoxGeometry` / bevele
 - **Prioritize Medium-Wide & Establishing Shots**: Let characters read comfortably inside architectural context (`~30–45%` frame height in tracking shots; wide aerial/street views at opening and finale).
 - **Avoid Claustrophobic Close-Ups**: Reserve push-ins for key emotional discoveries or two-shot dialogue beats (`ots_speaker`, `reaction_closeup`).
 - **Continuous Trajectories**: Interpolate with `easeInOutCubic` and match exact position/target/FOV endpoints across scene transitions unless an intentional hard cut is scripted for two-shot dialogue coverage.
+- **Time-Lapse & Repeated-Location Framing**: During a time-lapse or condensed `morning -> noon -> afternoon -> night` montage, keep the camera anchored on a locked tripod or ultra-slow nodal drift so the viewer clearly perceives the **sweeping sun shadows, sky color transition, drifting clouds, and lamps turning on at dusk**.

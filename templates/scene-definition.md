@@ -34,6 +34,7 @@ beats:
     startSec: 0.0
     endSec: 8.5
     storyPurpose: "Establish city scale, evening mood, and protagonist walking down commercial sidewalk."
+    timeProgression: { mode: "static", phases: ["night"] } # static | timelapse | montage_steps (e.g. ["morning", "noon", "afternoon", "night"])
     speechKind: "narration" # none | narration | dialogue | internal | environmental
     camera:
       shotType: "wide_establishing_to_tracking" # maintain ~30-45% hero height

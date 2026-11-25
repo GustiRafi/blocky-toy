@@ -27,6 +27,12 @@ Maintain a single immutable/shared state object (`templates/world-state.md`) con
 - **Layered Clouds**: Place beveled/stylized multi-puff cloud clusters at staggered altitudes drifting slowly along `wind.direction`.
 - **Coupled Fog & Sky/Ground Bounce**: Match `fogColor` strictly to `skyHorizonColor` (`fogExp2` attenuates distant silhouettes smoothly without obscuring foreground characters) and drive `hemisphereLight(skyZenithColor, groundBounceColor)` from the real sky and turf/pavement colors.
 - **Practicals**: Every floating `pointLight` pool must map to an actual fixture (streetlight head, lantern, storefront sign, porch lamp).
+- **Time-Lapse & Diurnal Progression (Morning → Noon → Afternoon → Night)**: Whenever a scene depicts a **time-lapse**, **passing hours/days**, or **repeated-location montage**—even condensed into a few seconds—**never leave sky, sun direction, or shadows frozen**. Drive a continuous `dayProgress` curve (`0..1`) or clear multi-beat keyframes (`morning` → `noon` → `afternoon` → `night`):
+  - **Morning (`~06:30–08:30`)**: Low eastern sun, long cool-warm shadows, peach/gold horizon (`#f3c99b`), crisp blue zenith (`#5c8fd1`); practical lamps **OFF**.
+  - **Noon (`~11:30–13:30`)**: High sun overhead, short shadows, vibrant cerulean zenith (`#3f7ec9`), bright pale horizon (`#dbe9f6`); practical lamps **OFF**.
+  - **Afternoon / Golden Hour (`~16:30–18:15`)**: Low western sun, long amber shadows sweeping across the yard/street, warm apricot/orange horizon (`#e8945a`), dusty violet-blue zenith (`#4a5a8a`).
+  - **Night (`~19:30+`)**: Deep indigo zenith (`#090e1c`), midnight horizon (`#141d30`), cool moonlight fill, **and practical streetlights/porch lamps/windows switching ON smoothly** once sun elevation drops below `~5°`.
+  - Accelerate cloud drift (`wind.direction`) and vary ambient NPC/animal beats naturally across phases while keeping architecture and static props locked.
 
 ---
 
