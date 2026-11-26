@@ -91,6 +91,7 @@ blocky-toy/
 │   ├── production-workflow.md
 │   ├── long-form-production.md
 │   ├── worldbuilding.md
+│   ├── art-direction.md
 │   ├── world-scale.md
 │   ├── real-world-consistency.md
 │   ├── character-design.md
@@ -103,6 +104,7 @@ blocky-toy/
 │   ├── script-input.md
 │   ├── production-plan.md
 │   ├── character-profile.md
+│   ├── art-direction.md
 │   ├── scale-test-scene.md
 │   ├── scene-definition.md
 │   ├── world-state.md
@@ -110,6 +112,7 @@ blocky-toy/
 └── scripts/                               # Zero-dependency Node ESM utilities
     ├── install.mjs
     ├── parse-script-outline.mjs
+    ├── validate-art-direction.mjs
     ├── validate-world-scale.mjs
     └── wav-rms-viseme-aligner.mjs
 ```
@@ -148,6 +151,7 @@ node scripts/install.mjs --self-test
 node scripts/parse-script-outline.mjs --self-test
 node scripts/wav-rms-viseme-aligner.mjs --self-test
 node scripts/validate-world-scale.mjs --self-test
+node scripts/validate-art-direction.mjs --self-test
 ```
 
 ---
