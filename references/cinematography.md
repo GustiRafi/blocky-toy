@@ -6,21 +6,7 @@ Load this file at Stage 4 (art direction & scale) and Stage 10 (camera staging).
 
 ## 1. Metric World Scale Standard (`1 unit = 1 meter`)
 
-Never shrink cars, widen doors, or scale furniture arbitrarily to fit a camera lens. Establish shared metric bounds in a single registry:
-
-| Category | Target Height / Dimensions |
-| :-- | :-- |
-| Adult Character | `1.70–1.80 m` height (`~0.58 m` shoulder width) |
-| Child Character | `1.15–1.30 m` height |
-| Passenger Car | `4.2–4.8 m` L × `1.7–1.9 m` W × `1.45–1.60 m` H |
-| City Scooter | `~1.85 m` L × `0.72 m` W × `1.08 m` H |
-| Exterior Door | `2.00–2.15 m` H × `0.90–1.00 m` W |
-| Cafe / Dining Table | `0.75 m` H |
-| Chair / Bench Seat | `0.45 m` seat height |
-| Urban Traffic Lane / Sidewalk | `~2.9 m` lane width; `~1.5–2.2 m` sidewalk width |
-| City Streetlight | `4.5–5.5 m` H |
-
-Maintain true relational ratios (`carLength / adultHeight ≈ 2.5x`, `doorHeight > adultHeight + 0.25m`).
+Never shrink cars, widen doors, or scale furniture arbitrarily to fit a camera lens—adjust camera position, FOV, or scene composition instead. Consume the shared dimension reference (`references/world-scale.md`, `WORLD_SCALE_REFERENCE` in `scripts/validate-world-scale.mjs`) and verify every major asset against real-world proportions (`adult ~1.70–1.80 m`, `passenger_car 4.20–4.80 m` L × `1.70–1.90 m` W × `1.40–1.60 m` H, `door >= 2.00 m` H, `table ~0.75 m` H, `chair seat ~0.45 m`, `streetlight 4.0–8.0 m` H) before final framing.
 
 ---
 

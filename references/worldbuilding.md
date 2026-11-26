@@ -1,6 +1,6 @@
 # Worldbuilding & Spatial Masterplanning
 
-Load this file at Stage 5 before placing any buildings, vehicles, props, or character paths. Build the world **layout-first**: roads -> sidewalks -> parcels/zones -> greenery -> furniture/props.
+Load this file at Stage 5 before placing any buildings, vehicles, props, or character paths. Build the world **layout-first**: roads -> sidewalks -> parcels/zones -> greenery -> furniture/props, obeying the global metric scale reference (`references/world-scale.md`).
 
 ---
 
@@ -9,7 +9,7 @@ Load this file at Stage 5 before placing any buildings, vehicles, props, or char
 1. **Connected Graph**: Every drivable road segment must intersect at least one other road cleanly. Check connectivity programmatically (BFS/DFS over overlapping segment bounds).
 2. **No Abrupt Dead Ends**: Close outer roads via perimeter connectors or valid turnarounds so moving traffic never teleports or drives off the map edge.
 3. **Lane Geometry**:
-   - Define consistent two-way or one-way lane centerlines (`roadHalfWidth = ~2.9m` -> two `2.9m` lanes).
+   - Define consistent two-way or one-way lane centerlines (`roadHalfWidth = ~2.9m` -> two `2.9m` lanes; `laneWidth >= vehicleWidth + 0.60m`).
    - Enforce consistent right-hand (or regional left-hand) travel rules across every turn at intersections.
 4. **Stop Lines & Markings**: Center dashed lines stop cleanly ahead of intersection stop bars; never paint road dashes straight through zebra crossings.
 
@@ -27,7 +27,8 @@ Divide the district into logical zones with zero overlap (`building vs. road = 0
 
 ## 3. Pedestrian Infrastructure & Building Access
 
-- Sidewalks must form continuous walkable corridors linking storefronts, park paths, crosswalks, and residential steps.
+- Sidewalks must form continuous walkable corridors (`1.20–2.50 m` wide per `references/world-scale.md`) linking storefronts, park paths, crosswalks, and residential steps.
+- **Usable Architecture & Ergonomics**: Size doors (`2.00–2.15 m` H), windows (`0.90–1.60 m` W × `1.10–1.50 m` H), shop counters (`0.90–1.05 m` H), stairs (`0.16–0.19 m` riser, `0.26–0.30 m` tread), benches (`0.45 m` seat), and streetlights (`4.0–8.0 m` H) to real human ergonomics so every environment is physically usable, not merely decorative.
 - **Accessible Entrances**: Every non-background building must have an unobstructed front door opening onto a connected sidewalk or driveway (`>= 0.75m` clearance from poles, benches, bins, and planters).
 - **Crosswalk Discipline**: Place zebra crossings **at valid intersections or controlled pedestrian destinations only**. Never place multiple unnecessary zebra crossings close together along the same short block.
 

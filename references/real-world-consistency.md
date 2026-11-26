@@ -70,11 +70,12 @@ Outdoor ground, lawns, and vegetation must obey natural growth, moisture, and li
 
 ---
 
-## 4. Vehicles, Traffic & Street Signs
+## 4. Vehicles, Proportions & Street Signs
 
+- **Real-World Vehicle Categories & Sub-Proportions**: Never shrink cars or vans down to character height (`references/world-scale.md`). Passenger cars (`4.2–4.8 m` L × `1.7–1.9 m` W × `1.4–1.6 m` H) must visibly dwarf an adult character in length (`>= 2.2×` height) and feature recognizable wheel diameters (`0.62–0.70 m`), wheelbase (`2.5–2.8 m`), ground clearance (`0.14–0.20 m`), hood, cabin windows, and trunk—not a tiny single box. Size motorcycles, scooters, bicycles, vans, trucks, and buses strictly to their real-world vehicle category.
 - **Road Adhesion & Cornering**: Vehicles stay strictly inside paved road bounds (`margin >= 0.4m`), follow curb-filleted arcs at intersections, and **decelerate entering turns** rather than snapping headings at constant velocity.
 - **Zero Teleportation**: All traffic loops must be continuous closed paths or travel off-screen beyond fog/horizon bounds before despawning.
-- **Traffic Signs**: Regulatory/warning signs (`STOP`, `CROSSWALK`, `SPEED`) must face the approaching traffic lane (`dot(signForward, -trafficDir) > 0.8`).
+- **Traffic Signs**: Regulatory/warning signs (`STOP`, `CROSSWALK`, `SPEED`) must face the approaching traffic lane (`dot(signForward, -trafficDir) > 0.8`) with bottom sign clearance `>= 2.10 m` above sidewalks.
 
 ---
 
