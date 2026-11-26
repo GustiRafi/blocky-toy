@@ -61,6 +61,60 @@ Produced in **Script Mode** (`1280×720 @ 30 FPS` master, `960×540` showcase en
 
 ---
 
+## Project 3 (`test-2`) — *Rumah Sebelah* v2 (`3:03` / `183s`, `16:9` Full HD Indonesian Script Mode)
+
+Produced in **Script Mode** (`1920×1080 @ 24 FPS` master, `960×540` showcase encode across 6 scenes) iterating on `test-1` with higher-resolution rendering, articulated front gate opening, surface-aware cat contact beside the food plate, and golden-hour multi-stop sky gradients (`Raka`, `Pak Arman`, `Ibu Sari`, `Mas Budi`, `Kucing Tua`).
+
+### Video Output (`test-2`)
+
+- **Full 1080p-Master Short Film Showcase (960×540, 183s, stereo audio)**: [`docs/media/test2-rumah-sebelah-540p.mp4`](./media/test2-rumah-sebelah-540p.mp4)
+
+### Render Gallery (`test-2`)
+
+| Scene 3 — Cat & Articulated Gate Contact | Scene 6 — Golden-Hour Neighborhood Finale |
+| :---: | :---: |
+| ![test-2 cat eating beside open gate](./media/test2-cat-gate-contact.png) | ![test-2 golden-hour neighborhood finale](./media/test2-morning-finale.png) |
+
+---
+
+## Project 4 (`test-3`) — *Rumah Sebelah* v3 (`3:00` / `180s`, `16:9` Art-Directed Indonesian Script Mode)
+
+Produced in **Script Mode** (`1280×720 @ 24 FPS` master, `960×540` showcase encode, `4,320` frames across 6 scenes) integrating centralized 9-domain art direction, framed recessed windows, 3D instanced grass tufts, dawn-to-morning atmospheric continuity, and dialogue-first natural audio mixing (`Raka`, `Pak Arman`, `Ibu Sari`, `Pak Budi`, `Kucing Tua`).
+
+### Video Output (`test-3`)
+
+- **Art-Directed Short Film Showcase (960×540, 180s, stereo audio)**: [`docs/media/test3-rumah-sebelah-540p.mp4`](./media/test3-rumah-sebelah-540p.mp4)
+
+### Render Gallery (`test-3`)
+
+| Aerial Dawn Street (*Jalan Kenanga*) | Scene 5 — Porch Dialogue & Warm Lighting |
+| :---: | :---: |
+| ![test-3 aerial dawn neighborhood](./media/test3-aerial-street.png) | ![test-3 porch dialogue](./media/test3-porch-dialogue.png) |
+
+---
+
+## Project 5 (`test-4`) — *10 Tahun Lagi* (`67.54s`, `9:16` Reels Indonesian Idea Mode)
+
+Produced in **Idea Mode** (`1080×1920 @ 24 FPS` Reels portrait master, `540×960` showcase encode, `1,621` frames across 2 scenes: afternoon cafe debate → dusk synthesis) with a 7-character cast + cat (`Raka`, `Sari`, plus neighborhood cast), shared `blocky-locomotion-v1` controller, 2D A* collision-free navigation, closed curb-filleted traffic loops, automated 5-suite validators, and scene-specific ambience (afternoon sparrows, dusk crickets, and an earned dusk Rhodes cue).
+
+### Video Output (`test-4`)
+
+- **Reels Short Film Showcase (540×960, 67.5s, stereo audio)**: [`docs/media/test4-sepuluh-tahun-lagi-540p.mp4`](./media/test4-sepuluh-tahun-lagi-540p.mp4)
+
+### Render Gallery (`test-4`)
+
+| 7-Character Cast Lineup + Cat | Elevated Dusk Intersection & Traffic |
+| :---: | :---: |
+| ![test-4 cast lineup](./media/test4-cast-lineup.png) | ![test-4 aerial dusk intersection](./media/test4-aerial-dusk.png) |
+
+| Scene 2 — Dusk Bench Synthesis (`9:16`) | Finale Rising Street View (`9:16`) |
+| :---: | :---: |
+| ![test-4 dusk bench dialogue](./media/test4-dialogue-bench.png) | ![test-4 finale street](./media/test4-finale-street.png) |
+
+> **Skill Evolution Driven by `test-2` → `test-4` Audits**: Production audits across `test-2`, `test-3`, and `test-4` directly drove `blocky-toy` updates for **centralized art direction & temporal atmosphere continuity** (`test-2`/`test-3`), **LEGO/Roblox-style walking cycles with blocky knee bends & lifted shoe soles**, **rider-bound motorcycles vs. road-following cars**, **non-boxy A-line/beveled skirt & garment silhouettes** (identified on Sari's skirt in `test-4`), and **minimal TTS voice processing** (replacing clause-splitting & heavy compression to eliminate synthetic AI voice artifacts).
+
+---
+
 ## Visual Validation Suites (`examples/`)
 
 ### 1. Time-of-Day & Temporal Continuity (`examples/atmosphere-visual-test/`)

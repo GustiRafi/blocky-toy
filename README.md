@@ -6,14 +6,16 @@
 
 <p align="center">
   <img src="./docs/media/world-street-avenue.png" alt="test-ai-video commercial avenue street-level render" width="24%" />
-  <img src="./docs/media/cast-diversity-front.png" alt="test-ai-video non-cloned character lineup" width="24%" />
   <img src="./docs/media/test1-dialogue-twoshot.png" alt="test-1 Rumah Sebelah dialogue two-shot" width="24%" />
-  <img src="./docs/media/test1-finale-street.png" alt="test-1 Rumah Sebelah neighborhood finale" width="24%" />
+  <img src="./docs/media/test3-aerial-street.png" alt="test-3 Rumah Sebelah aerial dawn street" width="24%" />
+  <img src="./docs/media/test4-cast-lineup.png" alt="test-4 10 Tahun Lagi 7-character cast lineup" width="24%" />
 </p>
 
-- **Project `test-ai-video` — *The Last Little Light* (`42s`, `9:16` Reels, stereo mix)**: [`docs/media/showcase-film-540p.mp4`](./docs/media/showcase-film-540p.mp4)
-- **Project `test-ai-video` — 7-Act Dialogue & Lip-Sync QA (`41s`)**: [`docs/media/dialogue-qa-demo.mp4`](./docs/media/dialogue-qa-demo.mp4)
-- **Project `test-1` — *Rumah Sebelah* (`180s / 3m`, `16:9` `id-ID` Script Mode)**: [`docs/media/test1-rumah-sebelah-540p.mp4`](./docs/media/test1-rumah-sebelah-540p.mp4)
+- **Project `test-ai-video` — *The Last Little Light* (`42s`, `9:16` Reels, `en-US`)**: [`docs/media/showcase-film-540p.mp4`](./docs/media/showcase-film-540p.mp4) (+ [7-Act Dialogue QA (`41s`)](./docs/media/dialogue-qa-demo.mp4))
+- **Project `test-1` — *Rumah Sebelah* (`180s`, `16:9`, `id-ID` Script Mode)**: [`docs/media/test1-rumah-sebelah-540p.mp4`](./docs/media/test1-rumah-sebelah-540p.mp4)
+- **Project `test-2` — *Rumah Sebelah* v2 (`183s`, `16:9` Full HD, `id-ID` Script Mode)**: [`docs/media/test2-rumah-sebelah-540p.mp4`](./docs/media/test2-rumah-sebelah-540p.mp4)
+- **Project `test-3` — *Rumah Sebelah* v3 (`180s`, `16:9` Art-Directed, `id-ID` Script Mode)**: [`docs/media/test3-rumah-sebelah-540p.mp4`](./docs/media/test3-rumah-sebelah-540p.mp4)
+- **Project `test-4` — *10 Tahun Lagi* (`67.5s`, `9:16` Reels, `id-ID` Idea Mode)**: [`docs/media/test4-sepuluh-tahun-lagi-540p.mp4`](./docs/media/test4-sepuluh-tahun-lagi-540p.mp4)
 - **Full Visual Gallery, Renders & Breakdown**: [`docs/SHOWCASE.md`](./docs/SHOWCASE.md)
 
 ---
@@ -79,6 +81,9 @@ blocky-toy/
 │       ├── showcase-film-540p.mp4         # test-ai-video (42s, 9:16 Reels showcase)
 │       ├── dialogue-qa-demo.mp4           # test-ai-video (41s, 7-act dialogue QA)
 │       ├── test1-rumah-sebelah-540p.mp4   # test-1 (180s, 16:9 id-ID Script Mode)
+│       ├── test2-rumah-sebelah-540p.mp4   # test-2 (183s, 16:9 1080p-master id-ID Script Mode)
+│       ├── test3-rumah-sebelah-540p.mp4   # test-3 (180s, 16:9 art-directed id-ID Script Mode)
+│       ├── test4-sepuluh-tahun-lagi-540p.mp4 # test-4 (67.5s, 9:16 Reels id-ID Idea Mode)
 │       ├── world-aerial-masterplan.png
 │       ├── world-street-avenue.png
 │       ├── cast-diversity-front.png
@@ -88,7 +93,15 @@ blocky-toy/
 │       ├── test1-aerial-neighborhood.png
 │       ├── test1-cast-lineup.png
 │       ├── test1-dialogue-twoshot.png
-│       └── test1-finale-street.png
+│       ├── test1-finale-street.png
+│       ├── test2-cat-gate-contact.png
+│       ├── test2-morning-finale.png
+│       ├── test3-aerial-street.png
+│       ├── test3-porch-dialogue.png
+│       ├── test4-cast-lineup.png
+│       ├── test4-aerial-dusk.png
+│       ├── test4-dialogue-bench.png
+│       └── test4-finale-street.png
 ├── references/                            # Loaded on-demand via progressive disclosure
 │   ├── assets/
 │   │   └── walking-reference.jpg          # Primary visual reference for LEGO/Roblox-style walk cycle
