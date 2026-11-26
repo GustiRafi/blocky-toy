@@ -6,12 +6,12 @@ import { fileURLToPath } from 'node:url';
 /**
  * Zero-Dependency World Movement, Stylized Blocky Locomotion & Causal Vehicle Validator.
  * Detects:
- * 1. Moving vehicles without a seated driver or mounted rider (e.g. ghost motorcycles).
- * 2. Characters walking/running in place without matching displacement (treadmill walk).
- * 3. Foot sliding (stride/cycle speed vs world speed mismatch, stance slip, or idle sliding).
- * 4. Characters, vehicles, or objects penetrating buildings, sidewalks, doors, or props.
- * 5. Aimless or unmotivated movement (missing purpose/cause, or decorative/rigid props moving).
- * 6. Sudden displacement or teleportation between consecutive non-cut samples.
+ * 1. Moving motorcycles/two-wheelers without a visible, connected mounted rider.
+ * 2. Moving cars/vehicles deviating from valid roads, lacking purpose, turning abruptly, or colliding (enclosed cars may omit visible interior drivers).
+ * 3. Characters walking/running in place without matching displacement (treadmill walk).
+ * 4. Foot sliding, missing blocky knee bend, flat unlifted stepping shoes, or realistic/floppy gait overrides.
+ * 5. Characters, vehicles, or objects penetrating buildings, sidewalks, doors, surfaces, or props.
+ * 6. Aimless/unmotivated object movement or sudden teleportation between consecutive non-cut samples.
  */
 
 const __filename = fileURLToPath(import.meta.url);
@@ -33,8 +33,20 @@ export const SUPPORTED_LOCOMOTION_STATES = new Set([
 ]);
 
 export const TWO_WHEELER_CATEGORIES = new Set(['motorcycle', 'city_scooter', 'bicycle']);
-export const FOUR_PLUS_WHEELER_CATEGORIES = new Set(['passenger_car', 'van', 'truck', 'bus', 'vehicle']);
-const FORBIDDEN_REALISTIC_STYLES = new Set(['realistic_mocap', 'realistic_human', 'realistic_ik', 'complex_gait']);
+export const ENCLOSED_VEHICLE_CATEGORIES = new Set(['passenger_car', 'car', 'van', 'truck', 'bus', 'vehicle']);
+const FORBIDDEN_REALISTIC_STYLES = new Set([
+  'realistic_mocap',
+  'realistic_human',
+  'realistic_ik',
+  'complex_gait',
+  'floppy_ragdoll',
+  'hyper_realistic',
+]);
+
+function shortestAngleDiffDeg(a, b) {
+  let diff = ((b - a + 180) % 360 + 360) % 360 - 180;
+  return Math.abs(diff);
+}
 
 function dist3(a, b) {
   const dx = (b[0] ?? 0) - (a[0] ?? 0);
@@ -43,7 +55,7 @@ function dist3(a, b) {
   return Math.hypot(dx, dy, dz);
 }
 
-function detectSampleTeleportsAndDisplacements(entityId, samples, maxPlausibleSpeedMps, issues) {
+function detectSampleTeleportsAndDisplacements(entityId, samples, maxPlausibleSpeedMps, issues, { checkTurnSnaps = false } = {}) {
   if (!Array.isArray(samples) || samples.length < 2) return { maxObservedSpeed: 0, totalDistance: 0 };
   let maxObservedSpeed = 0;
   let totalDistance = 0;
@@ -51,24 +63,39 @@ function detectSampleTeleportsAndDisplacements(entityId, samples, maxPlausibleSp
   for (let i = 1; i < samples.length; i += 1) {
     const prev = samples[i - 1];
     const curr = samples[i];
-    if (!Array.isArray(prev?.pos) || !Array.isArray(curr?.pos)) continue;
     if (curr.isSceneCut === true || curr.isCut === true) continue;
 
     const dt = Number(curr.t) - Number(prev.t);
-    const stepDist = dist3(prev.pos, curr.pos);
-    totalDistance += stepDist;
 
-    if (dt > 0) {
-      const instSpeed = stepDist / dt;
-      if (instSpeed > maxObservedSpeed) maxObservedSpeed = instSpeed;
-      const maxStep = maxPlausibleSpeedMps * dt + 0.35;
-      if (stepDist > maxStep) {
-        issues.push(
-          `${entityId}: sudden displacement / teleport detected between t=${prev.t}s and t=${curr.t}s (${stepDist.toFixed(2)}m > max plausible ${maxStep.toFixed(2)}m)`
-        );
+    if (Array.isArray(prev?.pos) && Array.isArray(curr?.pos)) {
+      const stepDist = dist3(prev.pos, curr.pos);
+      totalDistance += stepDist;
+
+      if (dt > 0) {
+        const instSpeed = stepDist / dt;
+        if (instSpeed > maxObservedSpeed) maxObservedSpeed = instSpeed;
+        const maxStep = maxPlausibleSpeedMps * dt + 0.35;
+        if (stepDist > maxStep) {
+          issues.push(
+            `${entityId}: sudden displacement / teleport detected between t=${prev.t}s and t=${curr.t}s (${stepDist.toFixed(2)}m > max plausible ${maxStep.toFixed(2)}m)`
+          );
+        }
+      } else if (stepDist > 0.05) {
+        issues.push(`${entityId}: instantaneous position jump (${stepDist.toFixed(2)}m) at t=${curr.t}s`);
       }
-    } else if (stepDist > 0.05) {
-      issues.push(`${entityId}: instantaneous position jump (${stepDist.toFixed(2)}m) at t=${curr.t}s`);
+    }
+
+    if (checkTurnSnaps) {
+      const prevYaw = typeof prev?.yawDeg === 'number' ? prev.yawDeg : typeof prev?.rotY === 'number' ? (prev.rotY * 180) / Math.PI : null;
+      const currYaw = typeof curr?.yawDeg === 'number' ? curr.yawDeg : typeof curr?.rotY === 'number' ? (curr.rotY * 180) / Math.PI : null;
+      if (prevYaw !== null && currYaw !== null) {
+        const dYaw = shortestAngleDiffDeg(prevYaw, currYaw);
+        if ((dt > 0 && dYaw > 45 && dYaw / dt > 120) || (dt <= 0 && dYaw > 20)) {
+          issues.push(
+            `${entityId}: abrupt turn / heading snap detected between t=${prev.t}s and t=${curr.t}s (${dYaw.toFixed(1)}° in ${Math.max(dt, 0).toFixed(2)}s)`
+          );
+        }
+      }
     }
   }
   return { maxObservedSpeed, totalDistance };
@@ -115,6 +142,13 @@ export function validateCharacterMovement(char, sharedControllers) {
         );
       }
     }
+
+    if (char?.hasBlockyKneeBend === false || char?.kneeBendDeg === 0) {
+      issues.push(`${id}: stiff peg-leg ${state} detected — knees must bend cleanly in blocky style`);
+    }
+    if (char?.swingFootLifted === false || char?.swingFootLiftMeters === 0) {
+      issues.push(`${id}: unlifted foot stride detected — stepping shoe/sole must lift cleanly during ${state}`);
+    }
   }
 
   if ((state === 'idle' || state === 'stand_interact') && worldSpeed > 0.08) {
@@ -155,7 +189,9 @@ export function validateVehicleMovement(veh) {
   const cat = String(veh?.category || 'vehicle').toLowerCase();
   const role = String(veh?.role || '').toLowerCase();
 
-  const sampleStats = detectSampleTeleportsAndDisplacements(id, veh?.samples, 32.0, issues);
+  const sampleStats = detectSampleTeleportsAndDisplacements(id, veh?.samples, 32.0, issues, {
+    checkTurnSnaps: true,
+  });
   const speed = typeof veh?.speed === 'number' ? veh.speed : sampleStats.maxObservedSpeed;
   const isMoving = veh?.isMoving === true || speed > 0.02 || sampleStats.totalDistance > 0.03;
 
@@ -172,16 +208,23 @@ export function validateVehicleMovement(veh) {
       veh?.hasDriver !== false &&
       veh?.hasDriverOrRider !== false;
 
-    if (TWO_WHEELER_CATEGORIES.has(cat)) {
+    const requiresVisibleRider =
+      TWO_WHEELER_CATEGORIES.has(cat) ||
+      veh?.requiresVisibleRider === true ||
+      veh?.openCockpit === true;
+
+    if (requiresVisibleRider) {
       if (!operatorId || !String(operatorId).trim() || !hasOperatorFlag || veh?.riderMounted === false) {
-        issues.push(`${id} (${cat}): moving two-wheeler has NO mounted rider (ghost motorcycle/scooter forbidden)`);
+        issues.push(`${id} (${cat}): moving two-wheeler/open vehicle has NO mounted rider (riderless motorcycle forbidden)`);
+      } else if (veh?.riderConnected === false) {
+        issues.push(`${id} (${cat}): mounted rider is not visually connected to seat/handlebars/footpegs`);
       }
-    } else if (FOUR_PLUS_WHEELER_CATEGORIES.has(cat) || !cat) {
-      if (!operatorId || !String(operatorId).trim() || !hasOperatorFlag) {
-        issues.push(`${id} (${cat}): moving vehicle has NO seated driver`);
+    } else if (ENCLOSED_VEHICLE_CATEGORIES.has(cat) || !cat) {
+      // Enclosed cars/vans/trucks/buses may move without a visible rendered driver inside the cabin
+      // unless explicitly flagged as needing a visible driver for close-up/story framing.
+      if (veh?.requiresVisibleDriver === true && (!operatorId || !String(operatorId).trim() || !hasOperatorFlag)) {
+        issues.push(`${id} (${cat}): flagged requiresVisibleDriver=true but has NO seated driver`);
       }
-    } else if (!operatorId || !String(operatorId).trim() || !hasOperatorFlag) {
-      issues.push(`${id} (${cat}): moving vehicle requires an assigned driver/rider`);
     }
 
     if (!veh?.purpose || !String(veh.purpose).trim()) {
@@ -287,6 +330,8 @@ function runSelfTest() {
         locomotionState: 'walk',
         worldSpeed: 1.35,
         cycleSpeed: 1.32,
+        kneeBendDeg: 26,
+        swingFootLiftMeters: 0.06,
         footSlipMeters: 0.01,
         footMinY: 0.12,
         surfaceTopY: 0.12,
@@ -319,14 +364,31 @@ function runSelfTest() {
         role: 'moving',
         riderId: 'courier-dina',
         riderMounted: true,
+        riderConnected: true,
         speed: 6.2,
         onValidRoad: true,
         routeRoadIds: ['road-main'],
         penetrationDepth: 0,
         purpose: 'Evening parcel delivery along main road',
         samples: [
-          { t: 0, pos: [-3.2, 0, -18] },
-          { t: 1, pos: [-3.2, 0, -11.8] },
+          { t: 0, pos: [-3.2, 0, -18], yawDeg: 0 },
+          { t: 1, pos: [-3.2, 0, -11.8], yawDeg: 0 },
+        ],
+      },
+      {
+        id: 'sedan-traffic-01',
+        category: 'passenger_car',
+        role: 'moving',
+        driverId: null,
+        speed: 7.0,
+        onValidRoad: true,
+        routeRoadIds: ['road-main', 'road-east'],
+        penetrationDepth: 0,
+        purpose: 'Evening commuter car following main road toward intersection',
+        samples: [
+          { t: 0, pos: [2.9, 0, 14], yawDeg: 180 },
+          { t: 1, pos: [2.9, 0, 7.0], yawDeg: 180 },
+          { t: 2, pos: [4.2, 0, 1.5], yawDeg: 135 },
         ],
       },
       {
@@ -373,6 +435,8 @@ function runSelfTest() {
         locomotionState: 'walk',
         worldSpeed: 1.5,
         cycleSpeed: 0.5,
+        kneeBendDeg: 0,
+        swingFootLiftMeters: 0,
         footSlipMeters: 0.12,
         purpose: 'Walk to cafe',
         samples: [
@@ -390,6 +454,32 @@ function runSelfTest() {
         speed: 5.5,
         onValidRoad: false,
         overlapsSidewalk: true,
+      },
+      {
+        id: 'disconnected-moto',
+        category: 'motorcycle',
+        role: 'moving',
+        riderId: 'courier-dina',
+        riderMounted: true,
+        riderConnected: false,
+        speed: 4.5,
+        onValidRoad: true,
+        routeRoadIds: ['road-main'],
+        purpose: 'Delivery run',
+      },
+      {
+        id: 'abrupt-car',
+        category: 'passenger_car',
+        role: 'moving',
+        driverId: null,
+        speed: 6.0,
+        onValidRoad: true,
+        routeRoadIds: ['road-main'],
+        purpose: '',
+        samples: [
+          { t: 0, pos: [2.9, 0, 10], yawDeg: 0 },
+          { t: 0.2, pos: [2.9, 0, 8.8], yawDeg: 95 },
+        ],
       },
       {
         id: 'moving-decor-car',
@@ -419,10 +509,15 @@ function runSelfTest() {
     'penetrates obstacle',
     'Inconsistent character animation controllers',
     'foot sliding',
+    'stiff peg-leg',
+    'unlifted foot stride',
     'sudden displacement / teleport',
     'NO mounted rider',
+    'not visually connected',
     'off valid drivable road',
     'overlaps building or pedestrian sidewalk',
+    'abrupt turn / heading snap',
+    'lacks a clear story/route "purpose"',
     'decorative/parked vehicle but moved',
     'without a clear physical or narrative "cause"',
   ];
