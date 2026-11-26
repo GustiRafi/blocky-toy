@@ -42,12 +42,19 @@ cast:
 doorsAndPortals: # track solid door/gate leaves so neither characters nor animals clip closed panels
   - { id: "front-gate-01", initialState: "closed", openEvents: [] }
 
-vehicles: # moving vehicles require an explicit driver/rider, story purpose, and connected road route
+vehicles: # moving motorcycles/two-wheelers MUST have a visible mounted riderId; enclosed moving cars may omit driverId if following roads logically
   - id: "scooter-01"
     category: "city_scooter" # passenger_car | van | truck | bus | motorcycle | city_scooter | bicycle
     role: "moving" # moving | parked | decorative (parked/decorative MUST keep speed: 0)
-    driverId: "courier-leo" # REQUIRED for moving vehicles (riderId/driverId); null allowed only when parked/decorative
+    riderId: "courier-leo" # REQUIRED for moving motorcycle / city_scooter / bicycle (must sit with hands on bars & feet on pegs)
+    riderConnected: true
     purpose: "Evening parcel delivery along main avenue"
+    routeRoadIds: ["road-main"]
+  - id: "sedan-traffic-01"
+    category: "passenger_car"
+    role: "moving"
+    driverId: null # optional for enclosed cars unless close-up/story needs a visible interior driver
+    purpose: "Evening commuter traffic following main avenue north"
     routeRoadIds: ["road-main"]
   - id: "sedan-parked-01"
     category: "passenger_car"
