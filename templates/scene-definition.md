@@ -1,6 +1,6 @@
 # Scene Definition & Camera Staging Template
 
-Use this template to plan scenes, lighting continuity, cast choreography, and camera beats before writing scene code.
+Use this template to plan scenes, explicit time/atmosphere identity, temporal continuity, lighting, cast choreography, and camera beats before writing scene code.
 
 ```yaml
 sceneId: "scene-01-night-street"
@@ -9,6 +9,19 @@ fps: 30
 format: "9:16" # default Reels portrait | landscape/16:9 | 4:5 | 1:1
 resolution: [1080, 1920] # default [1080, 1920] Reels portrait; [1920, 1080] for landscape/16:9
 worldStateRef: "templates/world-state.md"
+
+timeAndAtmosphere:
+  dayIndex: 1 # story day (1, 2, ...)
+  sequenceOrder: 1 # scene order in film
+  timeOfDay: "night" # dawn | morning | noon | afternoon | dusk | night
+  clockTime: "21:30" # 24h HH:MM
+  atmospherePresetRef: "night" # base preset from scripts/atmosphere-presets.mjs
+  weatherCondition: "clear_calm"
+  transitionFromPrevScene:
+    isFirstScene: true
+    timeSkipReason: null # required when same-day gap > 4h or dayIndex advances
+    transitionCue: null # e.g., "Title card: Next Morning" or "Montage clock/sky dissolve"
+    weatherTransitionNote: null # required if weather shifts abruptly within < 45 min
 
 cast:
   - characterId: "leo" # must match locked Registry ID (never redefine geometry inline)

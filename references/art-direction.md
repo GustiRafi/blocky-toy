@@ -39,10 +39,11 @@ Lighting exists to **support and separate the character**, never obscure or wash
   - Hero colors never bleed into background walls or disappear into crushed black shadows.
 - **Light & Post-Processing Caps**:
   - **Restrained Bloom**: `threshold >= 0.88`, `strength <= 0.16` (no glowing halos swallowing characters).
-  - **No Overexposed Windows or Neon**: Illuminated windows must retain crisp frame/mullion edges; neon/shop signs must keep readable lettering and housing geometry instead of becoming blown-out rectangles.
-  - **No Heavy Volumetric Fog Wash**: Keep `fogExp2` subtle so mid/foreground character contrast stays crisp.
+  - **No Overexposed Windows or Neon**: Illuminated windows must retain crisp frame/mullion edges with controlled interior bounce (`interiorWindowEmissiveIntensity <= 0.65`); neon/shop signs must keep readable lettering and housing geometry instead of becoming blown-out rectangles.
+  - **Atmospheric Depth Without Fog Wash**: Couple subtle `fogExp2` (`fogDensity <= 0.028`) strictly to `skyHorizonColor` to separate foreground, midground, and distant background silhouettes—never dump heavy decorative fog over hero characters.
   - **Localized Practicals**: Streetlights and porch lamps cast localized pools (`distance` + smooth decay) without bleaching nearby characters or wiping out shadow depth.
-- **Balanced 3-Point + Environment Rig**: Pair a directional key light (casting clean, non-crushed shadows), soft sky/ground hemisphere fill, and subtle edge rim lighting so character silhouettes detach cleanly from dark streets or interiors.
+- **Balanced 3-Point + Environment Rig**: Pair a directional key light (casting clean, non-crushed shadows synchronized to `timeOfDay` sun/moon direction), soft sky/ground hemisphere fill (`sunIntensity >= hemiIntensity * 0.9` in daytime so lighting never looks flat), and subtle edge rim lighting so character silhouettes detach cleanly from dark streets or bright facades.
+- **No Generic Identical Sky**: Every `timeOfDay` (`morning`, `noon`, `afternoon`, `night`) must pair its own multi-stop sky gradient with matching directional shadow length/angle and environmental cues (`scripts/atmosphere-presets.mjs`).
 
 ---
 

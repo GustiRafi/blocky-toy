@@ -28,7 +28,8 @@ Lighting must **reveal and separate the character**, never overpower or wash the
 - **Full Sky Gradient & Bounce**: Render an atmospheric multi-stop sky dome (`zenith -> mid -> horizon`) with clouds and solar/lunar halo instead of a flat gray/monochrome background; match `fogColor` to `horizonColor` and couple `hemisphereLight` to sky zenith + earth/turf bounce.
 - **Warm-vs-Cool Mood Separation**: Pair key light color temperature (`#ffd1a3` dawn, `#fff7ea` noon, `#ffbe78` golden hour, `#9fb8df` moonlit night) against soft fill and subtle edge rim lighting so silhouettes detach cleanly without crushed black shadows.
 - **Strict Emissive, Window & Bloom Control**: Keep `Bloom` restrained (`threshold >= 0.88–0.90`, `strength <= 0.14–0.16`) and `fogExp2` light so characters never drown in glow; illuminate windows *behind* real frames/mullions and keep neon signs sharp and legible rather than giant glowing rectangles.
-- Match key light shadow angle and softness to visible sky moon/sun and cloud cover (`WORLD_ENVIRONMENT_STATE`), and localize practical streetlamp pools so nearby characters stay crisp rather than overexposed.
+- Match key light shadow angle, shadow length (`1 / tan(elevation)`), and softness to visible sky moon/sun and cloud cover (`scripts/atmosphere-presets.mjs`), and localize practical streetlamp pools so nearby characters stay crisp rather than overexposed.
+- Enforce **temporal continuity** across consecutive scenes (`scripts/validate-atmosphere.mjs`): same-day cuts must progress plausibly in clock time and sun angle, while cross-day or multi-hour skips must establish clear visual/narrative transitions.
 
 ---
 

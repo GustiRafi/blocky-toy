@@ -4,31 +4,38 @@ Load this file at Stage 6 to lock shared world physics, lighting, weather, anima
 
 ---
 
-## 1. Shared World Environment State
+## 1. Shared Scene Time, Atmosphere & Environment State
 
-Maintain a single immutable/shared state object (`templates/world-state.md`) consumed by all scenes and preview cameras so mood, weather, lighting, and physics never contradict between shots:
-- `mood` (`warm_nostalgic`, `cozy_domestic`, `melancholic_quiet`, `tense_mysterious`, `bright_cheerful`) controlling warm/cool color contrast, haze, and practical warmth
-- `timeOfDay` (`dawn`, `morning`, `noon`, `afternoon_golden`, `dusk`, `night`, `timelapse`), `sunElevationDeg`, `sunAzimuthDeg`, and multi-stop sky gradient (`skyZenithColor`, `skyMidColor`, `skyHorizonColor`)
-- Directional key vector, color temperature & shadow length (shadows **must** correspond to the visible sun/moon direction)
-- `weather` (`clear_calm`, `overcast`, `light_rain`, `heavy_rain`, `foggy_mist`, `windy`), `cloudCoverage`, wet-surface roughness, and `ambientParticles`
-- Wind vector & base speed + matched `soundscapeCues`
-- Anchored light fixtures (`pointLight` / spot origins matching physical lamp heads & glowing windows)
+Maintain a structured state definition (`templates/world-state.md`, `templates/scene-definition.md`, presets in `scripts/atmosphere-presets.mjs`, validated by `scripts/validate-atmosphere.mjs`) consumed by all scenes and preview cameras so mood, time of day, weather, lighting, and environmental storytelling never feel ambiguous or contradict between shots:
+
+Required per-scene **Time & Atmosphere Definition**:
+- **`timeOfDay` & `clockTime`**: Explicit phase (`dawn`, `morning`, `noon`, `afternoon`, `dusk`, `night`) paired with 24h `HH:MM` clock time (must align with the phase window).
+- **`dayIndex` / Story Sequence**: Positive integer story day (`1, 2, ...`) and scene order so multi-scene timelines remain traceable.
+- **`solarPosition`**: `elevationDeg`, `azimuthDeg` (`+90°` east, `0°` south, `-90°` west), `keySource` (`sun` | `twilight` | `moon`), and visible `celestialElevationDeg` / `celestialAzimuthDeg`.
+- **`skyCondition`**: Multi-stop `zenithColor`, `midColor`, `horizonColor`, cloud tint/underside colors, `cloudCoverage`, `starsOpacity`, `sunDiscOpacity`, `moonDiscOpacity` (never identical generic sky across scenes).
+- **`weather`**: `condition` (`clear_calm`, `overcast`, `light_rain`, `heavy_rain`, `foggy_mist`, `windy`), `windSpeedMps`, `windDirection`, `precipitationIntensity`, `surfaceWetness`.
+- **`ambientLighting`**: `hemiSkyColor`, `hemiGroundColor`, `hemiIntensity`, `rimColor`, `rimIntensity`, and `exposure` (`0.70–1.35`).
+- **`sunlight`**: `color`, `colorTemperatureK`, `intensity` (coupled with `ambientLighting` so key-to-fill contrast never flattens).
+- **`shadow`**: `castShadows: true`, `directionVector` (strictly opposite key vector), `lengthFactor` (`1 / tan(elevation)`), and `softnessRadius`.
+- **`atmosphere`**: Sky-coupled `fogColor`, restrained `fogDensity` (`<= 0.028`), `bloomThreshold >= 0.88`, `bloomStrength <= 0.16`, `noOverexposedWindows: true`.
+- **`environmentalActivity`**: `pedestrianDensity`, `trafficDensity`, `vehicleHeadlightsOn`, `streetlightsOn` + `streetlightsIntensity`, `interiorWindowsLitRatio` + `interiorWindowEmissiveIntensity <= 0.65`, `birdsActive`, `windSwayAmplitude`, and matched `soundscapeCues`.
+- **Anchored Light Fixtures**: Every `pointLight` / spot pool must correspond to physical lamp heads, porch fixtures, vehicle headlights, or recessed interior rooms.
 
 ---
 
-## 2. Detailed Time-of-Day, Weather & Atmosphere Matrix (Never Flat Gray)
+## 2. Visual Time-of-Day Recognition, Environmental Storytelling & Temporal Continuity
 
-**Never leave the sky as a flat solid gray/monochrome `clearColor` or blank void**—even in `overcast` or `day` scenes. Every shot must combine **sky gradient + directional sun/moon key + ground/sky bounce + weather particles + surface moisture + practical light state**:
+**Never fake time of day by merely tinting the sky or slapping on a post-process color filter.** Every period must transform solar geometry, shadow length/direction, ambient exposure, atmospheric depth, and active world behavior together:
 
-### A. Time-of-Day Physical & Mood Presets
-| Phase | Sun Elevation & Key Light | Sky Gradient (`Zenith → Mid → Horizon`) | Shadows, Practicals & Atmosphere |
+### A. Time-of-Day Physical, Lighting & Storytelling Matrix
+| Phase & Clock | Sun / Moon Angle & Key Light | Sky Gradient (`Zenith → Mid → Horizon`) | Shadows, Practicals & Environmental Storytelling |
 | :-- | :-- | :-- | :-- |
-| **Dawn (`~05:30–06:30`)** | Low east (`5–12°`), soft peach-gold `#ffd1a3` | `#354b7a → #7f7ca3 → #f2b487` | Very long soft shadows, thin morning ground mist, streetlamps fading **OFF**, birdsong + cool dew sheen |
-| **Morning (`~06:30–09:00`)** | East (`18–38°`), crisp warm-white `#fff0d4` | `#5c8fd1 → #97bfe6 → #f3c99b` | Long clean directional shadows, subtle sunlit dust motes, lamps **OFF**, fresh crisp visibility |
-| **Noon (`~11:00–14:00`)** | High overhead (`65–85°`), bright neutral `#fff7ea` | `#3f7ec9 → #82b7eb → #dbe9f6` | Short crisp shadows under eaves/trees, zero artificial haze, high bounce fill, lamps **OFF** |
-| **Afternoon / Golden (`~16:30–18:15`)** | Low west (`8–22°`), rich amber `#ffbe78` | `#4a5a8a → #9c7988 → #e8945a` | Long dramatic warm shadows sweeping across yards, sunlit warm rim light, lamps warming up at end |
-| **Dusk / Blue Hour (`~18:15–19:15`)** | Below/at horizon (`-3–4°`), cool lavender `#8ea4d2` | `#1c274d → #394873 → #b86f68` | Soft ambient twilight, **streetlamps, porch lamps & interior windows switch ON (`#ffcf87`)**, warm-vs-cool contrast |
-| **Night (`~19:30+`)** | Moon (`25–45°`), cool silver-blue `#9fb8df` | `#090e1c → #0d1424 → #141d30` | Restrained moonlight fill, visible moon disc + sparse stars, bright anchored practical pools, night crickets/breeze |
+| **Dawn (`05:00–06:29`)** | Low east (`2–14°`, `azim ~+95°`), peach-gold `#ffd0a1` (`3100K`) | `#314975 → #7a78a1 → #f0b184` | Very long soft shadows (`lengthFactor ~5+`), thin dawn mist, streetlamps & headlights fading **OFF**, dawn birdsong + dew sheen |
+| **Morning (`06:30–10:45`, e.g. `07:30`)** | Low-mid east (`15–42°`, `azim ~+78°`), crisp warm-white `#ffe4be` (`4600K`) | `#4b82c8 → #93bfe6 → #f3cfa6` | Long crisp shadows pointing **west** (`lengthFactor ~2.5`), soft morning fill, lamps/headlights **OFF**, active morning birds, moderate commute traffic & pedestrians |
+| **Noon (`10:46–14:30`, e.g. `12:15`)** | High overhead (`60–88°`, `azim ~170°`), bright neutral `#fff9f0` (`5800K`) | `#2f6ec4 → #6fb0eb → #cde4f7` | Short compact shadows beneath eaves/trees (`lengthFactor ~0.3`), brightest exposure (`~1.08`), high bounce fill, lamps & interior lights **OFF**, peak daytime street life |
+| **Afternoon / Golden (`14:31–17:59`, e.g. `17:05`)** | Low west (`8–28°`, `azim ~-102°`), rich amber `#ffb56b` (`3300K`) | `#3e588c → #a67c7e → #eba063` | Long dramatic warm shadows pointing **east** (`lengthFactor ~4.0`), golden rim contrast vs cool lavender fill, early evening windows warming (`~0.22`), birds returning |
+| **Dusk / Blue Hour (`18:00–19:15`)** | Horizon/below (`-3–4°`), cool twilight `#93a9d6` (`6500K`) | `#1b264c → #3a4974 → #b56e67` | Soft twilight shadows, **streetlights, vehicle headlights & warm recessed interior windows switch ON**, diurnal birds roosting, early crickets |
+| **Night (`19:16–04:59`, e.g. `21:30`)** | Moon key (`25–45°`, `azim ~-145°`), cool silver-blue `#94b4e6` (`7500K`, `intensity ~0.58`) | `#060b18 → #0c152b → #192642` | Restrained moonlight + dark ambient (`hemi ~0.34`), visible moon + stars, **streetlights & warm interior windows (`emissive <= 0.65`) drive local pools**, headlights ON, sparse traffic/pedestrians, `birdsActive = false`, night crickets |
 
 ### B. Weather & Surface Physics Rules
 - **Clear / Calm**: Crisp shadow edges, layered cream-white clouds drifting gently along `wind.direction`, natural matte ground roughness (`0.82–0.92`).
@@ -42,11 +49,18 @@ Maintain a single immutable/shared state object (`templates/world-state.md`) con
 - **Layered Clouds, Practicals & Soundscape**: Place stylized multi-puff clouds at staggered altitudes; anchor every `pointLight` pool to a physical fixture (lamp head, porch lantern, glowing window); match audio ambience (`morning_birds`, `wind_leaves`, `rain_canopy`, `night_crickets`) to the active weather + time state (`references/lip-sync-and-audio.md`).
 
 ### C. Time-Lapse & Diurnal Progression (Morning → Noon → Afternoon → Night)
-Whenever a scene depicts a **time-lapse**, **passing hours/days**, or **repeated-location montage**—even condensed into a few seconds—**never leave sky, sun direction, or shadows frozen**. Drive a continuous `dayProgress` curve (`0..1`) or distinct phase keyframes (`morning → noon → afternoon_golden → dusk → night`) interpolating through Section 2A above:
+Whenever a scene depicts a **time-lapse**, **passing hours/days**, or **repeated-location montage**—even condensed into a few seconds—**never leave sky, sun direction, or shadows frozen**. Drive a continuous `dayProgress` curve (`0..1`) or distinct phase keyframes (`morning → noon → afternoon → dusk → night`) using `interpolateAtmosphereState()` (`scripts/atmosphere-presets.mjs`):
 - Sweep `sunElevationDeg` & `sunAzimuthDeg` continuously from east → overhead → west → moonrise so shadows visibly rotate, shrink at noon, and lengthen warmly at dusk.
 - Interpolate `skyZenithColor`, `skyMidColor`, `skyHorizonColor`, `fogColor`, and `groundBounceColor` smoothly across every phase.
 - Keep practical lamps & warm windows **OFF (`intensity = 0`)** above `~5°` sun elevation and fade them **ON** smoothly during dusk/night.
 - Accelerate cloud drift (`wind.direction`) and vary ambient NPC/animal beats naturally across phases while keeping architecture and static props locked.
+
+### D. Temporal & Environmental Continuity Across Scenes
+All scenes in a film must form a physically coherent timeline (`validateTemporalContinuity` in `scripts/validate-atmosphere.mjs`):
+- **Same-Day Progression**: `clockTime` moves forward monotonically unless explicitly flagged `isFlashback: true`. Adjacent daytime scenes cannot abruptly teleport the sun across the sky (`<= 35°` elevation shift within `90 min`) or invert morning-to-afternoon shadow sides without elapsed time.
+- **Large Time Skips & Day Transitions**: Jumping `> 4 hours` on the same day (e.g., morning → night) or advancing `dayIndex` requires an explicit `transitionFromPrevScene` cue (`timeSkipReason`, `transitionCue`, montage bridge, or title card) so viewers immediately understand why lighting and activity changed.
+- **Weather Inertia**: Weather cannot snap instantaneously between `heavy_rain` and `clear_calm` inside `< 45 min` without a documented `weatherTransitionNote` (drying pavement decay, clearing clouds).
+- **Environmental Storytelling Sync**: Vehicle headlights, streetlights, interior windows, pedestrian/traffic density, birds, wind sway, and `soundscapeCues` must evolve together with the clock and weather—never turn streetlights on at clear noon or keep daytime songbirds active at midnight.
 
 ---
 
