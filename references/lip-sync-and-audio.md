@@ -9,6 +9,7 @@ Load this file at Stage 8 to set up voice identities, TTS synthesis, audio-align
 Never introduce mandatory paid API keys or cloud billing. Put synthesis behind a thin provider abstraction:
 
 - **Default Zero-Key Neural Fallback (`msedge-tts`)**: Free Microsoft Edge Neural voices (`id-ID-*`, `en-US-*`, `es-ES-*`, `ja-JP-*`, `fr-FR-*`, etc.) split into natural clauses at punctuation (`[,;:.!?]`) with gentle pitch/rate contour shifts across opening and closing clauses.
+- **Natural Pacing & Voice Audition**: Never unnaturally accelerate speech to cram a fixed timeline—**adjust scene/shot durations** to fit natural human phrasing, and always audition generated voice samples before locking final audio (never accept robotic browser `SpeechSynthesis` or monotonous default output).
 - **Local / Offline Alternates**: Keep the provider interface (`synthesizeClause(voiceId, text, prosody, outWavPath)`) swappable for local tools (`piper`, `coqui-tts`, macOS `say`, `espeak-ng`) when offline synthesis is needed.
 - **Audio Normalization**: Convert clause audio via FFmpeg to **48 kHz mono 16-bit PCM WAV**, trim extreme head/tail digital dead-air (`silenceremove`), and apply short `15–20ms` micro-fades to eliminate clicks.
 
@@ -37,7 +38,7 @@ Reusable utility provided in this skill: **`scripts/wav-rms-viseme-aligner.mjs`*
 
 ## 4. Multi-Track Audio Mix (FFmpeg)
 
-Mix three isolated stems at **48 kHz** into the final video:
+Mix three isolated stems at **48 kHz** into the final video with subtle EQ, gentle compression, and loudness normalization so speech remains clear and prominent:
 1. **Dialogue / Narration (`narration.wav`)**: Clean center speech track placed at exact timeline `startSec` timestamps.
-2. **Score / Music (`background-music.wav`)**: Restrained underscore that dips smoothly during dramatic quiet beats or dialogue (`sidechain` / volume automation).
-3. **SFX / Ambience (`sound-effects.wav`)**: Subtle footsteps matched to walk cadence, room tone/night wind, and causal prop audio (switch clicks, hums).
+2. **Score / Music (`background-music.wav`)**: Restrained underscore that dips smoothly during dramatic quiet beats or dialogue (`sidechain` / volume ducking).
+3. **SFX / Ambience (`sound-effects.wav`)**: Subtle footsteps matched to walk cadence, weather/time ambience (`rain`, `wind`, `birds`, `crickets`), and causal prop audio (switch clicks, hums).

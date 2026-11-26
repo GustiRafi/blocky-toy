@@ -4,9 +4,9 @@ Load this file at Stages 12–14 before finalizing any render. **Never claim a c
 
 ---
 
-## 1. Automated Verification Audits
+## 1. Pre-Final Isolation Tests & Automated Verification Audits
 
-Implement headless/CLI audit scripts evaluating live scene modules so checks stay synchronized with production code:
+Before committing to a full-resolution render, run isolated test scenes (`Scale Calibration`, `5–10s Movement & Collision`, `Voice Sample Audition`) and headless/CLI audit scripts evaluating live scene modules so checks stay synchronized with production code:
 
 1. **World Scale & Proportions**: Verify every asset category sits within `[min, max]` meters and relational invariants pass (`car > 2.2x adult`, `door > adult + 0.2m`).
 2. **Spatial & Urban Logic**:
