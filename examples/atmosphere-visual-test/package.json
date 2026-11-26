@@ -1,0 +1,12 @@
+{
+  "name": "blocky-toy-atmosphere-visual-test",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "node server.mjs",
+    "validate": "node validate-manifest.mjs"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  }
+}

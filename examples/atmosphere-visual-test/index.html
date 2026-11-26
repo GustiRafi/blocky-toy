@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BLOCKY TOY — Atmosphere & Time-of-Day Visual Validation</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #141821;
+      color: #ede6d6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 18px;
+      background: #1b2230;
+      border-bottom: 1px solid #2e384b;
+    }
+    h1 { font-size: 15px; margin: 0; letter-spacing: 0.3px; }
+    .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    button {
+      background: #263449;
+      color: #ede6d6;
+      border: 1px solid #495e80;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button.active { background: #d1944c; color: #141821; border-color: #d1944c; font-weight: 600; }
+    .scrubber { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+    main { padding: 14px 18px; }
+    .stage-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #2e384b;
+      background: #0c1018;
+    }
+    #mainCanvas { width: 100%; height: auto; display: block; aspect-ratio: 16 / 9; }
+    .hud {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 8px;
+      padding: 10px 14px;
+      background: rgba(15, 20, 30, 0.92);
+      border-top: 1px solid #2e384b;
+      font-size: 12px;
+    }
+    .hud div span { color: #8da1b8; display: block; font-size: 11px; }
+    .grid-compare {
+      max-width: 1120px;
+      margin: 16px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .card {
+      border: 1px solid #2e384b;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #10151f;
+    }
+    .card img { width: 100%; display: block; aspect-ratio: 16 / 9; }
+    .card .label { padding: 6px 10px; font-size: 12px; color: #d6c7b2; display: flex; justify-content: space-between; }
+    #status { font-size: 12px; color: #9ec5a0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BLOCKY TOY — Time-of-Day &amp; Temporal Continuity Validation</h1>
+    <div class="controls">
+      <button data-phase="morning" class="active">Morning (07:30)</button>
+      <button data-phase="noon">Noon (12:15)</button>
+      <button data-phase="afternoon">Afternoon (17:05)</button>
+      <button data-phase="dusk">Dusk (18:25)</button>
+      <button data-phase="night">Night (21:30)</button>
+      <label class="scrubber">
+        Day Transition
+        <input id="transitionSlider" type="range" min="0" max="100" value="0" />
+      </label>
+      <button id="captureBtn">Render 4-Phase Grid &amp; Save PNGs</button>
+      <span id="status"></span>
+    </div>
+  </header>
+
+  <main>
+    <div class="stage-wrap">
+      <canvas id="mainCanvas" width="1280" height="720"></canvas>
+      <div class="hud" id="hud"></div>
+    </div>
+
+    <div class="grid-compare" id="gridCompare"></div>
+  </main>
+
+  <script type="module">
+    import {
+      TIME_OF_DAY_PRESETS,
+      createAtmosphereHarness,
+      interpolateAtmosphereState,
+    } from './scene.js';
+
+    const canvas = document.getElementById('mainCanvas');
+    const hud = document.getElementById('hud');
+    const grid = document.getElementById('gridCompare');
+    const statusEl = document.getElementById('status');
+    const slider = document.getElementById('transitionSlider');
+    const buttons = Array.from(document.querySelectorAll('button[data-phase]'));
+
+    const harness = createAtmosphereHarness(canvas);
+    const TIMELINE = [
+      TIME_OF_DAY_PRESETS.morning,
+      TIME_OF_DAY_PRESETS.noon,
+      TIME_OF_DAY_PRESETS.afternoon,
+      TIME_OF_DAY_PRESETS.dusk,
+      TIME_OF_DAY_PRESETS.night,
+      { ...TIME_OF_DAY_PRESETS.morning, dayIndex: 2 },
+    ];
+
+    function updateHud(st) {
+      hud.innerHTML = `
+        <div><span>Phase / Day / Clock</span><strong>${st.timeOfDay.toUpperCase()} · Day ${st.dayIndex} · ${st.clockTime}</strong></div>
+        <div><span>Solar Angle &amp; Color Temp</span><strong>Elev ${st.solarPosition.elevationDeg}° · Azim ${st.solarPosition.azimuthDeg}° · ${st.sunlight.colorTemperatureK}K</strong></div>
+        <div><span>Shadow Length &amp; Exposure</span><strong>${st.shadow.lengthFactor}x · Exp ${st.ambientLighting.exposure} · Key ${st.sunlight.intensity}</strong></div>
+        <div><span>Practicals &amp; Windows</span><strong>Lamps ${st.environmentalActivity.streetlightsOn ? 'ON' : 'OFF'} · Win ${Math.round(st.environmentalActivity.interiorWindowsLitRatio * 100)}% (${st.environmentalActivity.interiorWindowEmissiveIntensity})</strong></div>
+        <div><span>World Activity &amp; Audio</span><strong>Ped:${st.environmentalActivity.pedestrianDensity} · Birds:${st.environmentalActivity.birdsActive ? 'Active' : 'Roost'} · ${st.environmentalActivity.soundscapeCues[0]}</strong></div>
+      `;
+    }
+
+    function renderState(st, t = 0) {
+      harness.applyAtmosphere(st, t);
+      harness.renderFrame(1280, 720);
+      updateHud(st);
+    }
+
+    function selectPhase(phase) {
+      buttons.forEach((b) => b.classList.toggle('active', b.dataset.phase === phase));
+      renderState(TIME_OF_DAY_PRESETS[phase], 0.4);
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => selectPhase(btn.dataset.phase));
+    });
+
+    slider.addEventListener('input', () => {
+      const p = Number(slider.value) / 100;
+      const segCount = TIMELINE.length - 1;
+      const scaled = p * segCount;
+      const idx = Math.min(segCount - 1, Math.floor(scaled));
+      const localT = scaled - idx;
+      const st = interpolateAtmosphereState(TIMELINE[idx], TIMELINE[idx + 1], localT);
+      buttons.forEach((b) => b.classList.remove('active'));
+      renderState(st, p * 4.0);
+    });
+
+    async function savePng(filename, dataUrl) {
+      const res = await fetch(`/save-frame?name=${encodeURIComponent(filename)}`, {
+        method: 'POST',
+        body: dataUrl,
+      });
+      if (!res.ok) throw new Error(`Failed saving ${filename}`);
+    }
+
+    async function renderFourPhaseComparison(saveToDisk = false) {
+      grid.innerHTML = '';
+      const phases = ['morning', 'noon', 'afternoon', 'night'];
+      const captured = [];
+
+      for (const phase of phases) {
+        const st = TIME_OF_DAY_PRESETS[phase];
+        renderState(st, 0.5);
+        const dataUrl = canvas.toDataURL('image/png');
+        captured.push({ phase, st, dataUrl });
+        if (saveToDisk) await savePng(`${phase}.png`, dataUrl);
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${dataUrl}" alt="${phase}" />
+          <div class="label">
+            <strong>${phase.toUpperCase()} (${st.clockTime})</strong>
+            <span>Elev ${st.solarPosition.elevationDeg}° · Shadow ${st.shadow.lengthFactor}x · ${st.sunlight.colorTemperatureK}K</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      }
+
+      // Also render transition midpoint (Afternoon -> Dusk, 17:45) and save composite 2x2 grid
+      const transState = interpolateAtmosphereState(TIME_OF_DAY_PRESETS.afternoon, TIME_OF_DAY_PRESETS.dusk, 0.55);
+      renderState(transState, 1.2);
+      if (saveToDisk) {
+        await savePng('transition-afternoon-dusk.png', canvas.toDataURL('image/png'));
+
+        // Compose a 1280x720 2x2 grid PNG for single-image side-by-side QA inspection
+        const comp = document.createElement('canvas');
+        comp.width = 1280;
+        comp.height = 720;
+        const ctx = comp.getContext('2d');
+        const imgs = await Promise.all(
+          captured.map(
+            (c) =>
+              new Promise((resolve) => {
+                const im = new Image();
+                im.onload = () => resolve({ ...c, im });
+                im.src = c.dataUrl;
+              })
+          )
+        );
+        imgs.forEach((item, idx) => {
+          const x = (idx % 2) * 640;
+          const y = Math.floor(idx / 2) * 360;
+          ctx.drawImage(item.im, x, y, 640, 360);
+          ctx.fillStyle = 'rgba(12, 16, 24, 0.78)';
+          ctx.fillRect(x + 12, y + 12, 310, 28);
+          ctx.fillStyle = '#ede6d6';
+          ctx.font = 'bold 14px sans-serif';
+          ctx.fillText(
+            `${item.phase.toUpperCase()} ${item.st.clockTime} (${item.st.solarPosition.elevationDeg}° / ${item.st.sunlight.colorTemperatureK}K)`,
+            x + 20,
+            y + 31
+          );
+        });
+        await savePng('comparison-grid.png', comp.toDataURL('image/png'));
+      }
+
+      selectPhase('morning');
+      statusEl.textContent = saveToDisk
+        ? 'Saved 4-phase renders, transition & comparison-grid.png'
+        : 'Rendered 4-phase comparison';
+    }
+
+    document.getElementById('captureBtn').addEventListener('click', () => {
+      renderFourPhaseComparison(true).catch((e) => {
+        statusEl.textContent = e.message;
+      });
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const reqPhase = params.get('phase');
+    if (params.get('capture') === '1') {
+      await renderFourPhaseComparison(true);
+      window.__CAPTURE_DONE__ = true;
+    } else if (reqPhase && TIME_OF_DAY_PRESETS[reqPhase]) {
+      selectPhase(reqPhase);
+    } else {
+      await renderFourPhaseComparison(false);
+    }
+  </script>
+</body>
+</html>
