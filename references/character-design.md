@@ -22,8 +22,11 @@ Never create cast variety by cloning one torso/jacket rig and swapping shirt col
 1. **Hairstyles (Recognizable Front, Side & Back)**:
    - Mix lengths, silhouettes, and textures: short swept side-part, curly volumetric coils, twin pigtails, long shoulder-draping waves, slicked pompadour, cuffed beanie with peeking bangs, canvas work cap, open-face visor helmet.
    - Do not give every male character identical short blocks or every female character the same bob/long cut.
-2. **Garment Silhouettes & Layering**:
-   - Vary collars, hems, and lower-body silhouettes: zip field jacket, notched blazer + shirt + tie, oversized pullover hoodie with folded rear hood + kangaroo pocket, hi-vis work vest over short/rolled sleeves, belted trench coat + flared midi skirt, cropped varsity bomber, canvas apron over work shirt, cardigan + pleated skirt.
+2. **Garment Silhouettes, Shape Language & Layering**:
+   - Vary collars, hems, and lower-body silhouettes: zip field jacket, notched blazer + shirt + tie, oversized pullover hoodie with folded rear hood + kangaroo pocket, hi-vis work vest over short/rolled sleeves, belted trench coat + flared A-line midi skirt, cropped varsity bomber, canvas apron over work shirt, cardigan + pleated skirt.
+   - Apply **reusable clothing shape guidelines** across all characters and garments—never rely on rigid stacked rectangular bricks (`box` primitives without taper or bevel):
+     - **Shape Language Blend**: Combine **blocky, rounded, tapered, and beveled** geometry (softly beveled shoulder caps, tapered sleeves/trousers, rounded collars/hoods, stepped jacket hems) so outfits remain unmistakably **Blocky Toy** without hyper-realistic cloth simulation or noisy micro-wrinkles.
+     - **360° Readable Silhouette**: Design every outfit so its silhouette reads clearly from front, 3/4 side, and back camera angles.
 3. **Footwear & Accessories**:
    - Differentiate `hi_tops`, classic `sneakers`, slim dark `loafers`, and lug-soled `boots`.
    - Enforce physical compatibility: **never** stack over-ear headphones through helmets, caps, or thick beanies; verify backpacks/long hair/crossbody straps do not intersect one another.
@@ -62,7 +65,13 @@ Audit every mesh attached to `head`, `hair`, `face`, `shoulders`, `back`, `waist
 Maintain stylized blocky-toy appeal without sacrificing clean anatomical structure (`scripts/validate-art-direction.mjs`):
 - **12 Required Body Segments**: Every character must expose clearly identifiable, naturally connected `head`, `neck` (or collar connection), `torso`, `shoulders`, `upper_arms`, `forearms`, `hands`, `waist`, `upper_legs`, `lower_legs`, and `feet`. Eliminate floating chunks, unintentional overlap, or asymmetrical limb artifacts.
 - **7 Articulation Pivots**: Anchor rigs cleanly at `neck`, `shoulders`, `elbows`, `wrists`, `hips`, `knees`, and `ankles` so sitting, kneeling, turning, and gesturing preserve silhouette integrity across all animations. During **walking and running locomotion**, drive limbs via the shared stylized LEGO/Roblox-inspired cyclic controller (`references/animation-physics.md` + `references/assets/walking-reference.jpg`): alternating `hips` rotation, crisp blocky `knees` bend, lifted `ankles`/shoe soles during stride clearance, opposite `shoulders` swing, and a stable upright torso—never realistic human mocap/IK kinematics.
-- **Designed Clothing & Material Separation**: Model shirts with visible collars, sleeves, and torso form; jackets with front panels, cuffs, and seams; pants with distinct leg volumes; and shoes with separate uppers and rubber soles. Differentiate PBR roughness across skin (`~0.42–0.48`), hair (`~0.58–0.72`), clothing (`~0.66–0.86`), and footwear (`references/art-direction.md`).
+- **Designed Clothing, Skirt Silhouettes & Material Separation**: Model shirts with visible collars, rounded/tapered sleeves, cuffs, and beveled torso form; jackets with front panels, tapered waists/hems, and seams; pants with distinct tapered leg volumes; and shoes with separate uppers and rubber soles.
+- **Stylized Skirt Design Rules (Zero Rigid Box Blocks)**:
+  - Never represent a skirt as a plain rectangular box pasted onto the hips.
+  - Shape skirts with an **A-line or gentle outward flare** (`waistWidth < hemWidth`) and subtle **3D fullness/volume** (fitted waistband seam + layered panels or crisp toy pleats) appropriate to the character's design.
+  - Apply **beveled or rounded edges** along the waistband, pleats, and hem corners to soften hard geometric sharpness while preserving clean toy appeal.
+  - Vary skirt silhouettes across characters and story roles (e.g., flared A-line midi, pleated school/casual flare, wrap/layered coat-hem, knee-length tapered skirt) and allow subtle **hem contour variation** (gentle pleated wave, stepped wrap overlap, or soft scalloped curve rather than a strictly rigid straight horizontal line—without realistic cloth physics).
+- Differentiate PBR roughness across skin (`~0.42–0.48`), hair (`~0.58–0.72`), clothing (`~0.66–0.86`), and footwear (`references/art-direction.md`).
 
 ---
 
@@ -87,7 +96,7 @@ Never leave an unexplained rectangular block attached to a character's back mere
 
 Once a character design is finalized, mark its registry entry as **locked**:
 - Assign a stable unique `id`, canonical model/component reference (`assetRef`) or deterministic `proceduralSeed`, and bound voice profile (`voice.profileId`).
-- **Never regenerate, approximate, or silently swap** a locked character across scenes or camera shots **within that project**. Camera angles, lighting, expressions, and poses change freely—underlying face structure, hair geometry, proportions, materials, wardrobe, and shared locomotion language remain invariant unless modified by an approved story event.
+- **Never regenerate, approximate, or silently swap** a locked character across scenes or camera shots **within that project**. Camera angles, lighting, expressions, and poses change freely—underlying face structure, hair geometry, proportions, materials, locked wardrobe shapes, and shared locomotion language remain invariant unless modified by an approved story or design event (never alter an already-locked character's outfit without design justification).
 - Reuse one canonical rig/component per `characterId` and one shared stylized locomotion controller across all scenes and preview harnesses of the **current project** (`animationProfile` in `templates/character-profile.md` may vary walk speed/cadence cleanly without altering the Blocky Toy walk style)—never import cast profiles or rigs from an unrelated prior project (e.g., `test-ai-video`) into a new story unless the user explicitly asks to continue that exact series.
 
 ---

@@ -45,6 +45,8 @@ visual:
   browThickness: 1.0
   hasGlasses: false
   outfitStyle: "" # e.g., field_jacket | blazer_tie | oversized_hoodie | work_vest_tee | long_trench_skirt | apron_workwear | cardigan_skirt
+  clothingShapeLanguage: "blocky_beveled_tapered" # reusable blend: blocky + rounded + tapered + beveled (never rigid raw boxes or hyper-realistic cloth)
+  skirtStyle: "none" # none | flared_a_line | pleated_flare | layered_wrap | tapered_midi (A-line volume + beveled/rounded edges + subtle hem variation)
   sleeveStyle: "long" # long | rolled
   footwearStyle: "sneakers" # sneakers | hi_tops | loafers | boots
   topColor: "#7d4550"
