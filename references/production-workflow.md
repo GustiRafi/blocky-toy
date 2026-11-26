@@ -50,7 +50,7 @@ Follow the strict production sequence: **Build the world first → Populate it s
 1. **Pre-Build Plan & Duration Sync**: Lock scale, world state, locked cast, and scene plan; if spoken dialogue/narration exceeds a beat, **adjust scene duration** to fit natural speech rather than speeding up TTS unnaturally.
 2. **Isolation & Preview Tests First**: Run dedicated scale calibration (`char + car + door + table + chair + lamp`), `5–10s` movement/collision tests, cast turnarounds, and voice sample auditions before committing to full renders.
 3. **Keyframe & Silent Preview Gate**: Render multi-angle QA keyframes (`render:keyframes`) and a low-res `previews/silent-preview.mp4`, inspect every shot visually, and fix defects before full-resolution export.
-4. **Final Render, Audio Mix & Probe**: Render full-resolution deterministic frames (hardware/Metal WebGL when available), mix isolated `narration/dialogue` + `background-music` (ducked) + `sound-effects` via FFmpeg (EQ, gentle compression, loudness normalization, `+faststart`), and verify the final `output/final.mp4` visually, audibly, and with `ffprobe`.
+4. **Final Render, Audio Mix & Probe**: Render full-resolution deterministic frames (hardware/Metal WebGL when available), mix isolated `narration/dialogue` + scene-specific low-volume natural `sound-effects` ambience + optional context-aware `background-music` (omitted in neutral dialogue scenes; ducked smoothly when present) via FFmpeg (speech-priority EQ, band-limited ambience free of hiss/rumble, transparent peak limiting, `+faststart`), and verify the final `output/final.mp4` visually, audibly, and with `ffprobe`.
 
 ---
 

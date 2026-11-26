@@ -36,10 +36,11 @@ Before committing to a full-resolution render, run isolated test scenes (**Visua
    - **Time-of-Day Distinguishability & Continuity**: Confirm `morning`, `noon`, `afternoon`, and `night` renders from the same camera are immediately distinguishable (sun angle, shadow length/direction, color temperature, sky gradient, practicals, environmental activity), and verify cross-scene temporal continuity via `scripts/validate-atmosphere.mjs`.
    - **Time-Lapse / Repeated-Beat Progression**: Whenever a scene is tagged as `timelapse` or `montage_steps`, verify visible progression across `morning -> noon -> afternoon -> night` (sweeping directional shadow vector, distinct sky color stops per phase, accelerated cloud drift, and practical lamps `OFF` at midday -> `ON` at dusk/night).
    - Verify outdoor grass/lawns include spatial color/roughness variation, soil/border separation, and instanced 3D tufts/foliage rooted cleanly at `surfaceTopY` with zero floating trees/shrubs or wall-clipping branches.
-5. **Dialogue & Lip-Sync (when speech exists)**:
+5. **Dialogue, Lip-Sync & Natural Audio Mix (when audio/speech exists)**:
    - Narration & internal monologue keep all character mouths at `0`.
    - Active speakers emit non-zero visemes strictly inside voiced WAV spans, dropping cleanly to `0` during pauses and after `endSec` / `interruptedAtSec`.
    - Non-speaking listeners keep `mouthOpen === 0` while tracking the speaker (`headYaw`, `eyeLookX`) and executing delayed reactions.
+   - **Natural Soundscape & Controlled Mixing**: Verify casual conversation scenes do not default to constant background music; verify wind/environmental ambience is scene-specific, subtle/low-volume, and free of harsh hiss, rumble, or repetitive loops; verify any emotional/montage music fades cleanly, leaves room for silence, and ducks smoothly under dialogue without clipping (`True Peak <= -1.5 dBFS`).
 
 ---
 
