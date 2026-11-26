@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BLOCKY TOY — Art Direction Exploration (A / B / C / D)</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #12161f;
+      color: #ede6d6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      padding: 14px 18px;
+      background: #19202e;
+      border-bottom: 1px solid #2b3548;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    h1 { margin: 0; font-size: 15px; }
+    .btns { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    button {
+      background: #263449;
+      color: #ede6d6;
+      border: 1px solid #495e80;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button.active { background: #d1944c; color: #12161f; border-color: #d1944c; font-weight: 600; }
+    main { max-width: 1200px; margin: 0 auto; padding: 14px 18px 28px; }
+    .hero-wrap { border: 1px solid #2b3548; border-radius: 8px; overflow: hidden; background: #0c1018; }
+    #exploreCanvas { width: 100%; height: auto; display: block; aspect-ratio: 16 / 9; }
+    .caption { padding: 10px 14px; font-size: 13px; background: #181f2c; border-top: 1px solid #2b3548; }
+    .grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .card { border: 1px solid #2b3548; border-radius: 8px; overflow: hidden; background: #161c27; }
+    .card img { width: 100%; display: block; aspect-ratio: 16 / 9; }
+    .card .meta { padding: 8px 12px; font-size: 12px; }
+    .card .meta strong { display: block; margin-bottom: 3px; color: #f1dec0; }
+    .card .meta span { color: #9eaec4; }
+    #status { font-size: 12px; color: #9ec5a0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BLOCKY TOY — Art Direction Exploration (Identical Scene, Camera &amp; Palette)</h1>
+    <div class="btns">
+      <button data-var="A" class="active">A. Cinematic Natural</button>
+      <button data-var="B">B. Artistic Cinematic</button>
+      <button data-var="C">C. Premium Stylized</button>
+      <button data-var="D">D. Atmospheric Storytelling</button>
+      <button id="saveAllBtn">Render &amp; Save Comparison PNGs</button>
+      <span id="status"></span>
+    </div>
+  </header>
+  <main>
+    <div class="hero-wrap">
+      <canvas id="exploreCanvas" width="1280" height="720"></canvas>
+      <div class="caption" id="caption"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <script type="module">
+    import { ART_DIRECTION_VARIATIONS, createExplorationRenderer } from './explore.js';
+
+    const canvas = document.getElementById('exploreCanvas');
+    const caption = document.getElementById('caption');
+    const grid = document.getElementById('grid');
+    const statusEl = document.getElementById('status');
+    const btns = Array.from(document.querySelectorAll('button[data-var]'));
+
+    const engine = createExplorationRenderer(canvas);
+
+    function showVar(key) {
+      btns.forEach((b) => b.classList.toggle('active', b.dataset.var === key));
+      const v = engine.applyVariation(key);
+      caption.innerHTML = `<strong>${v.name}</strong> — ${v.subtitle} (Elev ${v.sunElevationDeg}°, Fog ${v.fogDensity}, Exp ${v.exposure}, Rim ${v.rimIntensity})`;
+    }
+
+    btns.forEach((b) => b.addEventListener('click', () => showVar(b.dataset.var)));
+
+    async function savePng(name, dataUrl) {
+      const res = await fetch(`/save-frame?name=${encodeURIComponent(name)}`, {
+        method: 'POST',
+        body: dataUrl,
+      });
+      if (!res.ok) throw new Error(`Failed saving ${name}`);
+    }
+
+    function captureGradedDataUrl(gradeCss) {
+      const off = document.createElement('canvas');
+      off.width = 1280;
+      off.height = 720;
+      const ctx = off.getContext('2d');
+      ctx.filter = gradeCss || 'none';
+      ctx.drawImage(canvas, 0, 0, 1280, 720);
+      return off.toDataURL('image/png');
+    }
+
+    async function renderComparisonGrid(saveToDisk = false) {
+      grid.innerHTML = '';
+      const keys = ['A', 'B', 'C', 'D'];
+      const items = [];
+      for (const k of keys) {
+        const v = engine.applyVariation(k);
+        const dataUrl = captureGradedDataUrl(v.gradeCss);
+        items.push({ k, v, dataUrl });
+        if (saveToDisk) await savePng(`explore-variation-${k.toLowerCase()}.png`, dataUrl);
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${dataUrl}" alt="${v.name}" />
+          <div class="meta"><strong>${v.name}</strong><span>${v.subtitle}</span></div>
+        `;
+        grid.appendChild(card);
+      }
+
+      if (saveToDisk) {
+        const comp = document.createElement('canvas');
+        comp.width = 1280;
+        comp.height = 720;
+        const ctx = comp.getContext('2d');
+        const loaded = await Promise.all(
+          items.map(
+            (it) =>
+              new Promise((resolve) => {
+                const im = new Image();
+                im.onload = () => resolve({ ...it, im });
+                im.src = it.dataUrl;
+              })
+          )
+        );
+        loaded.forEach((it, idx) => {
+          const x = (idx % 2) * 640;
+          const y = Math.floor(idx / 2) * 360;
+          ctx.drawImage(it.im, x, y, 640, 360);
+          ctx.fillStyle = 'rgba(12, 16, 24, 0.80)';
+          ctx.fillRect(x + 10, y + 10, 290, 28);
+          ctx.fillStyle = '#ede6d6';
+          ctx.font = 'bold 14px sans-serif';
+          ctx.fillText(it.v.name, x + 18, y + 29);
+        });
+        await savePng('art-direction-comparison-grid.png', comp.toDataURL('image/png'));
+      }
+
+      showVar('A');
+      statusEl.textContent = saveToDisk
+        ? 'Saved variations A/B/C/D + art-direction-comparison-grid.png'
+        : 'Rendered variations A/B/C/D';
+    }
+
+    document.getElementById('saveAllBtn').addEventListener('click', () => {
+      renderComparisonGrid(true).catch((e) => { statusEl.textContent = e.message; });
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('capture') === '1') {
+      await renderComparisonGrid(true);
+      window.__EXPLORE_DONE__ = true;
+    } else {
+      await renderComparisonGrid(false);
+    }
+  </script>
+</body>
+</html>
