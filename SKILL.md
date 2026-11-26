@@ -80,7 +80,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 
 1. **Progressive Disclosure**: Read only the `references/` and `templates/` rows relevant to the user's request.
 2. **Dry & Parameterized**: Extract shared helpers and data tables instead of duplicating components per character, building, or test act.
-3. **Engine Independence**: Adapt instructions to the project's stack (Three.js/R3F, Blender Python, Godot, Unity, WebGL, etc.) without imposing alien directory trees.
+3. **Code-Based Stack Independence (No Blender)**: Adapt instructions to the target project's code-based 3D stack (Three.js/R3F, WebGL/Babylon.js, Godot, Unity, etc.) after inspecting `package.json` and existing modules—**never check for, depend on, or integrate Blender (`bpy`)** or switch stacks unnecessarily.
 
 ---
 

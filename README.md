@@ -28,7 +28,7 @@
 - **Pose-Aware Grounding & Full-Body Collision**: Solves `surfaceTopY(x, z)` and exact posed mesh bounds (`poseMinY`) across standing, sitting, and detailed resting (`loaf`, `sphinx_lie`, `side_lie`, `curled_sleep`, `recline`) poses—plus full sub-mesh & articulated-door collision for humans, animals, and props.
 - **Identity Lock & Cast Diversity**: Prevents "recolored clone" characters via structured `CharacterIdentityProfile` geometry (hair, silhouettes, sleeves, footwear) plus `locked: true` canonical asset reuse and cross-scene `continuityState`.
 - **Multilingual Dialogue & Zero-Key Voice Acting**: Separates external `narration` (mouths shut) from `dialogue` (WAV RMS-aligned visemes, mid-sentence `expressionArc`, gaze tracking, listener reactions, and interruption cutoffs) with zero mandatory API keys (`msedge-tts` default fallback).
-- **Token-Efficient & Engine-Agnostic**: Progressive disclosure (`SKILL.md` is `< 95` lines) adapts to Three.js/R3F, Blender `bpy`, Godot, or Unity without forcing heavy boilerplate.
+- **Token-Efficient & Code-Based**: Progressive disclosure (`SKILL.md` is `< 95` lines) adapts cleanly to code-based 3D pipelines (`Three.js/R3F`, `WebGL/Babylon.js`, `Godot`, `Unity`) without Blender or heavy boilerplate.
 
 ---
 
