@@ -23,7 +23,9 @@
 - **Two Authoring Modes (`Idea Mode` & `Script Mode`)**: Generate a full animated film from a title/concept (`/blocky-toy "The Last Train Home"`) OR translate an author's Markdown/plain-text screenplay verbatim (`/blocky-toy --script ./scripts/story.md`) without rewriting lines or endings.
 - **Selectable Output Aspect Ratio (Reels `9:16` Default)**: Defaults cleanly to **`9:16` Reels portrait (`1080×1920`)** when omitted; switch effortlessly via `--format landscape` (`16:9`), `portrait`/`reels`, `4:5`, `1:1`, or `WxH` with aspect-aware camera blocking (`scripts/parse-script-outline.mjs`).
 - **Flexible Runtime (`15s` to `15m+`) & Strict Project Isolation**: Supports short clips (`15–60s`), stories (`1–3m`), and multi-act short films (`3–15m+`) with a mandatory pre-build estimation gate and strictly project-local incremental caching (zero asset or render-cache carryover from prior projects).
-- **Atmospheric Sky, Layered Nature & Diurnal Time-Lapse**: Enforces multi-stop vertical sky domes (never flat gray), drifting clouds, soil-bordered lawns with 3D instanced grass tufts, and visible `morning → noon → afternoon → night` progression (sweeping sun shadows + dusk practicals turning on) for time-lapse or repeated-location montages.
+- **Global Art Direction, Material Separation & Window Craft**: Enforces one centralized 9-domain palette (`references/art-direction.md`, `templates/art-direction.md`), distinct PBR roughness across skin, hair, clothing, footwear, metal, wood, glass, and concrete, 12-part/7-pivot character anatomy, real framed recessed windows (never flat glowing rectangles), and restrained bloom/fog (`scripts/validate-art-direction.mjs`).
+- **Explicit Scene Time, Environmental Storytelling & Temporal Continuity**: Enforces per-scene `dayIndex`, `clockTime`, solar angle/direction, shadow length factor, color temperature, sky gradients, and synchronized environmental cues (traffic, headlights, streetlights, interior windows, birds, wind sway, soundscape) via `scripts/atmosphere-presets.mjs` + `scripts/validate-atmosphere.mjs`, preventing ambiguous lighting or unexplained morning-to-night jumps.
+- **Atmospheric Sky, Layered Nature & Diurnal Time-Lapse**: Enforces multi-stop vertical sky domes (never flat gray), drifting clouds, soil-bordered lawns with 3D instanced grass tufts, and smooth `morning → noon → afternoon → dusk → night` progression (`interpolateAtmosphereState`).
 - **Living-World Population & Real-World Consistency**: Enforces connected roads, intersection-only crosswalks, cornering braking, zero vehicle teleports, centralized metric scale (`1u = 1m` across characters, vehicles, buildings & furniture via `references/world-scale.md`), and context-fit background NPCs, traffic, and biome-authentic animals so outdoor streets feel alive.
 - **Pose-Aware Grounding & Full-Body Collision**: Solves `surfaceTopY(x, z)` and exact posed mesh bounds (`poseMinY`) across standing, sitting, and detailed resting (`loaf`, `sphinx_lie`, `side_lie`, `curled_sleep`, `recline`) poses—plus full sub-mesh & articulated-door collision for humans, animals, and props.
 - **Identity Lock, Clean Head/Accessory Geometry & Cast Diversity**: Prevents "recolored clone" characters and unexplained/floating head or body blocks via structured `CharacterIdentityProfile` geometry (hair, silhouettes, sleeves, footwear, audited accessories) plus `locked: true` canonical asset reuse and cross-scene `continuityState`.
@@ -109,6 +111,9 @@ blocky-toy/
 │   ├── scene-definition.md
 │   ├── world-state.md
 │   └── dialogue-timeline.md
+├── examples/                              # Self-contained Three.js visual test harnesses
+│   ├── atmosphere-visual-test/            # Morning / Noon / Afternoon / Night + transition validator
+│   └── art-direction-exploration/         # Isolated A/B/C/D art-direction comparison harness
 └── scripts/                               # Zero-dependency Node ESM utilities
     ├── atmosphere-presets.mjs
     ├── install.mjs
@@ -146,15 +151,33 @@ Optional controls (`--duration`, `--language`, `--style`, `--voice`, `--format` 
 
 ## Bundled Utility Verification
 
-All bundled Node scripts require zero `npm install` dependencies:
+All bundled Node scripts in `scripts/` require zero `npm install` dependencies:
 
 ```bash
+npm test
+# Or run individually:
 node scripts/install.mjs --self-test
 node scripts/parse-script-outline.mjs --self-test
 node scripts/wav-rms-viseme-aligner.mjs --self-test
 node scripts/validate-world-scale.mjs --self-test
 node scripts/validate-art-direction.mjs --self-test
 node scripts/validate-atmosphere.mjs --self-test
+```
+
+### Visual Atmosphere & Art-Direction Harnesses (`examples/`)
+
+To validate `morning` / `noon` / `afternoon` / `night` differentiation, temporal continuity, and A/B/C/D art-direction variations in Three.js:
+
+```bash
+# Validate temporal continuity & 4-period contrast manifest
+node examples/atmosphere-visual-test/validate-manifest.mjs
+
+# Install local Three.js test dependency (only inside examples/atmosphere-visual-test) and start preview server
+npm --prefix examples/atmosphere-visual-test install
+node examples/atmosphere-visual-test/server.mjs
+# Open:
+# - http://127.0.0.1:4173/examples/atmosphere-visual-test/index.html
+# - http://127.0.0.1:4173/examples/art-direction-exploration/index.html
 ```
 
 ---

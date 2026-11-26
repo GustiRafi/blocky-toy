@@ -60,11 +60,14 @@ ln -s /Users/macos/Developer/blocky-toy ~/.config/opencode/skills/blocky-toy
 
 ## Verifying Installation
 
-1. Run the bundled self-tests:
+1. Run the bundled self-tests (`npm test` or individually):
    ```bash
    node scripts/install.mjs --self-test
    node scripts/parse-script-outline.mjs --self-test
    node scripts/wav-rms-viseme-aligner.mjs --self-test
+   node scripts/validate-world-scale.mjs --self-test
+   node scripts/validate-art-direction.mjs --self-test
+   node scripts/validate-atmosphere.mjs --self-test
    ```
 2. Inside your AI agent session, ask:
    > *"List available skills and confirm `blocky-toy` (BLOCKY TOY) is loaded."*

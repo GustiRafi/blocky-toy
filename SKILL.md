@@ -51,9 +51,9 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 | 1 | Mode, Story & Script | Parse supplied script (`--script`) or expand Idea; preserve verbatim lines & intent | `references/input-modes-and-script-parsing.md`, `templates/script-input.md` |
 | 2 | Project Audit | Inspect repo structure, dependencies, and render pipeline | `references/production-workflow.md` |
 | 3 | Runtime Mapping | Map renderer, headless capture, and audio muxing capabilities | `references/production-workflow.md` |
-| 4 | Art Direction & Scale | Establish palette, material rules, lighting, and metric scale (`1u = 1m`) | `references/art-direction.md`, `references/world-scale.md`, `references/cinematography.md` |
+| 4 | Art Direction & Scale | Establish palette, material rules, lighting, and metric scale (`1u = 1m`) | `references/art-direction.md`, `references/world-scale.md`, `references/cinematography.md`, `templates/art-direction.md` |
 | 5 | World Masterplan | Design connected roads, zones, sidewalks, lots, greenery & ambient life **before props** | `references/worldbuilding.md` |
-| 6 | World State & Physics | Set mood, clock time, day index, weather/time-of-day, temporal continuity, sky, grass & animal rules | `references/real-world-consistency.md`, `templates/world-state.md`, `scripts/atmosphere-presets.mjs` |
+| 6 | World State & Physics | Set mood, clock time, day index, weather/time-of-day, temporal continuity, sky, grass & animal rules | `references/real-world-consistency.md`, `templates/world-state.md`, `templates/scene-definition.md`, `scripts/atmosphere-presets.mjs` |
 | 7 | Character Identity & Lock | Define non-cloned canonical profiles (`locked`), asset refs & voice IDs | `references/character-design.md`, `templates/character-profile.md` |
 | 8 | Dialogue & Acting | Build voice lines, WAV-aligned visemes, gaze, gestures & listener reactions | `references/dialogue-and-acting.md`, `references/lip-sync-and-audio.md`, `templates/dialogue-timeline.md` |
 | 9 | Motion & Collision | Implement nav pathing, articulated resting poses, full-body/door avoidance & surface grounding | `references/animation-physics.md` |

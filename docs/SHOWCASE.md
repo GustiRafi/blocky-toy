@@ -58,3 +58,27 @@ Produced in **Script Mode** (`1280×720 @ 30 FPS` master, `960×540` showcase en
 | ![test-1 dialogue two-shot](./media/test1-dialogue-twoshot.png) | ![test-1 morning finale street](./media/test1-finale-street.png) |
 
 > **Skill Evolution Driven by `test-1` Audit**: Real-world visual audits from `test-1` directly motivated `blocky-toy` updates for **pose-aware grounding & detailed resting poses** (preventing resting animals from sinking into porches), **full sub-mesh & closed-door collision**, **multi-stop sky domes & 3D instanced grass tufts**, **living-world ambient NPC/traffic/animal budgets**, **diurnal morning-to-night time-lapse rules**, **strict project isolation**, and **`9:16` Reels default formatting**.
+
+---
+
+## Visual Validation Suites (`examples/`)
+
+### 1. Time-of-Day & Temporal Continuity (`examples/atmosphere-visual-test/`)
+
+Rendered from an identical environment and camera (`[-8.6, 4.3, 14.2]`) driven by `scripts/atmosphere-presets.mjs` and verified by `scripts/validate-atmosphere.mjs`:
+- **Morning (`07:30`, `22°` East, `4600K`)**: Long west-pointing shadows, peach-blue horizon, active birds & morning pedestrians, streetlamps off.
+- **Noon (`12:15`, `74°`, `5800K`)**: Short compact overhead shadows, bright midday azure sky, peak street activity.
+- **Afternoon (`17:05`, `14°` West, `3300K`)**: Long warm east-pointing shadows, golden-hour sky gradient, early interior window warmth.
+- **Night (`21:30`, `-28°` sun / moonlit, `7500K`)**: Starry indigo sky, localized streetlamp pools, car headlights/taillights on, recessed interior windows warmly lit without overexposure, birds roosting.
+
+| 4-Period Same-Camera Comparison | Afternoon → Dusk Transition (`~17:49`) |
+| :---: | :---: |
+| ![4-period time-of-day comparison](../examples/atmosphere-visual-test/output/comparison-grid.png) | ![Afternoon to dusk transition](../examples/atmosphere-visual-test/output/transition-afternoon-dusk.png) |
+
+### 2. Art Direction Exploration (`examples/art-direction-exploration/`)
+
+Isolated 4-way visual exploration preserving identical geometry, camera, and base palette while comparing **A. Cinematic Natural**, **B. Artistic Cinematic**, **C. Premium Stylized**, and **D. Atmospheric Storytelling**:
+
+| 2×2 Art Direction Comparison Grid |
+| :---: |
+| ![Art direction exploration A B C D](../examples/atmosphere-visual-test/output/art-direction-comparison-grid.png) |

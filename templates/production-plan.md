@@ -24,13 +24,17 @@ estimate:
 
 sharedAssets:
   worldStateRef: "templates/world-state.md"
+  artDirectionRef: "templates/art-direction.md"
   lockedCharacters: ["leo", "mina", "station-master", "commuter-dina"]
 
 acts:
   - actId: "act-1-waiting"
-    timeWeatherArc: "dusk -> overcast evening"
+    timeWeatherArc: "day 1 dusk (18:20) -> overcast night (20:15)"
     scenes:
       - sceneId: "scene-01-station-arrival"
+        dayIndex: 1
+        timeOfDay: "dusk"
+        clockTime: "18:20"
         durationSec: 40
         environment: "suburban_station"
         shots: 5
@@ -38,10 +42,14 @@ acts:
         continuityIn: { leo: { wetness: 0, carriedObjects: ["ticket"] } }
         continuityOut: { leo: { wetness: 0, carriedObjects: ["ticket", "lantern"] } }
       - sceneId: "scene-02-missed-train"
+        dayIndex: 1
+        timeOfDay: "night"
+        clockTime: "20:15"
         durationSec: 45
         environment: "suburban_station"
         shots: 4
         cacheDir: "output/scenes/scene_02"
+        transitionFromPrevScene: { timeSkipReason: "Nearly two hours waiting on platform as rain mist settles" }
         continuityInRef: "scene-01-station-arrival.continuityOut"
 ```
 
