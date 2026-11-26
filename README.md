@@ -8,18 +8,18 @@
 **BLOCKY TOY** (`blocky-toy`) is a portable, engine-agnostic **Agent Skill** (`SKILL.md` open standard) compatible with **Google Antigravity**, **Claude Code**, **OpenCode**, **OpenAI Codex CLI**, **Cursor**, and any coding agent that reads Markdown instructions.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/world-street-avenue.png" alt="test-ai-video commercial avenue street-level render" width="24%" />
-  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/test1-dialogue-twoshot.png" alt="test-1 Rumah Sebelah dialogue two-shot" width="24%" />
-  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/test3-aerial-street.png" alt="test-3 Rumah Sebelah aerial dawn street" width="24%" />
-  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/test4-cast-lineup.png" alt="test-4 10 Tahun Lagi 7-character cast lineup" width="24%" />
+  <img src="./docs/media/world-street-avenue.png" alt="test-ai-video commercial avenue street-level render" width="24%" />
+  <img src="./docs/media/test1-dialogue-twoshot.png" alt="test-1 Rumah Sebelah dialogue two-shot" width="24%" />
+  <img src="./docs/media/test3-aerial-street.png" alt="test-3 Rumah Sebelah aerial dawn street" width="24%" />
+  <img src="./docs/media/test4-cast-lineup.png" alt="test-4 10 Tahun Lagi 7-character cast lineup" width="24%" />
 </p>
 
-- **Project `test-ai-video` — *The Last Little Light* (`42s`, `9:16` Reels, `en-US`)**: [`docs/media/showcase-film-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/showcase-film-540p.mp4) (+ [7-Act Dialogue QA (`41s`)](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/dialogue-qa-demo.mp4))
-- **Project `test-1` — *Rumah Sebelah* (`180s`, `16:9`, `id-ID` Script Mode)**: [`docs/media/test1-rumah-sebelah-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test1-rumah-sebelah-540p.mp4)
-- **Project `test-2` — *Rumah Sebelah* v2 (`183s`, `16:9` Full HD, `id-ID` Script Mode)**: [`docs/media/test2-rumah-sebelah-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test2-rumah-sebelah-540p.mp4)
-- **Project `test-3` — *Rumah Sebelah* v3 (`180s`, `16:9` Art-Directed, `id-ID` Script Mode)**: [`docs/media/test3-rumah-sebelah-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test3-rumah-sebelah-540p.mp4)
-- **Project `test-4` — *10 Tahun Lagi* (`67.5s`, `9:16` Reels, `id-ID` Idea Mode)**: [`docs/media/test4-sepuluh-tahun-lagi-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test4-sepuluh-tahun-lagi-540p.mp4)
-- **Full Visual Gallery, Renders & Breakdown**: [`docs/SHOWCASE.md`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/SHOWCASE.md)
+- **Project `test-ai-video` — *The Last Little Light* (`42s`, `9:16` Reels, `en-US`)**: [`docs/media/showcase-film-540p.mp4`](./docs/media/showcase-film-540p.mp4) (+ [7-Act Dialogue QA (`41s`)](./docs/media/dialogue-qa-demo.mp4))
+- **Project `test-1` — *Rumah Sebelah* (`180s`, `16:9`, `id-ID` Script Mode)**: [`docs/media/test1-rumah-sebelah-540p.mp4`](./docs/media/test1-rumah-sebelah-540p.mp4)
+- **Project `test-2` — *Rumah Sebelah* v2 (`183s`, `16:9` Full HD, `id-ID` Script Mode)**: [`docs/media/test2-rumah-sebelah-540p.mp4`](./docs/media/test2-rumah-sebelah-540p.mp4)
+- **Project `test-3` — *Rumah Sebelah* v3 (`180s`, `16:9` Art-Directed, `id-ID` Script Mode)**: [`docs/media/test3-rumah-sebelah-540p.mp4`](./docs/media/test3-rumah-sebelah-540p.mp4)
+- **Project `test-4` — *10 Tahun Lagi* (`67.5s`, `9:16` Reels, `id-ID` Idea Mode)**: [`docs/media/test4-sepuluh-tahun-lagi-540p.mp4`](./docs/media/test4-sepuluh-tahun-lagi-540p.mp4)
+- **Full Visual Gallery, Renders & Breakdown**: [`docs/SHOWCASE.md`](./docs/SHOWCASE.md)
 
 ---
 
@@ -74,7 +74,7 @@ node /path/to/blocky-toy/scripts/install.mjs --target all --project /path/to/you
 
 - `npx`, `pnpm dlx`, and `bunx` automatically default to standalone `--copy` (omitting heavy `docs/media/` videos so downloads stay ~140 KB); local clones default to `--symlink`.
 - Useful flags: `--dry-run` (preview destinations), `--uninstall` (remove cleanly), `--version` / `-v`, `--help` / `-h`, and `--with-media` (when copying from a local clone).
-- Detailed manual symlinks, troubleshooting & verification steps: [`docs/INSTALLATION.md`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/INSTALLATION.md).
+- Detailed manual symlinks, troubleshooting & verification steps: [`docs/INSTALLATION.md`](./docs/INSTALLATION.md).
 
 ---
 
