@@ -6,9 +6,10 @@ Load this file at Stages 12–14 before finalizing any render. **Never claim a c
 
 ## 1. Pre-Final Isolation Tests & Automated Verification Audits
 
-Before committing to a full-resolution render, run isolated test scenes (**Visual Scale Test Scene** in `templates/scale-test-scene.md` containing `adult_character`, `passenger_car`, `door`, `table`, `chair`, and `streetlight`; `5–10s` movement & collision; voice sample audition) and run both automated auditors against live scene bounds and registries:
+Before committing to a full-resolution render, run isolated test scenes (**Visual Scale Test Scene** in `templates/scale-test-scene.md` containing `adult_character`, `passenger_car`, `door`, `table`, `chair`, and `streetlight`; `5–10s` movement & collision; voice sample audition) and run all automated auditors against live scene bounds and registries:
 - `node scripts/validate-world-scale.mjs --manifest <scale-manifest.json> --require-test-scene`
 - `node scripts/validate-art-direction.mjs --manifest <art-manifest.json>`
+- `node scripts/validate-atmosphere.mjs --manifest <scenes-atmosphere.json>` (validates all 10 scene time/atmosphere fields, 4-period distinguishability, and cross-scene temporal continuity)
 
 1. **World Scale, Vehicle Proportions & Architectural Usability**:
    - Validate every asset category against `[min, max]` meters in `references/world-scale.md` (`WORLD_SCALE_REFERENCE`), plus relational invariants (`carLength >= 2.2x adultHeight`, `doorHeight >= adultHeight + 0.20m`, `streetlightHeight >= 2.2x adultHeight`, `tableHeight - chairSeatHeight >= 0.22m`, `laneWidth >= vehicleWidth + 0.50m`).
@@ -31,7 +32,8 @@ Before committing to a full-resolution render, run isolated test scenes (**Visua
    - **Zero Ground/Surface Sinking & Floating (All Postures)**: Across every standing, walking, kneeling, sitting, loafing, and lying (`rebahan`) beat, verify every grounded actor and placed prop satisfies `surfaceTopY(x, z) - 0.005m <= poseWorldMinY <= surfaceTopY(x, z) + 0.015m` (zero sub-surface sinking into porches, rugs, steps, seats, or beds; zero unintentional floating).
 4. **Sky, Weather, Mood & Natural Environment Fidelity**:
    - Confirm active sky dome/shader uses a multi-stop vertical gradient (`zenith !== horizon`, never flat monochrome gray `#808080` void), coupled `fogColor`, layered drifting clouds, and directional sun/moon alignment (`dot(keyLightDir, celestialDir) > 0.95`).
-   - **Atmosphere & Weather Consistency**: Verify key light color temperature, shadow softness, wet exposed surfaces vs. dry roofed porches during rain, active weather particles (`rain_streaks_splashes`, `morning_dust_motes`, etc.), and practical lamp/window state match `worldState.atmosphere` + `soundscapeCues`.
+   - **Atmosphere & Weather Consistency**: Verify clock time (`HH:MM`), day index, key light color temperature, shadow direction & length (`1 / tan(elev)`), wet exposed surfaces vs. dry roofed porches during rain, active weather particles (`rain_streaks_splashes`, `morning_dust_motes`, etc.), practical streetlamp/headlight/window state (`interiorWindowEmissiveIntensity <= 0.65`), and `soundscapeCues` match `worldState.atmosphere`.
+   - **Time-of-Day Distinguishability & Continuity**: Confirm `morning`, `noon`, `afternoon`, and `night` renders from the same camera are immediately distinguishable (sun angle, shadow length/direction, color temperature, sky gradient, practicals, environmental activity), and verify cross-scene temporal continuity via `scripts/validate-atmosphere.mjs`.
    - **Time-Lapse / Repeated-Beat Progression**: Whenever a scene is tagged as `timelapse` or `montage_steps`, verify visible progression across `morning -> noon -> afternoon -> night` (sweeping directional shadow vector, distinct sky color stops per phase, accelerated cloud drift, and practical lamps `OFF` at midday -> `ON` at dusk/night).
    - Verify outdoor grass/lawns include spatial color/roughness variation, soil/border separation, and instanced 3D tufts/foliage rooted cleanly at `surfaceTopY` with zero floating trees/shrubs or wall-clipping branches.
 5. **Dialogue & Lip-Sync (when speech exists)**:

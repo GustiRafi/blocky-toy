@@ -110,9 +110,11 @@ blocky-toy/
 │   ├── world-state.md
 │   └── dialogue-timeline.md
 └── scripts/                               # Zero-dependency Node ESM utilities
+    ├── atmosphere-presets.mjs
     ├── install.mjs
     ├── parse-script-outline.mjs
     ├── validate-art-direction.mjs
+    ├── validate-atmosphere.mjs
     ├── validate-world-scale.mjs
     └── wav-rms-viseme-aligner.mjs
 ```
@@ -152,6 +154,7 @@ node scripts/parse-script-outline.mjs --self-test
 node scripts/wav-rms-viseme-aligner.mjs --self-test
 node scripts/validate-world-scale.mjs --self-test
 node scripts/validate-art-direction.mjs --self-test
+node scripts/validate-atmosphere.mjs --self-test
 ```
 
 ---
