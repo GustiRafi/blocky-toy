@@ -41,7 +41,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "test": "node scripts/install.mjs --self-test && node scripts/parse-script-outline.mjs --self-test && node scripts/wav-rms-viseme-aligner.mjs --self-test",
+    "test": "node scripts/install.mjs --self-test && node scripts/parse-script-outline.mjs --self-test && node scripts/wav-rms-viseme-aligner.mjs --self-test && node scripts/validate-world-scale.mjs --self-test",
     "install:skill": "node scripts/install.mjs"
   }
 }
