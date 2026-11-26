@@ -30,6 +30,33 @@ Never create cast variety by cloning one torso/jacket rig and swapping shirt col
 
 ---
 
+## 2B. Head, Hair & Facial Proportion Integrity
+
+Keep every character's head clean, readable, and consistently proportioned across every scene (`references/world-scale.md`):
+- **Consistent Head Proportions**: Preserve head-to-height ratio per age group (`adult ~1/6–1/7` height, `~0.24–0.32 m`; `child ~1/5–1/6` height) and symmetric ear/eye/brow placement across every cut.
+- **Intentional Stylized Hair (No Random Rectangular Geometry)**: Sculpt hair with intentional crown volume, clear hairline, bangs/parting, and back silhouette—never random rectangular protrusions or unexplained dark blocks.
+- **Clean Hat & Headwear Fit**: Hats, caps, beanies, and helmets must seat snugly on the skull without floating gaps (`<= 0.03 m`), hair poking through the crown/brim, or brims/visors hiding eyes and facial expressions.
+
+---
+
+## 2C. Character Accessory Audit & Zero-Artifact Rule
+
+Audit every mesh attached to `head`, `hair`, `face`, `shoulders`, `back`, `waist`, `arms`, and `legs`. **Never attach arbitrary blocks or auto-add unscripted accessories.**
+
+1. **Recognizable Accessory Silhouettes Only**:
+   - **Hat / Cap / Beanie**: Distinct crown + brim/visor/cuff geometry fitted cleanly to the head.
+   - **Backpack / Satchel**: Recognizable main pack/bag + shoulder or crossbody straps seated flush against the back/torso.
+   - **Headphones**: Distinct twin ear cups + over-head headband clearing hair cleanly (zero helmet/cap overlap).
+   - **Glasses**: Recognizable frames, bridge, temple arms, and translucent/tinted lenses aligned to the eye plane.
+   - **Helmet**: Distinct protective dome shell + visor/strap silhouette.
+2. **Unidentified Geometry Protocol**:
+   - Inspect geometry and parent hierarchy for any unexpected child mesh.
+   - Determine whether it is an accidental modeling artifact, debug block, or intended accessory—**never assume an unexplained block is a hat or backpack**.
+   - **Remove artifacts** immediately; **redesign** intended accessories until recognizable from **front, side, and back** views.
+   - Add accessories **only** when explicitly specified in the character's design profile (`templates/character-profile.md`).
+
+---
+
 ## 3. Contextual & Palette Harmony
 
 - Match clothing to job, weather, and setting (late-evening office worker in blazer + briefcase; delivery rider in helmet + utility vest + boots; child in knit cardigan).

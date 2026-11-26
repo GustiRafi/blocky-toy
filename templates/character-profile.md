@@ -49,8 +49,11 @@ visual:
   pantsColor: "#282e3d"
   shoeColor: "#3d2c27"
   bodyScale: [1.0, 1.0, 1.0] # [width, height, depth]
-  accessory: "none" # none | backpack | satchel | briefcase | parcel | headphones (verify no headwear conflict!)
+  headHeightMeters: 0.28 # preserve consistent head-to-body ratio across scenes (~0.24-0.32m adult)
+  accessory: "none" # none | backpack | satchel | briefcase | parcel | headphones (only if explicitly required)
   accessoryColor: "#9c7453"
+  attachments: [] # explicit audited list: [{ id, type, slot, purpose, parts: [...], floatingOffsetMeters: 0, intersectsHair: false, occludesFace: false }]
+  accessoryAuditPassed: true # verified front, side & back: zero unidentified blocks or artifacts
 
 voice: # Optional: fill only if character speaks
   profileId: ""
