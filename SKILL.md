@@ -51,7 +51,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 | 1 | Mode, Story & Script | Parse supplied script (`--script`) or expand Idea; preserve verbatim lines & intent | `references/input-modes-and-script-parsing.md`, `templates/script-input.md` |
 | 2 | Project Audit | Inspect repo structure, dependencies, and render pipeline | `references/production-workflow.md` |
 | 3 | Runtime Mapping | Map renderer, headless capture, and audio muxing capabilities | `references/production-workflow.md` |
-| 4 | Art Direction & Scale | Establish palette, material rules, lighting, and metric scale (`1u = 1m`) | `references/cinematography.md` |
+| 4 | Art Direction & Scale | Establish palette, material rules, lighting, and metric scale (`1u = 1m`) | `references/world-scale.md`, `references/cinematography.md` |
 | 5 | World Masterplan | Design connected roads, zones, sidewalks, lots, greenery & ambient life **before props** | `references/worldbuilding.md` |
 | 6 | World State & Physics | Set mood, detailed weather/time-of-day, diurnal time-lapse, sky, grass & animal rules | `references/real-world-consistency.md`, `templates/world-state.md` |
 | 7 | Character Identity & Lock | Define non-cloned canonical profiles (`locked`), asset refs & voice IDs | `references/character-design.md`, `templates/character-profile.md` |
@@ -59,7 +59,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 | 9 | Motion & Collision | Implement nav pathing, articulated resting poses, full-body/door avoidance & surface grounding | `references/animation-physics.md` |
 | 10 | Camera & Long-Form Plan | Plan Act/Scene/Shot beats, estimate budget (>60s) & camera paths | `references/cinematography.md`, `references/long-form-production.md`, `templates/production-plan.md` |
 | 11 | Incremental Build & Cache | Build per scene/shot; reuse **project-local** assets & **project-local** scene cache | `references/long-form-production.md` |
-| 12 | Logic & Scale Audits | Run automated checks for roads, collisions, scale, diversity & lip-sync | `references/quality-assurance.md` |
+| 12 | Logic & Scale Audits | Run automated checks for roads, collisions, scale, diversity & lip-sync | `references/quality-assurance.md`, `scripts/validate-world-scale.mjs` |
 | 13 | Visual Inspection | Inspect aerial, street-level, character-close, and final camera renders | `references/quality-assurance.md` |
 | 14 | Fix & Export | Resolve every visual/logic defect, re-render, mux audio, and probe output | `references/quality-assurance.md` |
 
@@ -67,9 +67,9 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 
 ## Non-Negotiable Production Rules
 
-- **Nothing Without Reason & Natural Law**: Every crosswalk, sign, tree, multi-stop sky/cloud layer, soil-and-tuft lawn, light pool, vehicle turn, weather effect, or animal behavior must obey real-world physics and nature (`references/real-world-consistency.md`).
+- **Nothing Without Reason & Natural Law**: Every crosswalk, sign, tree, multi-stop sky/cloud layer, soil-and-tuft lawn, light pool, vehicle turn, weather effect, or animal behavior must obey real-world physics, believable metric proportions (`1u = 1m`, never miniature cars beside adults), and nature (`references/world-scale.md`, `references/real-world-consistency.md`).
 - **World First, Props Second**: Lock connected road/sidewalk/lot geometry before placing buildings, vehicles, or street furniture (`references/worldbuilding.md`).
-- **True Character Diversity & Identity Lock**: Differentiate characters via **silhouette, hairstyle (360°), garment geometry, sleeve cut, footwear, proportions, and palette**—never recolored clones. Once locked, reuse the canonical character asset/seed and propagate scene-aware continuity state across cuts (`references/character-design.md`).
+- **True Character Diversity, Clean Geometry & Identity Lock**: Differentiate characters via **silhouette, hairstyle (360°), garment geometry, sleeve cut, footwear, proportions, and palette**—never recolored clones, never unexplained head/body blocks or floating artifacts, and never auto-added accessories (`references/character-design.md`). Once locked, reuse the canonical character asset/seed and propagate scene-aware continuity state across cuts.
 - **Acting ≠ Narration**: Narrators leave character mouths shut. Speaking characters synchronize WAV-aligned visemes, evolving mid-line emotions, gestures, eye contact, and non-speaking listener reactions (`references/dialogue-and-acting.md`).
 - **Zero-Cost Replaceable Audio**: Support any requested language via configurable phonetic rules and a clean TTS provider interface. Keep free/local or zero-key neural options (such as `msedge-tts` + FFmpeg) as fallback; never force paid APIs or keys (`references/lip-sync-and-audio.md`).
 - **Zero-Defect Motion & Grounding**: Eliminate jitter, obstacle/door clipping (humans, animals & props), floating or sinking objects across all postures (`stand`, `sit`, `loaf`, `lie_down` with detailed resting limb articulation), and vehicle teleports (`references/animation-physics.md`).

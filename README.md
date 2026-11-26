@@ -24,9 +24,9 @@
 - **Selectable Output Aspect Ratio (Reels `9:16` Default)**: Defaults cleanly to **`9:16` Reels portrait (`1080×1920`)** when omitted; switch effortlessly via `--format landscape` (`16:9`), `portrait`/`reels`, `4:5`, `1:1`, or `WxH` with aspect-aware camera blocking (`scripts/parse-script-outline.mjs`).
 - **Flexible Runtime (`15s` to `15m+`) & Strict Project Isolation**: Supports short clips (`15–60s`), stories (`1–3m`), and multi-act short films (`3–15m+`) with a mandatory pre-build estimation gate and strictly project-local incremental caching (zero asset or render-cache carryover from prior projects).
 - **Atmospheric Sky, Layered Nature & Diurnal Time-Lapse**: Enforces multi-stop vertical sky domes (never flat gray), drifting clouds, soil-bordered lawns with 3D instanced grass tufts, and visible `morning → noon → afternoon → night` progression (sweeping sun shadows + dusk practicals turning on) for time-lapse or repeated-location montages.
-- **Living-World Population & Real-World Consistency**: Enforces connected roads, intersection-only crosswalks, cornering braking, zero vehicle teleports, and context-fit background NPCs, traffic, and biome-authentic animals so outdoor streets feel alive.
+- **Living-World Population & Real-World Consistency**: Enforces connected roads, intersection-only crosswalks, cornering braking, zero vehicle teleports, centralized metric scale (`1u = 1m` across characters, vehicles, buildings & furniture via `references/world-scale.md`), and context-fit background NPCs, traffic, and biome-authentic animals so outdoor streets feel alive.
 - **Pose-Aware Grounding & Full-Body Collision**: Solves `surfaceTopY(x, z)` and exact posed mesh bounds (`poseMinY`) across standing, sitting, and detailed resting (`loaf`, `sphinx_lie`, `side_lie`, `curled_sleep`, `recline`) poses—plus full sub-mesh & articulated-door collision for humans, animals, and props.
-- **Identity Lock & Cast Diversity**: Prevents "recolored clone" characters via structured `CharacterIdentityProfile` geometry (hair, silhouettes, sleeves, footwear) plus `locked: true` canonical asset reuse and cross-scene `continuityState`.
+- **Identity Lock, Clean Head/Accessory Geometry & Cast Diversity**: Prevents "recolored clone" characters and unexplained/floating head or body blocks via structured `CharacterIdentityProfile` geometry (hair, silhouettes, sleeves, footwear, audited accessories) plus `locked: true` canonical asset reuse and cross-scene `continuityState`.
 - **Multilingual Dialogue & Zero-Key Voice Acting**: Separates external `narration` (mouths shut) from `dialogue` (WAV RMS-aligned visemes, mid-sentence `expressionArc`, gaze tracking, listener reactions, and interruption cutoffs) with zero mandatory API keys (`msedge-tts` default fallback).
 - **Token-Efficient & Code-Based**: Progressive disclosure (`SKILL.md` is `< 95` lines) adapts cleanly to code-based 3D pipelines (`Three.js/R3F`, `WebGL/Babylon.js`, `Godot`, `Unity`) without Blender or heavy boilerplate.
 
@@ -91,6 +91,7 @@ blocky-toy/
 │   ├── production-workflow.md
 │   ├── long-form-production.md
 │   ├── worldbuilding.md
+│   ├── world-scale.md
 │   ├── real-world-consistency.md
 │   ├── character-design.md
 │   ├── dialogue-and-acting.md
@@ -102,12 +103,14 @@ blocky-toy/
 │   ├── script-input.md
 │   ├── production-plan.md
 │   ├── character-profile.md
+│   ├── scale-test-scene.md
 │   ├── scene-definition.md
 │   ├── world-state.md
 │   └── dialogue-timeline.md
 └── scripts/                               # Zero-dependency Node ESM utilities
     ├── install.mjs
     ├── parse-script-outline.mjs
+    ├── validate-world-scale.mjs
     └── wav-rms-viseme-aligner.mjs
 ```
 
@@ -144,6 +147,7 @@ All bundled Node scripts require zero `npm install` dependencies:
 node scripts/install.mjs --self-test
 node scripts/parse-script-outline.mjs --self-test
 node scripts/wav-rms-viseme-aligner.mjs --self-test
+node scripts/validate-world-scale.mjs --self-test
 ```
 
 ---

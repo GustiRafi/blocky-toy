@@ -6,9 +6,11 @@ Load this file at Stages 12–14 before finalizing any render. **Never claim a c
 
 ## 1. Pre-Final Isolation Tests & Automated Verification Audits
 
-Before committing to a full-resolution render, run isolated test scenes (`Scale Calibration`, `5–10s Movement & Collision`, `Voice Sample Audition`) and headless/CLI audit scripts evaluating live scene modules so checks stay synchronized with production code:
+Before committing to a full-resolution render, run isolated test scenes (**Visual Scale Test Scene** in `templates/scale-test-scene.md` containing `adult_character`, `passenger_car`, `door`, `table`, `chair`, and `streetlight`; `5–10s` movement & collision; voice sample audition) and run `node scripts/validate-world-scale.mjs --manifest <scale-manifest.json> --require-test-scene` against live scene bounds:
 
-1. **World Scale & Proportions**: Verify every asset category sits within `[min, max]` meters and relational invariants pass (`car > 2.2x adult`, `door > adult + 0.2m`).
+1. **World Scale, Vehicle Proportions & Architectural Usability**:
+   - Validate every asset category against `[min, max]` meters in `references/world-scale.md` (`WORLD_SCALE_REFERENCE`), plus relational invariants (`carLength >= 2.2x adultHeight`, `doorHeight >= adultHeight + 0.20m`, `streetlightHeight >= 2.2x adultHeight`, `tableHeight - chairSeatHeight >= 0.22m`, `laneWidth >= vehicleWidth + 0.50m`).
+   - Verify vehicle sub-proportions (wheel diameter, wheelbase, ground clearance, hood/cabin/trunk) so cars never resemble miniature blocks next to adults, and confirm doors, windows, shop counters, stairs, benches, and sidewalks are physically usable at human scale.
 2. **Spatial & Urban Logic**:
    - All road segments form one connected graph.
    - Moving vehicle OBBs remain inside paved lanes across `0..duration`, with zero vehicle-vehicle collisions, curvature deceleration, and zero mid-route wrap teleports.
@@ -17,9 +19,10 @@ Before committing to a full-resolution render, run isolated test scenes (`Scale 
    - Parked vehicles sit inside connected bays/driveways with zero OBB overlap against sidewalks, buildings, or one another.
    - Private fences/yards remain clear of public sidewalks.
    - **Living-World Population Check**: Verify `ambientNpcs`, `movingVehicles`, `parkedVehicles`, and `animals` match `worldState.population` targets (no deserted daytime outdoor streets unless `rationale` explicitly requires solitude), with zero cloned background NPCs.
-3. **Character Identity Lock & Continuity**:
-   - All appearing characters reference locked Registry IDs (`locked: true`), canonical assets/seeds, and matching voice profiles (zero per-scene approximations).
+3. **Character Identity Lock, Head Integrity & Accessory Audit**:
+   - All appearing characters reference locked Registry IDs (`locked: true`), canonical assets/seeds, consistent head-to-body ratios, and matching voice profiles (zero per-scene approximations).
    - `100%` complete `identity` profiles, zero duplicate `(hair + outfit)` or `(outfit + color)` combos, zero headwear/accessory conflicts (`headphones` vs `helmet`/`beanie`/`cap`).
+   - **Zero-Artifact & Clean Head Geometry**: Audit every mesh attached to `head`, `hair`, `face`, `shoulders`, `back`, `waist`, `arms`, and `legs` (`validateCharacterIntegrity` in `scripts/validate-world-scale.mjs`). Remove accidental blocks or unexplained dark geometry; verify hair is intentionally styled, hats fit snugly without floating or hair clipping, facial features remain unobstructed, and every accessory has recognizable geometry from front, side, and back views.
    - Incoming/outgoing `continuityState` (outfit, wetness, dirt, injuries, carried props) matches prior scenes and cites screenplay events for every change.
    - **Full-Body & Articulated-Door Non-Penetration**: Sample every `2–3` frames across `0..duration` and evaluate **all child sub-part world bounds (head/snout, ears, limbs, paws, tail, torso, held props)**—not only root center points—for humans, animals, and dynamic props against walls, fences, porches, furniture, other actors, and **dynamic/closed door & gate leaves** (`penetrationDepth === 0`).
    - **Zero Ground/Surface Sinking & Floating (All Postures)**: Across every standing, walking, kneeling, sitting, loafing, and lying (`rebahan`) beat, verify every grounded actor and placed prop satisfies `surfaceTopY(x, z) - 0.005m <= poseWorldMinY <= surfaceTopY(x, z) + 0.015m` (zero sub-surface sinking into porches, rugs, steps, seats, or beds; zero unintentional floating).
@@ -41,8 +44,8 @@ Render and visually inspect frames from **4 distinct camera angles** (do not val
 
 1. **Wide Elevated / Aerial Overview**: Inspect road network connectivity, intersections, zoning, parking stalls (check cars vs. scooters!), **sky gradient/clouds, natural lawn/soil borders, tree root placement**, and background continuity.
 2. **Street-Level Infrastructure View**: Inspect sidewalks, curbs, fences, doorways/gates, traffic signs, porches/steps, **grass tuft seams along curbs/fences**, and parked driveway aprons.
-3. **Character & Creature Turnaround + Low-Angle Contact Check (Front / 3/4 Side / Back)**: Inspect cast diversity, hair silhouettes, sleeve/shoe geometry, glasses/hat/bag intersections, **and low-angle surface contact** during sitting/lying/loafing beats (belly, folded paws, tail, shoes flush on `surfaceTopY`, zero submerged geometry).
-4. **Final Film Camera & Key Action Beats**: Inspect composition, lighting shadow direction, prop hand contact, **doorway/wall clearances (no snouts, paws, tails, or limbs poking through doors/walls)**, expression clarity, and lip-sync mouth shapes.
+3. **Character & Creature Turnaround + Low-Angle Contact Check (Front / 3/4 Side / Back)**: Inspect cast diversity, head/hairline/ear/eye proportions, sleeve/shoe geometry, glasses/hat/backpack/headphone recognizability (zero unexplained head blocks or floating/intersecting headwear), **and low-angle surface contact** during sitting/lying/loafing beats (belly, folded paws, tail, shoes flush on `surfaceTopY`, zero submerged geometry).
+4. **Final Film Camera, Scale Sanity & Key Action Beats**: Inspect composition, car-vs-character relative size, door/furniture usability, streetlight height, lighting shadow direction, prop hand contact, **doorway/wall clearances (no snouts, paws, tails, or limbs poking through doors/walls)**, expression clarity, and lip-sync mouth shapes.
 
 ---
 
