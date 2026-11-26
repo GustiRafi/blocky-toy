@@ -16,9 +16,9 @@ const TARGET_MAP = {
     globalAbs: () => path.join(os.homedir(), '.agents', 'skills', SKILL_NAME),
   },
   antigravity: {
-    label: 'Google Antigravity (.agents/skills)',
+    label: 'Google Antigravity (.agents/skills | ~/.gemini/config/skills)',
     projectRel: path.join('.agents', 'skills', SKILL_NAME),
-    globalAbs: () => path.join(os.homedir(), '.agents', 'skills', SKILL_NAME),
+    globalAbs: () => path.join(os.homedir(), '.gemini', 'config', 'skills', SKILL_NAME),
   },
   claude: {
     label: 'Claude Code (.claude/skills)',
@@ -63,7 +63,7 @@ function copySkillFiles(destDir, includeMedia = false) {
 export function resolveInstallPaths({ target, scope, projectDir }) {
   const targets =
     target === 'all'
-      ? ['universal', 'claude', 'opencode', 'codex', 'cursor']
+      ? ['universal', 'antigravity', 'claude', 'opencode', 'codex', 'cursor']
       : target.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
 
   const resolved = [];
@@ -172,8 +172,12 @@ function runSelfTest() {
     if (!globalOpenCode[0].dest.endsWith(path.join('.config', 'opencode', 'skills', SKILL_NAME))) {
       throw new Error(`Unexpected OpenCode global path: ${globalOpenCode[0].dest}`);
     }
+    const globalAntigravity = resolveInstallPaths({ target: 'antigravity', scope: 'global', projectDir: tmpRoot });
+    if (!globalAntigravity[0].dest.endsWith(path.join('.gemini', 'config', 'skills', SKILL_NAME))) {
+      throw new Error(`Unexpected Antigravity global path: ${globalAntigravity[0].dest}`);
+    }
     console.log(
-      `SELF-TEST PASSED: verified project paths for Antigravity/Universal, Claude Code, OpenCode, Codex, Cursor (${allTargets.length} dirs) + npx/node_modules copy-mode fallback.`
+      `SELF-TEST PASSED: verified project & global paths for Antigravity, Universal, Claude Code, OpenCode, Codex, Cursor (${allTargets.length} project dirs) + npx/node_modules copy-mode fallback.`
     );
   } finally {
     fs.rmSync(tmpRoot, { recursive: true, force: true });
@@ -188,13 +192,13 @@ Usage:
   node scripts/install.mjs --target <target> [options]
 
 Targets:
-  universal     .agents/skills/ (Antigravity, OpenCode, Codex CLI, Gemini CLI)
-  antigravity   .agents/skills/ (project) or ~/.agents/skills/ (global)
+  universal     .agents/skills/ (project) or ~/.agents/skills/ (global)
+  antigravity   .agents/skills/ (project) or ~/.gemini/config/skills/ (global)
   claude        .claude/skills/ (project) or ~/.claude/skills/ (global)
   opencode      .opencode/skills/ (project) or ~/.config/opencode/skills/ (global)
   codex         .agents/skills/ (project) or ~/.codex/skills/ (global)
   cursor        .cursor/skills/ (project) or ~/.cursor/skills/ (global)
-  all           Install into universal + claude + opencode + codex + cursor
+  all           Install into universal + antigravity + claude + opencode + codex + cursor
 
 Options:
   --scope <project|global>   Install inside target repo or user home (default: project)

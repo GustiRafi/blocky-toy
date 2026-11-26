@@ -42,16 +42,19 @@
 
 ## Quick Installation (Any Agentic AI)
 
-Run directly from npm via `npx` (or `pnpm dlx` / `bunx`), or from a local clone (`Node.js >= 18`):
+Run from **your target project directory** (`Node.js >= 18`) via `npx`, `pnpm dlx`, or `bunx`, or from a local clone:
 
 ```bash
-# Install into your current project for Antigravity/Universal (.agents/skills):
+# 1. Project-local install into .agents/skills/blocky-toy (Antigravity, Codex, OpenCode, Cursor):
 npx blocky-toy
 
-# Install across ALL major agent directories (.agents, .claude, .opencode, .cursor):
+# 2. Project-local install across ALL major agent directories (.agents, .claude, .opencode, .cursor):
 npx blocky-toy --target all --project /path/to/your-project
 
-# Or install globally in your home directory (~/.agents, ~/.claude, ~/.config/opencode, ~/.codex, ~/.cursor):
+# 3. Global install for Google Antigravity (~/.gemini/config/skills/blocky-toy):
+npx blocky-toy --target antigravity --scope global
+
+# 4. Global install across ALL agents (~/.gemini/config/skills, ~/.agents, ~/.claude, ~/.config/opencode, ~/.codex, ~/.cursor):
 npx blocky-toy --target all --scope global
 
 # Equivalent with pnpm or Bun (uses the same npm registry package):
@@ -62,19 +65,30 @@ bunx blocky-toy --target all        # add --bun if Node.js is not installed
 node /path/to/blocky-toy/scripts/install.mjs --target all --project /path/to/your-project
 ```
 
-### Target-Specific One-Liners
+### Target-Specific One-Liners & Discovery Paths
 
-| Agentic AI | Project-Local Install | Global Install |
+| Agentic AI | Project-Local Install (`--scope project`) | Global Install (`--scope global`) |
 | :-- | :-- | :-- |
-| **Google Antigravity** | `npx blocky-toy --target antigravity` | `npx blocky-toy --target antigravity --scope global` |
-| **Claude Code** | `npx blocky-toy --target claude` | `npx blocky-toy --target claude --scope global` |
-| **OpenCode** | `npx blocky-toy --target opencode` | `npx blocky-toy --target opencode --scope global` |
-| **OpenAI Codex CLI** | `npx blocky-toy --target codex` | `npx blocky-toy --target codex --scope global` |
-| **Cursor** | `npx blocky-toy --target cursor` | `npx blocky-toy --target cursor --scope global` |
+| **Google Antigravity** | `npx blocky-toy --target antigravity` → `.agents/skills/blocky-toy/` | `npx blocky-toy --target antigravity --scope global` → `~/.gemini/config/skills/blocky-toy/` |
+| **Claude Code** | `npx blocky-toy --target claude` → `.claude/skills/blocky-toy/` | `npx blocky-toy --target claude --scope global` → `~/.claude/skills/blocky-toy/` |
+| **OpenCode** | `npx blocky-toy --target opencode` → `.opencode/skills/blocky-toy/` | `npx blocky-toy --target opencode --scope global` → `~/.config/opencode/skills/blocky-toy/` |
+| **OpenAI Codex CLI** | `npx blocky-toy --target codex` → `.agents/skills/blocky-toy/` | `npx blocky-toy --target codex --scope global` → `~/.codex/skills/blocky-toy/` |
+| **Cursor** | `npx blocky-toy --target cursor` → `.cursor/skills/blocky-toy/` | `npx blocky-toy --target cursor --scope global` → `~/.cursor/skills/blocky-toy/` |
 
 - `npx`, `pnpm dlx`, and `bunx` automatically default to standalone `--copy` (omitting heavy `docs/media/` videos so downloads stay ~140 KB); local clones default to `--symlink`.
-- Useful flags: `--dry-run` (preview destinations), `--uninstall` (remove cleanly), `--version` / `-v`, `--help` / `-h`, and `--with-media` (when copying from a local clone).
-- Detailed manual symlinks, troubleshooting & verification steps: [`docs/INSTALLATION.md`](./docs/INSTALLATION.md).
+- Useful flags: `--dry-run`, `--uninstall`, `--version` / `-v`, `--help` / `-h`, and `--with-media` (local clone only).
+
+### Skill Not Showing Up? (Quick Troubleshooting)
+
+If the skill does not appear after installing—especially in **Google Antigravity**:
+1. **Check the global Antigravity path**: Antigravity discovers global skills in `~/.gemini/config/skills/blocky-toy/SKILL.md` (not `~/.agents/skills/`). Run `npx --yes blocky-toy@latest --target antigravity --scope global` if installed globally.
+2. **Check folder depth**: `SKILL.md` must sit **one level inside** `skills/` (`.agents/skills/blocky-toy/SKILL.md`), never nested twice (`.agents/skills/blocky-toy/blocky-toy/SKILL.md`).
+3. **Check workspace / `.git` root**: Antigravity walks upward from your CWD only up to the `.git` repository root. Install inside the open workspace root, or use `--scope global`.
+4. **Start a New Conversation / Reload Window**: Skills are scanned on session startup. Open a new chat or reload the IDE window after installing.
+5. **Progressive disclosure**: Antigravity only loads the skill's `name` + `description` until triggered. Test by asking *"List available skills and confirm `blocky-toy` is loaded"* or invoke directly with `/blocky-toy` / *"Use the `blocky-toy` skill..."*.
+6. **Verify no broken symlink & check overrides**: Confirm `cat .agents/skills/blocky-toy/SKILL.md` works; if not, reinstall with `--copy`. Note that workspace `.agents/skills/` overrides `~/.gemini/config/skills/`.
+
+Full step-by-step setup, `skills.json` config, `npx` troubleshooting, and per-agent checks: [`docs/INSTALLATION.md`](./docs/INSTALLATION.md).
 
 ---
 
