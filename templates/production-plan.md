@@ -20,7 +20,7 @@ estimate:
   dialogueDurationSec: 175
   totalFrames: 9000 # fps * 300s
   renderComplexity: "medium (stylized lighting + rain shaders in Act 2)"
-  audioRequirements: ["4 voice profiles (msedge-tts)", "felt piano/ambient stems", "station/rain SFX"]
+  audioRequirements: ["4 voice profiles (msedge-tts)", "scene-specific station/rain ambience (no generic wind loop)", "context-aware optional score (emotional/montage cues only)"]
 
 sharedAssets:
   worldStateRef: "templates/world-state.md"

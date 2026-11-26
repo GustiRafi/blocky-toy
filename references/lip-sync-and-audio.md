@@ -36,9 +36,33 @@ Reusable utility provided in this skill: **`scripts/wav-rms-viseme-aligner.mjs`*
 
 ---
 
-## 4. Multi-Track Audio Mix (FFmpeg)
+## 4. Scene-Based Audio Direction, Natural Soundscape & Context-Aware Music
 
-Mix three isolated stems at **48 kHz** into the final video with subtle EQ, gentle compression, and loudness normalization so speech remains clear and prominent:
-1. **Dialogue / Narration (`narration.wav`)**: Clean center speech track placed at exact timeline `startSec` timestamps.
-2. **Score / Music (`background-music.wav`)**: Restrained underscore that dips smoothly during dramatic quiet beats or dialogue (`sidechain` / volume ducking).
-3. **SFX / Ambience (`sound-effects.wav`)**: Subtle footsteps matched to walk cadence, weather/time ambience (`rain`, `wind`, `birds`, `crickets`), and causal prop audio (switch clicks, hums).
+Audio must feel like **listening to a living, grounded world**, never like a generic score or constant noise loop over visuals. Design audio per scene before mixing:
+
+### A. Dialogue-First Scenes
+- **Default to No Music in Casual Conversation**: Scenes centered on everyday character dialogue default to `musicPolicy: "none"`. Keep voices clear, intimate, and naturally seated inside the physical environment rather than padded with background music.
+- **Natural Breathing Room**: Do not fill every pause or silence with music or sound effects; quiet moments sharpen realism and emotional contrast.
+
+### B. Natural Environmental Soundscape (Scene-Specific, Never Generic)
+Never apply one uniform ambient noise bed across an entire film. Derive `ambienceLayers` per scene from **location**, **time of day**, **weather**, and **environmentalActivity**:
+- **Realistic Micro-Events**: Layer subtle, low-volume, world-grounded details matched to the scene—distant motorized hums or occasional stereo-panned vehicle pass-bys (low-passed for realistic distance), irregular non-looping songbirds (`birdsActive: true`, outside dialogue), soft wind/foliage rustle (only when outdoor air/weather warrants it), evening crickets, or quiet interior room tone.
+- **Spatial Plausibility & Spectral Cleanliness**: Keep environmental beds low and non-intrusive, pan/filter distant sources plausibly, break up repetition with irregular timing, and strip sub-bass rumble (`< 120–140 Hz`) and harsh white-noise hiss (`> 5 kHz`) so wind/air never sounds like static (`gemerisik`).
+- **Causal Action SFX**: Anchor footsteps, plate placements, door latches, or animal cues strictly to visible contact timestamps.
+
+### C. Context-Aware Optional Music
+Background music is **optional, not default**:
+- **Use music only when narratively earned**: genuine emotional turns, time/montage transitions, or cinematic establishing/finale shots.
+- **Never use music as filler**: Avoid constant-volume underscore across neutral scenes; shape entrances, swells, and fade-outs deliberately around story beats and silence.
+
+### D. Multi-Track Audio Mix & Guardrails (FFmpeg)
+Mix up to three isolated stems at **48 kHz** (reuse existing TTS & audio assets; zero paid APIs):
+1. **Dialogue / Narration (`narration.wav` / `dialogue.wav`)**: Clear center speech track prioritized in the mix (`highpass ~85 Hz`, light transparent leveling).
+2. **Optional Score / Music (`background-music.wav`)**: Rendered only in scenes/windows with an explicit narrative cue (`emotional_swell`, `montage_bridge`, `subtle_cue`); carved gently in the speech presence band (`~1.8 kHz`), shaped with fade-in/fade-out, and smoothly ducked (`lookahead` envelope + `sidechaincompress`) under dialogue.
+3. **Environmental Soundscape & SFX (`sound-effects.wav`)**: Scene-specific low-volume ambience + causal SFX, band-limited (`highpass ~140 Hz`, `lowpass ~5 kHz`) to eliminate sub-bass rumble and white-noise hiss (`gemerisik`), ducked gently during speech, and summed cleanly (`amix=normalize=0` + transparent `alimiter`) without crushing quiet pauses or clipping (`True Peak <= -1.5 dBFS`).
+
+| Audio Layer | Default in Casual Dialogue | Level & Dynamic Behavior | Forbidden Patterns |
+| :-- | :-- | :-- | :-- |
+| **Dialogue** | Primary (`0 dB` ref) | Clear, centered, natural pacing | Buried under ambience/score, clipped peaks |
+| **Environmental Soundscape** | Subtle, scene-specific | Low volume, irregular timing, spatially panned & distance-filtered | Constant loud wind/hiss across film, random birds/traffic at wrong times |
+| **Music / Score** | **Off (`none`)** | Only on earned emotional/montage/cinematic cues; fade-in/out + deep ducking | Constant-volume wallpaper, playing over casual talk just to fill silence |

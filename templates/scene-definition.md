@@ -58,4 +58,19 @@ beats:
       fovRange: [50, 45]
       transition: "continuous_easeInOut"
     continuityNotes: "Hero path ends at exact anchor [x, z, rotY] used by beat-2."
+
+audioDirection:
+  dialoguePriority: "primary" # speech stays clear and unmasked at all times
+  locationContext: "quiet_commercial_sidewalk" # drives acoustic distance & ambient choices
+  characterSituation: "solitary_evening_walk"
+  emotionalArc: "calm_reflective"
+  ambienceLayers:
+    - { source: "distant_city_traffic", level: "very_low", schedule: "sparse_irregular", spatialNote: "low-passed far off avenue" }
+    - { source: "night_crickets", level: "subtle", schedule: "intermittent_gaps" }
+    - { source: "light_breeze", level: "barely_audible", activeOnlyWhen: "windSpeedMps >= 1.2" }
+  musicPolicy:
+    mode: "none" # none (default for casual dialogue) | subtle_cue | montage_bridge | emotional_swell
+    cueWindowSec: null # e.g. [24.5, 34.0] only when narratively earned
+    reason: "Let real-world evening street ambience carry the scene without music filler."
+  silenceAllowed: true
 ```
