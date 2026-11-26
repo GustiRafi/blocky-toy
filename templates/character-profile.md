@@ -53,7 +53,11 @@ visual:
   accessory: "none" # none | backpack | satchel | briefcase | parcel | headphones (only if explicitly required)
   accessoryColor: "#9c7453"
   attachments: [] # explicit audited list: [{ id, type, slot, purpose, parts: [...], floatingOffsetMeters: 0, intersectsHair: false, occludesFace: false }]
-  accessoryAuditPassed: true # verified front, side & back: zero unidentified blocks or artifacts
+  accessoryAuditPassed: true # verified front, side & back: zero unidentified blocks or back-box artifacts
+  anatomyRig:
+    requiredPartsVerified: true # head, neck, torso, shoulders, upper_arms, forearms, hands, waist, upper_legs, lower_legs, feet
+    articulationPivotsVerified: true # neck, shoulders, elbows, wrists, hips, knees, ankles
+    materialSeparationVerified: true # distinct roughness across skin (~0.45), hair (~0.65), clothing (~0.76), shoe uppers/soles
 
 voice: # Optional: fill only if character speaks
   profileId: ""

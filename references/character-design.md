@@ -57,6 +57,24 @@ Audit every mesh attached to `head`, `hair`, `face`, `shoulders`, `back`, `waist
 
 ---
 
+## 2D. Structured Toy Anatomy, Pivots & Clothing Construction
+
+Maintain stylized blocky-toy appeal without sacrificing clean anatomical structure (`scripts/validate-art-direction.mjs`):
+- **12 Required Body Segments**: Every character must expose clearly identifiable, naturally connected `head`, `neck` (or collar connection), `torso`, `shoulders`, `upper_arms`, `forearms`, `hands`, `waist`, `upper_legs`, `lower_legs`, and `feet`. Eliminate floating chunks, unintentional overlap, or asymmetrical limb artifacts.
+- **7 Articulation Pivots**: Anchor rigs cleanly at `neck`, `shoulders`, `elbows`, `wrists`, `hips`, `knees`, and `ankles` so walking, turning, and gesturing preserve silhouette integrity across all animations.
+- **Designed Clothing & Material Separation**: Model shirts with visible collars, sleeves, and torso form; jackets with front panels, cuffs, and seams; pants with distinct leg volumes; and shoes with separate uppers and rubber soles. Differentiate PBR roughness across skin (`~0.42–0.48`), hair (`~0.58–0.72`), clothing (`~0.66–0.86`), and footwear (`references/art-direction.md`).
+
+---
+
+## 2E. Back-Box Investigation Protocol
+
+Never leave an unexplained rectangular block attached to a character's back merely because it exists in a base mesh or generator:
+1. **Investigate Purpose**: Determine whether it is an intended backpack/pack or an accidental geometry artifact.
+2. **If Intended Backpack**: Model a recognizable `main_compartment`, `straps` wrapping shoulders/chest, `front_pocket`, and subtle seams; bind to the torso hierarchy so it moves with spine tilt without clipping through the jacket/back.
+3. **If Accidental Artifact**: Remove it completely. Every attached mesh must serve a clear design purpose.
+
+---
+
 ## 3. Contextual & Palette Harmony
 
 - Match clothing to job, weather, and setting (late-evening office worker in blazer + briefcase; delivery rider in helmet + utility vest + boots; child in knit cardigan).
