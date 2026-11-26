@@ -46,7 +46,7 @@ Before committing to a full-resolution render, run isolated test scenes (**Visua
    - Narration & internal monologue keep all character mouths at `0`.
    - Active speakers emit non-zero visemes strictly inside voiced WAV spans, dropping cleanly to `0` during pauses and after `endSec` / `interruptedAtSec`.
    - Non-speaking listeners keep `mouthOpen === 0` while tracking the speaker (`headYaw`, `eyeLookX`) and executing delayed reactions.
-   - **Natural Soundscape & Controlled Mixing**: Verify casual conversation scenes do not default to constant background music; verify wind/environmental ambience is scene-specific, subtle/low-volume, and free of harsh hiss, rumble, or repetitive loops; verify any emotional/montage music fades cleanly, leaves room for silence, and ducks smoothly under dialogue without clipping (`True Peak <= -1.5 dBFS`).
+   - **Natural Soundscape, Minimal Voice Processing & Controlled Mixing**: Verify dialogue voices use **minimal processing** (full-sentence synthesis without clause-stitching, heavy pitch/rate warping, aggressive `silenceremove`, or dialogue compression/`loudnorm`) so voices preserve natural timbre and dynamics without sounding synthetic. Verify casual conversation scenes do not default to constant background music; verify wind/environmental ambience is scene-specific, subtle/low-volume, and free of harsh hiss, rumble, or repetitive loops; verify any emotional/montage music fades cleanly, leaves room for silence, and ducks smoothly under dialogue without clipping (`True Peak <= -1.5 dBFS`).
 
 ---
 
