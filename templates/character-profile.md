@@ -20,7 +20,11 @@ identityLock:
   canonicalAssetRef: "src/characters/BlockyCharacter.tsx" # model path, prefab, or procedural component
   deterministicSeed: 101 # preserves exact procedural proportions/materials
   skinMaterial: { finish: "semi_matte_vinyl", roughness: 0.44 }
-  animationProfile: { walkCadence: 1.0, gestureEnergy: 0.7 }
+  animationProfile:
+    controllerId: "blocky-locomotion-v1" # shared Roblox/LEGO-style controller across all cast & scenes
+    walkCadence: 1.0 # speed/rhythm multiplier within the shared Blocky Toy style
+    strideLengthMeters: 0.72 # couples leg swing phase directly to world displacement (zero foot sliding)
+    gestureEnergy: 0.7
 
 continuityState: # Mutable per-scene tracker handed from Scene N -> Scene N+1
   currentOutfit: "default_locked" # change only when justified by screenplay

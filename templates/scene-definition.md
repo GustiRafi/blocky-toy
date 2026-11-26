@@ -42,11 +42,27 @@ cast:
 doorsAndPortals: # track solid door/gate leaves so neither characters nor animals clip closed panels
   - { id: "front-gate-01", initialState: "closed", openEvents: [] }
 
+vehicles: # moving vehicles require an explicit driver/rider, story purpose, and connected road route
+  - id: "scooter-01"
+    category: "city_scooter" # passenger_car | van | truck | bus | motorcycle | city_scooter | bicycle
+    role: "moving" # moving | parked | decorative (parked/decorative MUST keep speed: 0)
+    driverId: "courier-leo" # REQUIRED for moving vehicles (riderId/driverId); null allowed only when parked/decorative
+    purpose: "Evening parcel delivery along main avenue"
+    routeRoadIds: ["road-main"]
+  - id: "sedan-parked-01"
+    category: "passenger_car"
+    role: "parked"
+    driverId: null
+    purpose: "Parked resident vehicle inside driveway bay"
+    routeRoadIds: []
+
 beats:
   - id: "beat-1-establishing"
     startSec: 0.0
     endSec: 8.5
     storyPurpose: "Establish city scale, evening mood, and protagonist walking down commercial sidewalk."
+    locomotionActions: # supported states: idle | walk | run | turn | start_stop | stand_interact
+      - { actorId: "leo", state: "walk", purpose: "Walk along sidewalk to flickering streetlamp", startStopSmooth: true }
     timeProgression: { mode: "static", phases: ["night"] } # static | timelapse | montage_steps (e.g. ["morning", "noon", "afternoon", "night"])
     speechKind: "narration" # none | narration | dialogue | internal | environmental
     camera:

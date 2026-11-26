@@ -27,6 +27,7 @@
 - **Explicit Scene Time, Environmental Storytelling & Temporal Continuity**: Enforces per-scene `dayIndex`, `clockTime`, solar angle/direction, shadow length factor, color temperature, sky gradients, and synchronized environmental cues (traffic, headlights, streetlights, interior windows, birds, wind sway, soundscape) via `scripts/atmosphere-presets.mjs` + `scripts/validate-atmosphere.mjs`, preventing ambiguous lighting or unexplained morning-to-night jumps.
 - **Atmospheric Sky, Layered Nature & Diurnal Time-Lapse**: Enforces multi-stop vertical sky domes (never flat gray), drifting clouds, soil-bordered lawns with 3D instanced grass tufts, and smooth `morning → noon → afternoon → dusk → night` progression (`interpolateAtmosphereState`).
 - **Living-World Population & Real-World Consistency**: Enforces connected roads, intersection-only crosswalks, cornering braking, zero vehicle teleports, centralized metric scale (`1u = 1m` across characters, vehicles, buildings & furniture via `references/world-scale.md`), and context-fit background NPCs, traffic, and biome-authentic animals so outdoor streets feel alive.
+- **Stylized Blocky Locomotion & Causal World Movement**: Enforces playful Roblox/LEGO-style cyclic walk/run/turn/interact animation via one shared controller (no realistic gait, no foot sliding, no treadmill walks), alongside driver/rider-bound moving vehicles, stationary decorative vehicles, and automated movement defect detection (`scripts/validate-world-movement.mjs`).
 - **Pose-Aware Grounding & Full-Body Collision**: Solves `surfaceTopY(x, z)` and exact posed mesh bounds (`poseMinY`) across standing, sitting, and detailed resting (`loaf`, `sphinx_lie`, `side_lie`, `curled_sleep`, `recline`) poses—plus full sub-mesh & articulated-door collision for humans, animals, and props.
 - **Identity Lock, Clean Head/Accessory Geometry & Cast Diversity**: Prevents "recolored clone" characters and unexplained/floating head or body blocks via structured `CharacterIdentityProfile` geometry (hair, silhouettes, sleeves, footwear, audited accessories) plus `locked: true` canonical asset reuse and cross-scene `continuityState`.
 - **Multilingual Dialogue, Natural Soundscape & Context-Aware Audio**: Separates external `narration` (mouths shut) from `dialogue` (WAV RMS-aligned visemes, mid-sentence `expressionArc`, gaze tracking, listener reactions, and interruption cutoffs) with zero mandatory API keys (`msedge-tts` fallback), prioritizes speech over scene-specific low-volume environmental soundscapes (no hiss/rumble or generic wind loops), and treats background music as optional—used only when narratively earned (`references/lip-sync-and-audio.md`).
@@ -120,6 +121,7 @@ blocky-toy/
     ├── parse-script-outline.mjs
     ├── validate-art-direction.mjs
     ├── validate-atmosphere.mjs
+    ├── validate-world-movement.mjs
     ├── validate-world-scale.mjs
     └── wav-rms-viseme-aligner.mjs
 ```
@@ -162,6 +164,7 @@ node scripts/wav-rms-viseme-aligner.mjs --self-test
 node scripts/validate-world-scale.mjs --self-test
 node scripts/validate-art-direction.mjs --self-test
 node scripts/validate-atmosphere.mjs --self-test
+node scripts/validate-world-movement.mjs --self-test
 ```
 
 ### Visual Atmosphere & Art-Direction Harnesses (`examples/`)

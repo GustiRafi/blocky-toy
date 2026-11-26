@@ -39,8 +39,8 @@ Extracted elements cover: scene headings & locations, time of day, character tra
 When running in **Script Mode**:
 1. **Preserve Dialogue Verbatim**: Do not rewrite, paraphrase, or polish away the user's dialogue lines unless a genuine contradiction exists.
 2. **Preserve Plot & Cast Integrity**: Keep all key scenes, character motivations, relationships, and the ending intact. Never invent unrequested major plot twists.
-3. **Constructive Visual Filling**: Where stage or camera directions are sparse, add plausible real-world staging, character blocking, props, and eye contact that serve the written beats.
-4. **Conflict Resolution**: If a script contains physically impossible or self-contradictory directions (e.g., nighttime dialogue referencing midday sun, or a character walking through a locked door without opening it), report the contradiction clearly and propose a minimal fix before altering intent.
+3. **Constructive Visual Filling**: Where stage or camera directions are sparse, add plausible real-world staging, character blocking, props, and eye contact that serve the written beats. Every character walk/run/turn/interaction must use the shared stylized blocky locomotion controller (`references/animation-physics.md`), and every moving vehicle must have an explicit mounted rider (`motorcycle`/`city_scooter`/`bicycle`) or seated driver (`passenger_car`/`van`/`truck`/`bus`) following valid roads for a clear story purpose (decorative vehicles stay stationary).
+4. **Conflict Resolution**: If a script contains physically impossible or self-contradictory directions (e.g., nighttime dialogue referencing midday sun, a character walking through a locked door without opening it, or an empty vehicle driving by itself without cause), report the contradiction clearly and propose a minimal fix before altering intent.
 
 ---
 
@@ -51,8 +51,8 @@ When running in **Script Mode**:
 3. **Extract Locations & Atmosphere**: Derive every setting, time of day, and weather condition into `templates/world-state.md`.
 4. **Classify Speech Roles**: Tag each audio line as `dialogue`, `narration`, `internal`, or `environmental` (`references/dialogue-and-acting.md`).
 5. **Derive Emotional Performances**: Translate parentheticals and stage directions into `expressionArc`, `bodyGesture`, and `gazeTarget`.
-6. **Inventory Spatial Assets**: List every required architectural zone, entrance, vehicle, prop, and practical light source.
-7. **Lock Cross-Scene Continuity**: Ensure persistent layout, weather, sun/moon shadows, props, and wardrobes across cuts.
+6. **Inventory Spatial Assets & Causal Movement**: List every required architectural zone, entrance, vehicle (with `role: moving | parked | decorative`, assigned `driverId`/`riderId` when moving, and valid road route), prop, and practical light source.
+7. **Lock Cross-Scene Continuity**: Ensure persistent layout, weather, sun/moon shadows, props, shared locomotion controller consistency, and wardrobes across cuts.
 8. **Assemble Scene-by-Scene Plan**: Draft `templates/scene-definition.md` + `templates/dialogue-timeline.md` before coding.
-9. **Implement & Synthesize**: Generate audio + WAV-aligned visemes (`scripts/wav-rms-viseme-aligner.mjs`) and wire deterministic animation/camera paths.
-10. **Validate & Export**: Verify verbatim script fidelity + automated spatial/dialogue checks + 4-perspective visual renders.
+9. **Implement & Synthesize**: Generate audio + WAV-aligned visemes (`scripts/wav-rms-viseme-aligner.mjs`) and wire deterministic stylized blocky locomotion (`idle`, `walk`, `run`, `turn`, `start_stop`, `stand_interact`) and causal vehicle/camera paths.
+10. **Validate & Export**: Verify verbatim script fidelity + automated spatial/scale/atmosphere/movement checks (`scripts/validate-world-movement.mjs`) + 4-perspective visual renders.

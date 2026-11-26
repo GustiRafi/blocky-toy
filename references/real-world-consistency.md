@@ -84,10 +84,11 @@ Outdoor ground, lawns, and vegetation must obey natural growth, moisture, and li
 
 ---
 
-## 4. Vehicles, Proportions & Street Signs
+## 4. Vehicles, Drivers, Proportions & Street Signs
 
 - **Real-World Vehicle Categories & Sub-Proportions**: Never shrink cars or vans down to character height (`references/world-scale.md`). Passenger cars (`4.2–4.8 m` L × `1.7–1.9 m` W × `1.4–1.6 m` H) must visibly dwarf an adult character in length (`>= 2.2×` height) and feature recognizable wheel diameters (`0.62–0.70 m`), wheelbase (`2.5–2.8 m`), ground clearance (`0.14–0.20 m`), hood, cabin windows, and trunk—not a tiny single box. Size motorcycles, scooters, bicycles, vans, trucks, and buses strictly to their real-world vehicle category.
-- **Road Adhesion & Cornering**: Vehicles stay strictly inside paved road bounds (`margin >= 0.4m`), follow curb-filleted arcs at intersections, and **decelerate entering turns** rather than snapping headings at constant velocity.
+- **Mandatory Driver / Rider for Moving Vehicles**: Every moving vehicle (`speed > 0`) **must** have an active human operator: motorcycles, scooters, and bicycles require a visible mounted rider (`riderId`), and cars, vans, trucks, and buses require a seated driver (`driverId`). Vehicles acting purely as parked props or set dressing (`role: "parked" | "decorative"`) must remain completely stationary (`speed = 0`) inside valid bays or driveways (`references/animation-physics.md`, validated by `scripts/validate-world-movement.mjs`).
+- **Road Adhesion, Goal & Cornering**: Moving vehicles require a clear purpose/goal and connected road path, stay strictly inside paved road bounds (`margin >= 0.4m`) without penetrating buildings, sidewalks, curbs, or props, follow curb-filleted arcs at intersections, and **decelerate entering turns** rather than snapping headings at constant velocity.
 - **Zero Teleportation**: All traffic loops must be continuous closed paths or travel off-screen beyond fog/horizon bounds before despawning.
 - **Traffic Signs**: Regulatory/warning signs (`STOP`, `CROSSWALK`, `SPEED`) must face the approaching traffic lane (`dot(signForward, -trafficDir) > 0.8`) with bottom sign clearance `>= 2.10 m` above sidewalks.
 
@@ -105,5 +106,6 @@ Outdoor ground, lawns, and vegetation must obey natural growth, moisture, and li
 ## 6. Cause-and-Effect & Cross-Shot Continuity
 
 - Story actions must show physical contact and causal timing (e.g., kneeling + reaching to a lamp junction box precedes the wire sliding home and light turning on).
+- No character, vehicle, or rigid object may move without a plausible physical or narrative cause (`purpose` / `driver` / `actorAction`): empty motorcycles never ride themselves, decorative parked vehicles stay stationary, and heavy props never slide or float on their own.
 - Neither characters nor animals pass through closed doors, gates, fences, or walls, sit in midair, sink into floors, or ignore loud nearby environmental events; crossing a closed door/gate requires visible latch/swing animation first.
 - Weather, road layouts, building positions, and prop states persist continuously across all cuts unless a story event explicitly transforms them.

@@ -61,7 +61,7 @@ Audit every mesh attached to `head`, `hair`, `face`, `shoulders`, `back`, `waist
 
 Maintain stylized blocky-toy appeal without sacrificing clean anatomical structure (`scripts/validate-art-direction.mjs`):
 - **12 Required Body Segments**: Every character must expose clearly identifiable, naturally connected `head`, `neck` (or collar connection), `torso`, `shoulders`, `upper_arms`, `forearms`, `hands`, `waist`, `upper_legs`, `lower_legs`, and `feet`. Eliminate floating chunks, unintentional overlap, or asymmetrical limb artifacts.
-- **7 Articulation Pivots**: Anchor rigs cleanly at `neck`, `shoulders`, `elbows`, `wrists`, `hips`, `knees`, and `ankles` so walking, turning, and gesturing preserve silhouette integrity across all animations.
+- **7 Articulation Pivots**: Anchor rigs cleanly at `neck`, `shoulders`, `elbows`, `wrists`, `hips`, `knees`, and `ankles` so sitting, kneeling, turning, and gesturing preserve silhouette integrity across all animations. During **walking and running locomotion**, however, drive limbs via the shared stylized Roblox/LEGO-inspired cyclic controller (`hips` and `shoulders` alternating pendulum swing + light step bob in `references/animation-physics.md`) rather than complex realistic human knee/pelvis/spine biomechanics.
 - **Designed Clothing & Material Separation**: Model shirts with visible collars, sleeves, and torso form; jackets with front panels, cuffs, and seams; pants with distinct leg volumes; and shoes with separate uppers and rubber soles. Differentiate PBR roughness across skin (`~0.42–0.48`), hair (`~0.58–0.72`), clothing (`~0.66–0.86`), and footwear (`references/art-direction.md`).
 
 ---
@@ -87,8 +87,8 @@ Never leave an unexplained rectangular block attached to a character's back mere
 
 Once a character design is finalized, mark its registry entry as **locked**:
 - Assign a stable unique `id`, canonical model/component reference (`assetRef`) or deterministic `proceduralSeed`, and bound voice profile (`voice.profileId`).
-- **Never regenerate, approximate, or silently swap** a locked character across scenes or camera shots **within that project**. Camera angles, lighting, expressions, and poses change freely—underlying face structure, hair geometry, proportions, materials, and wardrobe remain invariant unless modified by an approved story event.
-- Reuse one canonical rig/component per `characterId` across all scenes and preview harnesses of the **current project**—never import cast profiles or rigs from an unrelated prior project (e.g., `test-ai-video`) into a new story unless the user explicitly asks to continue that exact series.
+- **Never regenerate, approximate, or silently swap** a locked character across scenes or camera shots **within that project**. Camera angles, lighting, expressions, and poses change freely—underlying face structure, hair geometry, proportions, materials, wardrobe, and shared locomotion language remain invariant unless modified by an approved story event.
+- Reuse one canonical rig/component per `characterId` and one shared stylized locomotion controller across all scenes and preview harnesses of the **current project** (`animationProfile` in `templates/character-profile.md` may vary walk speed/cadence cleanly without altering the Blocky Toy walk style)—never import cast profiles or rigs from an unrelated prior project (e.g., `test-ai-video`) into a new story unless the user explicitly asks to continue that exact series.
 
 ---
 
