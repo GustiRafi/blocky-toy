@@ -8,18 +8,18 @@
 **BLOCKY TOY** (`blocky-toy`) is a portable, engine-agnostic **Agent Skill** (`SKILL.md` open standard) compatible with **Google Antigravity**, **Claude Code**, **OpenCode**, **OpenAI Codex CLI**, **Cursor**, and any coding agent that reads Markdown instructions.
 
 <p align="center">
-  <img src="./docs/media/world-street-avenue.png" alt="test-ai-video commercial avenue street-level render" width="24%" />
-  <img src="./docs/media/test1-dialogue-twoshot.png" alt="test-1 Rumah Sebelah dialogue two-shot" width="24%" />
-  <img src="./docs/media/test3-aerial-street.png" alt="test-3 Rumah Sebelah aerial dawn street" width="24%" />
-  <img src="./docs/media/test4-cast-lineup.png" alt="test-4 10 Tahun Lagi 7-character cast lineup" width="24%" />
+  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/world-street-avenue.png" alt="test-ai-video commercial avenue street-level render" width="24%" />
+  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/test1-dialogue-twoshot.png" alt="test-1 Rumah Sebelah dialogue two-shot" width="24%" />
+  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/test3-aerial-street.png" alt="test-3 Rumah Sebelah aerial dawn street" width="24%" />
+  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/test4-cast-lineup.png" alt="test-4 10 Tahun Lagi 7-character cast lineup" width="24%" />
 </p>
 
-- **Project `test-ai-video` — *The Last Little Light* (`42s`, `9:16` Reels, `en-US`)**: [`docs/media/showcase-film-540p.mp4`](./docs/media/showcase-film-540p.mp4) (+ [7-Act Dialogue QA (`41s`)](./docs/media/dialogue-qa-demo.mp4))
-- **Project `test-1` — *Rumah Sebelah* (`180s`, `16:9`, `id-ID` Script Mode)**: [`docs/media/test1-rumah-sebelah-540p.mp4`](./docs/media/test1-rumah-sebelah-540p.mp4)
-- **Project `test-2` — *Rumah Sebelah* v2 (`183s`, `16:9` Full HD, `id-ID` Script Mode)**: [`docs/media/test2-rumah-sebelah-540p.mp4`](./docs/media/test2-rumah-sebelah-540p.mp4)
-- **Project `test-3` — *Rumah Sebelah* v3 (`180s`, `16:9` Art-Directed, `id-ID` Script Mode)**: [`docs/media/test3-rumah-sebelah-540p.mp4`](./docs/media/test3-rumah-sebelah-540p.mp4)
-- **Project `test-4` — *10 Tahun Lagi* (`67.5s`, `9:16` Reels, `id-ID` Idea Mode)**: [`docs/media/test4-sepuluh-tahun-lagi-540p.mp4`](./docs/media/test4-sepuluh-tahun-lagi-540p.mp4)
-- **Full Visual Gallery, Renders & Breakdown**: [`docs/SHOWCASE.md`](./docs/SHOWCASE.md)
+- **Project `test-ai-video` — *The Last Little Light* (`42s`, `9:16` Reels, `en-US`)**: [`docs/media/showcase-film-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/showcase-film-540p.mp4) (+ [7-Act Dialogue QA (`41s`)](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/dialogue-qa-demo.mp4))
+- **Project `test-1` — *Rumah Sebelah* (`180s`, `16:9`, `id-ID` Script Mode)**: [`docs/media/test1-rumah-sebelah-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test1-rumah-sebelah-540p.mp4)
+- **Project `test-2` — *Rumah Sebelah* v2 (`183s`, `16:9` Full HD, `id-ID` Script Mode)**: [`docs/media/test2-rumah-sebelah-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test2-rumah-sebelah-540p.mp4)
+- **Project `test-3` — *Rumah Sebelah* v3 (`180s`, `16:9` Art-Directed, `id-ID` Script Mode)**: [`docs/media/test3-rumah-sebelah-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test3-rumah-sebelah-540p.mp4)
+- **Project `test-4` — *10 Tahun Lagi* (`67.5s`, `9:16` Reels, `id-ID` Idea Mode)**: [`docs/media/test4-sepuluh-tahun-lagi-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test4-sepuluh-tahun-lagi-540p.mp4)
+- **Full Visual Gallery, Renders & Breakdown**: [`docs/SHOWCASE.md`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/SHOWCASE.md)
 
 ---
 
@@ -88,7 +88,7 @@ If the skill does not appear after installing—especially in **Google Antigravi
 5. **Progressive disclosure**: Antigravity only loads the skill's `name` + `description` until triggered. Test by asking *"List available skills and confirm `blocky-toy` is loaded"* or invoke directly with `/blocky-toy` / *"Use the `blocky-toy` skill..."*.
 6. **Verify no broken symlink & check overrides**: Confirm `cat .agents/skills/blocky-toy/SKILL.md` works; if not, reinstall with `--copy`. Note that workspace `.agents/skills/` overrides `~/.gemini/config/skills/`.
 
-Full step-by-step setup, `skills.json` config, `npx` troubleshooting, and per-agent checks: [`docs/INSTALLATION.md`](./docs/INSTALLATION.md).
+Full step-by-step setup, `skills.json` config, `npx` troubleshooting, and per-agent checks: [`docs/INSTALLATION.md`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/INSTALLATION.md).
 
 ---
 

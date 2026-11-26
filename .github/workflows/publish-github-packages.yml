@@ -1,0 +1,55 @@
+name: Publish GitHub Package & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  publish-github-packages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js for GitHub Packages
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Run self-tests
+        run: npm test
+
+      - name: Publish @gustirafi/blocky-toy to GitHub Packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(node -p "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).version")
+          if npm view "@gustirafi/blocky-toy@${VERSION}" version --registry=https://npm.pkg.github.com >/dev/null 2>&1; then
+            echo "@gustirafi/blocky-toy@${VERSION} is already published on GitHub Packages."
+          else
+            npm pkg set name=@gustirafi/blocky-toy
+            npm publish --registry=https://npm.pkg.github.com
+            git checkout -- package.json
+          fi
+
+      - name: Create GitHub Release if missing
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(node -p "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).version")
+          TAG="v${VERSION}"
+          if gh release view "${TAG}" >/dev/null 2>&1; then
+            echo "GitHub Release ${TAG} already exists."
+          else
+            gh release create "${TAG}" \
+              --target "${GITHUB_SHA}" \
+              --title "${TAG}" \
+              --notes "Published \`blocky-toy@${VERSION}\` to npm (\`npx blocky-toy@${VERSION}\`) and \`@gustirafi/blocky-toy@${VERSION}\` to GitHub Packages."
+          fi
