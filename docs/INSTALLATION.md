@@ -6,20 +6,20 @@
 
 ## Quick One-Command Installer
 
-Run via `npx blocky-toy` (once published to npm) or directly from `/Users/macos/Developer/blocky-toy`:
+Run via `npx blocky-toy` or directly from a local clone:
 
 ```bash
-# Via npx (once published):
+# Via npx into your project across ALL major agent directories (.agents, .claude, .opencode, .cursor):
 npx blocky-toy --target all --project /path/to/your-project
 
-# Or from a local clone across ALL major agent directories (.agents, .claude, .opencode, .cursor):
-node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --project /path/to/your-project
-
 # Or install globally in your home directory so every workspace sees it automatically:
-node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --scope global
+npx blocky-toy --target all --scope global
+
+# Or from a local clone (symlinks by default):
+node /path/to/blocky-toy/scripts/install.mjs --target all --project /path/to/your-project
 ```
 
-> **Tip**: Local clones default to a clean directory symlink; `npx` automatically defaults to standalone `--copy` (skipping heavy `docs/media/` assets) so installs never break if the `_npx` cache clears. Use `--dry-run` first to preview exact paths.
+> **Tip**: Local clones default to a clean directory symlink; `npx` / `node_modules` automatically defaults to standalone `--copy` (skipping heavy `docs/media/` assets) so installs never break if the `_npx` cache clears. Use `--dry-run` first to preview exact paths.
 
 ---
 
@@ -41,19 +41,19 @@ node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --scope 
 ### Antigravity / Universal (`.agents/skills`)
 ```bash
 mkdir -p .agents/skills
-ln -s /Users/macos/Developer/blocky-toy .agents/skills/blocky-toy
+ln -s /path/to/blocky-toy .agents/skills/blocky-toy
 ```
 
 ### Claude Code
 ```bash
 mkdir -p ~/.claude/skills
-ln -s /Users/macos/Developer/blocky-toy ~/.claude/skills/blocky-toy
+ln -s /path/to/blocky-toy ~/.claude/skills/blocky-toy
 ```
 
 ### OpenCode
 ```bash
 mkdir -p ~/.config/opencode/skills
-ln -s /Users/macos/Developer/blocky-toy ~/.config/opencode/skills/blocky-toy
+ln -s /path/to/blocky-toy ~/.config/opencode/skills/blocky-toy
 ```
 
 ---
@@ -80,5 +80,5 @@ ln -s /Users/macos/Developer/blocky-toy ~/.config/opencode/skills/blocky-toy
 ## Uninstalling
 
 ```bash
-node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --scope project --project /path/to/your-project --uninstall
+npx blocky-toy --target all --scope project --project /path/to/your-project --uninstall
 ```

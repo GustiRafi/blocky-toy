@@ -114,9 +114,25 @@ function installToPath(dest, { mode, dryRun, includeMedia, uninstall }) {
 export function resolveDefaultInstallMode(args, skillRoot = SKILL_ROOT) {
   if (args.includes('--copy')) return 'copy';
   if (args.includes('--symlink')) return 'symlink';
-  // Temporary npx cache paths can be evicted, so default to standalone copy under _npx/node_modules
-  if (skillRoot.includes(`${path.sep}_npx${path.sep}`)) return 'copy';
+  // Temporary npx/dlx cache and node_modules paths can be evicted or upgraded, so default to standalone copy
+  if (
+    skillRoot.includes(`${path.sep}_npx${path.sep}`) ||
+    skillRoot.includes(`${path.sep}node_modules${path.sep}`)
+  ) {
+    return 'copy';
+  }
   return 'symlink';
+}
+
+function readPackageVersion() {
+  const pkgPath = path.join(SKILL_ROOT, 'package.json');
+  if (!fs.existsSync(pkgPath)) return 'unknown';
+  try {
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+    return pkg.version || 'unknown';
+  } catch {
+    return 'unknown';
+  }
 }
 
 function isDirectCliInvocation() {
@@ -138,6 +154,9 @@ function runSelfTest() {
     if (resolveDefaultInstallMode([], `${path.sep}tmp${path.sep}_npx${path.sep}abc${path.sep}blocky-toy`) !== 'copy') {
       throw new Error('Expected _npx cache invocation to default to copy mode');
     }
+    if (resolveDefaultInstallMode([], `${path.sep}usr${path.sep}local${path.sep}lib${path.sep}node_modules${path.sep}blocky-toy`) !== 'copy') {
+      throw new Error('Expected node_modules invocation to default to copy mode');
+    }
     if (resolveDefaultInstallMode([], SKILL_ROOT) !== 'symlink') {
       throw new Error('Expected local repo invocation to default to symlink mode');
     }
@@ -154,7 +173,7 @@ function runSelfTest() {
       throw new Error(`Unexpected OpenCode global path: ${globalOpenCode[0].dest}`);
     }
     console.log(
-      `SELF-TEST PASSED: verified project paths for Antigravity/Universal, Claude Code, OpenCode, Codex, Cursor (${allTargets.length} dirs) + npx copy-mode fallback.`
+      `SELF-TEST PASSED: verified project paths for Antigravity/Universal, Claude Code, OpenCode, Codex, Cursor (${allTargets.length} dirs) + npx/node_modules copy-mode fallback.`
     );
   } finally {
     fs.rmSync(tmpRoot, { recursive: true, force: true });
@@ -186,7 +205,49 @@ Options:
   --dry-run                  Preview exact destination paths without modifying disk
   --uninstall                Remove installed skill directory/symlink
   --self-test                Run installer verification inside a temp directory
+  -v, --version              Print package version
+  -h, --help                 Show this help message
 `);
+}
+
+function parseCliArgs(args) {
+  const VALUE_FLAGS = new Set(['--target', '--scope', '--project']);
+  const BOOL_FLAGS = new Set([
+    '--copy',
+    '--symlink',
+    '--with-media',
+    '--dry-run',
+    '--uninstall',
+  ]);
+  const parsed = {
+    target: 'universal',
+    scope: 'project',
+    projectDir: process.cwd(),
+    includeMedia: false,
+    dryRun: false,
+    uninstall: false,
+  };
+
+  for (let i = 0; i < args.length; i++) {
+    const token = args[i];
+    if (VALUE_FLAGS.has(token)) {
+      const value = args[i + 1];
+      if (!value || value.startsWith('-')) {
+        throw new Error(`Missing value for ${token}`);
+      }
+      if (token === '--target') parsed.target = value;
+      else if (token === '--scope') parsed.scope = value;
+      else if (token === '--project') parsed.projectDir = value;
+      i++;
+    } else if (BOOL_FLAGS.has(token)) {
+      if (token === '--with-media') parsed.includeMedia = true;
+      else if (token === '--dry-run') parsed.dryRun = true;
+      else if (token === '--uninstall') parsed.uninstall = true;
+    } else {
+      throw new Error(`Unknown option "${token}". Run with --help for usage.`);
+    }
+  }
+  return parsed;
 }
 
 if (isDirectCliInvocation()) {
@@ -195,32 +256,41 @@ if (isDirectCliInvocation()) {
     printHelp();
     process.exit(0);
   }
+  if (args.includes('--version') || args.includes('-v')) {
+    console.log(readPackageVersion());
+    process.exit(0);
+  }
   if (args.includes('--self-test')) {
     runSelfTest();
     process.exit(0);
   }
 
-  const getArg = (flag, fallback = null) => {
-    const idx = args.indexOf(flag);
-    return idx >= 0 ? args[idx + 1] : fallback;
-  };
-
-  const target = getArg('--target', 'universal');
-  const scope = getArg('--scope', 'project');
-  const projectDir = getArg('--project', process.cwd());
-  const mode = resolveDefaultInstallMode(args);
-  const includeMedia = args.includes('--with-media');
-  const dryRun = args.includes('--dry-run');
-  const uninstall = args.includes('--uninstall');
-
-  if (scope !== 'project' && scope !== 'global') {
-    console.error(`Invalid --scope "${scope}". Use "project" or "global".`);
+  let options;
+  try {
+    options = parseCliArgs(args);
+  } catch (err) {
+    console.error(err.message);
     process.exit(1);
   }
 
-  const entries = resolveInstallPaths({ target, scope, projectDir });
+  if (options.scope !== 'project' && options.scope !== 'global') {
+    console.error(`Invalid --scope "${options.scope}". Use "project" or "global".`);
+    process.exit(1);
+  }
+
+  const mode = resolveDefaultInstallMode(args);
+  const entries = resolveInstallPaths({
+    target: options.target,
+    scope: options.scope,
+    projectDir: options.projectDir,
+  });
   for (const e of entries) {
     console.log(`Target: ${e.label}`);
-    installToPath(e.dest, { mode, dryRun, includeMedia, uninstall });
+    installToPath(e.dest, {
+      mode,
+      dryRun: options.dryRun,
+      includeMedia: options.includeMedia,
+      uninstall: options.uninstall,
+    });
   }
 }

@@ -39,28 +39,31 @@
 
 ## Quick Installation (Any Agentic AI)
 
-Run via `npx` (once published to npm) or directly from a local clone (`Node.js >= 18`):
+Run directly via `npx` or from a local clone (`Node.js >= 18`):
 
 ```bash
-# Via npx (after npm publish) into your current project:
+# Install into your current project for Antigravity/Universal (.agents/skills):
+npx blocky-toy
+
+# Install across ALL major agent directories (.agents, .claude, .opencode, .cursor):
 npx blocky-toy --target all --project /path/to/your-project
 
-# Or from a local clone across Antigravity, Claude Code, OpenCode, Codex CLI & Cursor:
-node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --project /path/to/your-project
-
 # Or install globally in your home directory (~/.agents, ~/.claude, ~/.config/opencode, ~/.codex, ~/.cursor):
-node /Users/macos/Developer/blocky-toy/scripts/install.mjs --target all --scope global
+npx blocky-toy --target all --scope global
+
+# Or from a local clone (symlinks by default):
+node /path/to/blocky-toy/scripts/install.mjs --target all --project /path/to/your-project
 ```
 
 ### Target-Specific One-Liners
 
 | Agentic AI | Project-Local Install | Global Install |
 | :-- | :-- | :-- |
-| **Google Antigravity** | `node scripts/install.mjs --target antigravity` | `node scripts/install.mjs --target antigravity --scope global` |
-| **Claude Code** | `node scripts/install.mjs --target claude` | `node scripts/install.mjs --target claude --scope global` |
-| **OpenCode** | `node scripts/install.mjs --target opencode` | `node scripts/install.mjs --target opencode --scope global` |
-| **OpenAI Codex CLI** | `node scripts/install.mjs --target codex` | `node scripts/install.mjs --target codex --scope global` |
-| **Cursor** | `node scripts/install.mjs --target cursor` | `node scripts/install.mjs --target cursor --scope global` |
+| **Google Antigravity** | `npx blocky-toy --target antigravity` | `npx blocky-toy --target antigravity --scope global` |
+| **Claude Code** | `npx blocky-toy --target claude` | `npx blocky-toy --target claude --scope global` |
+| **OpenCode** | `npx blocky-toy --target opencode` | `npx blocky-toy --target opencode --scope global` |
+| **OpenAI Codex CLI** | `npx blocky-toy --target codex` | `npx blocky-toy --target codex --scope global` |
+| **Cursor** | `npx blocky-toy --target cursor` | `npx blocky-toy --target cursor --scope global` |
 
 - Add `--copy` if you prefer copied files over symlinks (automatically omits heavy `docs/media/` demo videos unless `--with-media` is specified).
 - Add `--dry-run` to preview destination paths, or `--uninstall` to remove cleanly.
