@@ -1,22 +1,25 @@
 # BLOCKY TOY — 3D Animation Skill
 
+[![npm version](https://img.shields.io/npm/v/blocky-toy.svg)](https://www.npmjs.com/package/blocky-toy)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/GustiRafi/blocky-toy/blob/main/LICENSE)
+
 > Build code-based 3D animated films as **coherent, functioning worlds** inhabited by **distinct, acting individuals**—from 20-second clips to multi-act 15-minute short films—with any AI coding agent.
 
 **BLOCKY TOY** (`blocky-toy`) is a portable, engine-agnostic **Agent Skill** (`SKILL.md` open standard) compatible with **Google Antigravity**, **Claude Code**, **OpenCode**, **OpenAI Codex CLI**, **Cursor**, and any coding agent that reads Markdown instructions.
 
 <p align="center">
-  <img src="./docs/media/world-street-avenue.png" alt="test-ai-video commercial avenue street-level render" width="24%" />
-  <img src="./docs/media/test1-dialogue-twoshot.png" alt="test-1 Rumah Sebelah dialogue two-shot" width="24%" />
-  <img src="./docs/media/test3-aerial-street.png" alt="test-3 Rumah Sebelah aerial dawn street" width="24%" />
-  <img src="./docs/media/test4-cast-lineup.png" alt="test-4 10 Tahun Lagi 7-character cast lineup" width="24%" />
+  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/world-street-avenue.png" alt="test-ai-video commercial avenue street-level render" width="24%" />
+  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/test1-dialogue-twoshot.png" alt="test-1 Rumah Sebelah dialogue two-shot" width="24%" />
+  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/test3-aerial-street.png" alt="test-3 Rumah Sebelah aerial dawn street" width="24%" />
+  <img src="https://raw.githubusercontent.com/GustiRafi/blocky-toy/main/docs/media/test4-cast-lineup.png" alt="test-4 10 Tahun Lagi 7-character cast lineup" width="24%" />
 </p>
 
-- **Project `test-ai-video` — *The Last Little Light* (`42s`, `9:16` Reels, `en-US`)**: [`docs/media/showcase-film-540p.mp4`](./docs/media/showcase-film-540p.mp4) (+ [7-Act Dialogue QA (`41s`)](./docs/media/dialogue-qa-demo.mp4))
-- **Project `test-1` — *Rumah Sebelah* (`180s`, `16:9`, `id-ID` Script Mode)**: [`docs/media/test1-rumah-sebelah-540p.mp4`](./docs/media/test1-rumah-sebelah-540p.mp4)
-- **Project `test-2` — *Rumah Sebelah* v2 (`183s`, `16:9` Full HD, `id-ID` Script Mode)**: [`docs/media/test2-rumah-sebelah-540p.mp4`](./docs/media/test2-rumah-sebelah-540p.mp4)
-- **Project `test-3` — *Rumah Sebelah* v3 (`180s`, `16:9` Art-Directed, `id-ID` Script Mode)**: [`docs/media/test3-rumah-sebelah-540p.mp4`](./docs/media/test3-rumah-sebelah-540p.mp4)
-- **Project `test-4` — *10 Tahun Lagi* (`67.5s`, `9:16` Reels, `id-ID` Idea Mode)**: [`docs/media/test4-sepuluh-tahun-lagi-540p.mp4`](./docs/media/test4-sepuluh-tahun-lagi-540p.mp4)
-- **Full Visual Gallery, Renders & Breakdown**: [`docs/SHOWCASE.md`](./docs/SHOWCASE.md)
+- **Project `test-ai-video` — *The Last Little Light* (`42s`, `9:16` Reels, `en-US`)**: [`docs/media/showcase-film-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/showcase-film-540p.mp4) (+ [7-Act Dialogue QA (`41s`)](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/dialogue-qa-demo.mp4))
+- **Project `test-1` — *Rumah Sebelah* (`180s`, `16:9`, `id-ID` Script Mode)**: [`docs/media/test1-rumah-sebelah-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test1-rumah-sebelah-540p.mp4)
+- **Project `test-2` — *Rumah Sebelah* v2 (`183s`, `16:9` Full HD, `id-ID` Script Mode)**: [`docs/media/test2-rumah-sebelah-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test2-rumah-sebelah-540p.mp4)
+- **Project `test-3` — *Rumah Sebelah* v3 (`180s`, `16:9` Art-Directed, `id-ID` Script Mode)**: [`docs/media/test3-rumah-sebelah-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test3-rumah-sebelah-540p.mp4)
+- **Project `test-4` — *10 Tahun Lagi* (`67.5s`, `9:16` Reels, `id-ID` Idea Mode)**: [`docs/media/test4-sepuluh-tahun-lagi-540p.mp4`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/media/test4-sepuluh-tahun-lagi-540p.mp4)
+- **Full Visual Gallery, Renders & Breakdown**: [`docs/SHOWCASE.md`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/SHOWCASE.md)
 
 ---
 
@@ -39,7 +42,7 @@
 
 ## Quick Installation (Any Agentic AI)
 
-Run directly via `npx` or from a local clone (`Node.js >= 18`):
+Run directly from npm via `npx` (or `pnpm dlx` / `bunx`), or from a local clone (`Node.js >= 18`):
 
 ```bash
 # Install into your current project for Antigravity/Universal (.agents/skills):
@@ -50,6 +53,10 @@ npx blocky-toy --target all --project /path/to/your-project
 
 # Or install globally in your home directory (~/.agents, ~/.claude, ~/.config/opencode, ~/.codex, ~/.cursor):
 npx blocky-toy --target all --scope global
+
+# Equivalent with pnpm or Bun (uses the same npm registry package):
+pnpm dlx blocky-toy --target all
+bunx blocky-toy --target all        # add --bun if Node.js is not installed
 
 # Or from a local clone (symlinks by default):
 node /path/to/blocky-toy/scripts/install.mjs --target all --project /path/to/your-project
@@ -65,9 +72,9 @@ node /path/to/blocky-toy/scripts/install.mjs --target all --project /path/to/you
 | **OpenAI Codex CLI** | `npx blocky-toy --target codex` | `npx blocky-toy --target codex --scope global` |
 | **Cursor** | `npx blocky-toy --target cursor` | `npx blocky-toy --target cursor --scope global` |
 
-- Add `--copy` if you prefer copied files over symlinks (automatically omits heavy `docs/media/` demo videos unless `--with-media` is specified).
-- Add `--dry-run` to preview destination paths, or `--uninstall` to remove cleanly.
-- Detailed manual symlinks, troubleshooting & verification steps: [`docs/INSTALLATION.md`](./docs/INSTALLATION.md).
+- `npx`, `pnpm dlx`, and `bunx` automatically default to standalone `--copy` (omitting heavy `docs/media/` videos so downloads stay ~140 KB); local clones default to `--symlink`.
+- Useful flags: `--dry-run` (preview destinations), `--uninstall` (remove cleanly), `--version` / `-v`, `--help` / `-h`, and `--with-media` (when copying from a local clone).
+- Detailed manual symlinks, troubleshooting & verification steps: [`docs/INSTALLATION.md`](https://github.com/GustiRafi/blocky-toy/blob/main/docs/INSTALLATION.md).
 
 ---
 

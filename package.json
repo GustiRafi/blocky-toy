@@ -6,7 +6,7 @@
   "author": "GustiRafi",
   "type": "module",
   "bin": {
-    "blocky-toy": "./scripts/install.mjs"
+    "blocky-toy": "scripts/install.mjs"
   },
   "files": [
     "SKILL.md",

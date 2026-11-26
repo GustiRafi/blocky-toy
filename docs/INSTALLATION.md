@@ -6,20 +6,27 @@
 
 ## Quick One-Command Installer
 
-Run via `npx blocky-toy` or directly from a local clone:
+Run directly via `npx` (or `pnpm dlx` / `bunx`) or from a local clone (`Node.js >= 18`):
 
 ```bash
-# Via npx into your project across ALL major agent directories (.agents, .claude, .opencode, .cursor):
+# Via npx into your current project (.agents/skills/blocky-toy):
+npx blocky-toy
+
+# Via npx across ALL major agent directories (.agents, .claude, .opencode, .cursor):
 npx blocky-toy --target all --project /path/to/your-project
 
 # Or install globally in your home directory so every workspace sees it automatically:
 npx blocky-toy --target all --scope global
 
+# Equivalent with pnpm or Bun:
+pnpm dlx blocky-toy --target all
+bunx blocky-toy --target all        # add --bun if Node.js is not installed
+
 # Or from a local clone (symlinks by default):
 node /path/to/blocky-toy/scripts/install.mjs --target all --project /path/to/your-project
 ```
 
-> **Tip**: Local clones default to a clean directory symlink; `npx` / `node_modules` automatically defaults to standalone `--copy` (skipping heavy `docs/media/` assets) so installs never break if the `_npx` cache clears. Use `--dry-run` first to preview exact paths.
+> **Tip**: Local clones default to a clean directory symlink; `npx`, `pnpm dlx`, `bunx`, and `node_modules` installs automatically default to standalone `--copy` (skipping heavy `docs/media/` assets) so installs never break if temporary caches clear. Use `--dry-run` first to preview exact paths, or `--version` / `--help` to inspect CLI options.
 
 ---
 
@@ -68,6 +75,7 @@ ln -s /path/to/blocky-toy ~/.config/opencode/skills/blocky-toy
    node scripts/validate-world-scale.mjs --self-test
    node scripts/validate-art-direction.mjs --self-test
    node scripts/validate-atmosphere.mjs --self-test
+   node scripts/validate-world-movement.mjs --self-test
    ```
 2. Inside your AI agent session, ask:
    > *"List available skills and confirm `blocky-toy` (BLOCKY TOY) is loaded."*
