@@ -8,10 +8,10 @@ Load this file at Stage 8 to set up voice identities, TTS synthesis, audio-align
 
 Never introduce mandatory paid API keys or cloud billing. Put synthesis behind a thin provider abstraction:
 
-- **Default Zero-Key Neural Fallback (`msedge-tts`)**: Free Microsoft Edge Neural voices (`id-ID-*`, `en-US-*`, `es-ES-*`, `ja-JP-*`, `fr-FR-*`, etc.) split into natural clauses at punctuation (`[,;:.!?]`) with gentle pitch/rate contour shifts across opening and closing clauses.
-- **Natural Pacing & Voice Audition**: Never unnaturally accelerate speech to cram a fixed timeline—**adjust scene/shot durations** to fit natural human phrasing, and always audition generated voice samples before locking final audio (never accept robotic browser `SpeechSynthesis` or monotonous default output).
-- **Local / Offline Alternates**: Keep the provider interface (`synthesizeClause(voiceId, text, prosody, outWavPath)`) swappable for local tools (`piper`, `coqui-tts`, macOS `say`, `espeak-ng`) when offline synthesis is needed.
-- **Audio Normalization**: Convert clause audio via FFmpeg to **48 kHz mono 16-bit PCM WAV**, trim extreme head/tail digital dead-air (`silenceremove`), and apply short `15–20ms` micro-fades to eliminate clicks.
+- **Default Zero-Key Neural Fallback (`msedge-tts`)**: Free Microsoft Edge Neural voices (`id-ID-*`, `en-US-*`, `es-ES-*`, `ja-JP-*`, `fr-FR-*`, etc.). Synthesize **complete sentences/lines intact** at default neural prosody (`rate: "+0%"`, `pitch: "+0Hz"`) so the model preserves natural coarticulation, punctuation pauses, and conversational intonation—**do not** split sentences at every comma/period into separate TTS requests or apply per-clause pitch/rate contour shifts, which sound stitched and synthetic.
+- **Natural Voice Selection Over Pitch/Rate Warping**: Differentiate speakers primarily via distinct native `voiceId` selections and natural phrasing rather than heavy pitch shifting (`±10–18 Hz`), `asetrate`/`atempo` resampling, or artificial speed-ups—**adjust scene/shot durations** to fit natural speech, and audition samples before locking final audio. Keep any optional character pitch/rate tweak minimal (`|pitch| <= 2 Hz`, `|rate| <= 4%`) only when genuinely needed.
+- **Local / Offline Alternates**: Keep the provider interface (`synthesizeLine(voiceId, text, prosody, outWavPath)`) swappable for local tools (`piper`, `coqui-tts`, macOS `say`, `espeak-ng`) when offline synthesis is needed.
+- **Minimal Audio Cleanup (48 kHz WAV)**: Decode TTS output to **48 kHz mono 16-bit PCM WAV** with **minimal processing**—only a gentle sub-rumble `highpass=f=65` and short `10 ms` head/tail edge micro-fades (`afade`) to prevent clicks. **Avoid** aggressive `silenceremove` trimming (which clips natural breath tails), upper-mid EQ boosts, voice compression (`acompressor`), or `loudnorm` crushing on dialogue tracks.
 
 ---
 
@@ -57,7 +57,7 @@ Background music is **optional, not default**:
 
 ### D. Multi-Track Audio Mix & Guardrails (FFmpeg)
 Mix up to three isolated stems at **48 kHz** (reuse existing TTS & audio assets; zero paid APIs):
-1. **Dialogue / Narration (`narration.wav` / `dialogue.wav`)**: Clear center speech track prioritized in the mix (`highpass ~85 Hz`, light transparent leveling).
+1. **Dialogue / Narration (`narration.wav` / `dialogue.wav`)**: Clear center speech track using **minimal processing** (`highpass=f=65` + `10 ms` edge fades and static level balance if needed—no `acompressor`, `loudnorm`, or presence EQ boost on dialogue so natural voice timbre and dynamic range stay intact).
 2. **Optional Score / Music (`background-music.wav`)**: Rendered only in scenes/windows with an explicit narrative cue (`emotional_swell`, `montage_bridge`, `subtle_cue`); carved gently in the speech presence band (`~1.8 kHz`), shaped with fade-in/fade-out, and smoothly ducked (`lookahead` envelope + `sidechaincompress`) under dialogue.
 3. **Environmental Soundscape & SFX (`sound-effects.wav`)**: Scene-specific low-volume ambience + causal SFX, band-limited (`highpass ~140 Hz`, `lowpass ~5 kHz`) to eliminate sub-bass rumble and white-noise hiss (`gemerisik`), ducked gently during speech, and summed cleanly (`amix=normalize=0` + transparent `alimiter`) without crushing quiet pauses or clipping (`True Peak <= -1.5 dBFS`).
 

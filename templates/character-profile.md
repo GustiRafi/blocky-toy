@@ -70,11 +70,11 @@ voice: # Optional: fill only if character speaks
   lang: "en-US" # configurable ISO language-region (e.g., en-US, id-ID, es-ES, ja-JP)
   provider: "msedge-tts" # default zero-key neural fallback
   voiceId: "" # e.g., en-US-AriaNeural | id-ID-GadisNeural | ja-JP-NanamiNeural
-  pitch: "+0Hz"
-  speakingSpeed: "+0%"
-  emotionalPresets:
-    neutral: { rateOffset: 0, pitchHz: 0, clauseGapMs: 180 }
-    warm: { rateOffset: -3, pitchHz: 3, clauseGapMs: 220 }
-    excited: { rateOffset: 6, pitchHz: 10, clauseGapMs: 140 }
-    hesitant: { rateOffset: -8, pitchHz: -2, clauseGapMs: 300 }
+  pitch: "+0Hz" # keep at "+0Hz" (or minimal |pitch| <= 2Hz); avoid heavy pitch shifting or asetrate warping
+  speakingSpeed: "+0%" # keep at "+0%" (or minimal |rate| <= 4%); let natural TTS cadence lead
+  emotionalPresets: # Keep optional subtle adjustments minimal; do NOT split sentences into per-clause pitch contours
+    neutral: { rateOffset: 0, pitchHz: 0 }
+    warm: { rateOffset: 0, pitchHz: 0 }
+    excited: { rateOffset: 2, pitchHz: 1 }
+    hesitant: { rateOffset: -2, pitchHz: 0 }
 ```
