@@ -4,37 +4,42 @@ Load this file at Stage 9 when animating walking/running characters, animals, re
 
 ---
 
-## 1. Stylized Blocky Locomotion & Shared Animation Controller
+## 1. Stylized Blocky Locomotion, Visual Reference & Shared Controller
 
-Do **not** imitate realistic human motion capture, complex biomechanics, or hyper-articulated IK gaits. Blocky Toy characters use **light, playful, Roblox/LEGO-inspired cyclic motion** that preserves geometric proportions and toy charm:
+Use **`references/assets/walking-reference.jpg`** as the **Primary Visual Reference** for the Blocky Toy walking style. **Do not** copy one static frame from the reference image—generalize its visual language into one **reusable cyclic locomotion controller** shared by every character across all scenes in both **Idea Mode** and **Script Mode**.
 
-1. **Simple Cyclic Joint Rotations**:
-   - **Alternating Legs**: Drive left and right legs with clean out-of-phase sinusoidal hip-pitch rotations (`leftHipX = +A * sin(phase)`, `rightHipX = -A * sin(phase)`). Keep knees straight or minimally flexed (`<= 12–18°` only on forward swing clearance) and avoid realistic knee-bend, hip-roll, pelvis-twist, or S-curve spine kinematics.
-   - **Simple Opposite Arm Swing**: Swing arms at the shoulder pivot opposite the legs (`leftArmX = -0.8 * A * sin(phase)`, `rightArmX = +0.8 * A * sin(phase)`), keeping elbow bends minimal/playful unless carrying or gesturing.
-   - **Subtle Step-Rhythm Body Bob**: Add a light upward bounce synchronized to each footfall (`bobY = bobAmp * Math.abs(Math.sin(phase))`, `~0.015–0.035m` walk, `~0.035–0.06m` run) plus optional gentle lateral roll (`<= 2–3°`), keeping torso proportions crisp and blocky.
+Do **not** imitate realistic human motion capture, complex biomechanics, floppy/over-elastic body motion, or hyper-articulated IK gaits. Blocky Toy characters move like crisp, expressive **LEGO/Roblox-inspired 3D toy figures**:
+
+1. **Reusable LEGO/Roblox-Inspired Walking Cycle**:
+   - **Alternating Simple Leg Rotation**: Drive left and right legs with clear forward-backward alternating hip-pitch rotations (`leftHipX = +A * sin(phase)`, `rightHipX = -A * sin(phase)`).
+   - **Blocky Knee Bend**: Bend knees cleanly as a simple, crisp single-axis hinge (`kneeX >= 0` flexing `~20–35°` on walk swing/push-off, `~35–50°` on run)—never stiff peg legs with zero knee articulation, and never realistic multi-axis knee/pelvis/spine kinematics.
+   - **Lifted Shoes / Soles on Step**: Lift the stepping shoe/sole visibly clear off the ground during swing clearance (`swingFootLift ~0.04–0.09 m` walk with gentle ankle counter-pitch) while the stance sole stays planted flush at `surfaceTopY`. Never slide feet flat across the ground, sink through `surfaceTopY`, or leave planted feet hovering.
+   - **Rhythmic Opposite Arm Swing**: Swing arms at the shoulder pivot opposite the legs (`leftArmX = -0.8 * A * sin(phase)`, `rightArmX = +0.8 * A * sin(phase)`) with light blocky elbow flex, keeping arms clean of torso clipping.
+   - **Stable Blocky Torso**: Keep the torso upright and relatively stable with only a subtle step-synchronized vertical bounce (`bobY = bobAmp * Math.abs(Math.sin(phase))`, `~0.015–0.035m` walk, `~0.035–0.06m` run) and minimal roll (`<= 2–3°`)—never floppy, rubbery, or overly curved.
+   - **Avoid**: Realistic human gait, overly complex joint articulation, flat foot sliding without lift, ground penetration or floating, and floppy torso/limb motion.
 2. **One Consistent Animation Controller Across Cast & Scenes**:
-   - Reuse **one shared locomotion controller and reusable clip/evaluator set** for every character in the project—never invent ad-hoc walk styles per scene or per character.
-   - Characters may vary speed, cadence, or amplitude via `identityLock.animationProfile` (`walkCadence`, `strideLengthMeters`, `gestureEnergy` in `templates/character-profile.md`) while strictly obeying the same Blocky Toy visual motion language.
-   - Preserve character identity, proportions, and canonical rig (`references/character-design.md`) across all movement states.
+   - Reuse **one shared locomotion controller and reusable clip/evaluator set** (`animationController`, e.g. `blocky-locomotion-v1`) for every character in the project—never invent ad-hoc walk styles per film, per scene, or per character.
+   - Characters may vary speed, cadence, rhythm, or gesture energy via `identityLock.animationProfile` (`walkCadence`, `strideLengthMeters`, `gestureEnergy` in `templates/character-profile.md`) while strictly preserving the same Blocky Toy visual motion language.
+   - Preserve character rig, proportions, and canonical identity (`references/character-design.md`) across all movement states.
 
 ---
 
-## 2. Foot Placement, Grounding & Movement States (No Sliding / No Treadmill)
+## 2. Foot Placement, Grounding & Locomotion Variations (No Sliding / No Treadmill)
 
 Simple stylized animation must still look crisp, grounded, and physically coupled to world displacement:
 
 1. **Stride-to-Displacement Lock (Zero Foot Sliding & Zero Treadmill Walks)**:
    - Drive walk/run phase directly from **actual world travel speed / arc-length** (`phase += (worldSpeed * dt) / strideLength * Math.PI`), not an independent fixed timer.
    - **No Treadmill Walking**: Whenever `worldSpeed < 0.05 m/s` (character is stationary), leg/arm walk swing must smoothly damp to `0` (`idle` or `stand_interact`)—never animate a walk cycle in place.
-   - **Consistent Timing & Amplitude**: Match cycle speed (`strideLength * stepFrequency`) to root translation so the stance foot remains planted on the ground without slipping (`footSlipMeters <= 0.03 m`).
-2. **Supported Locomotion & Interaction States**:
-   Every character controller must cleanly support and blend between these states:
-   - `idle`: Planted neutral stance (`swing = 0`), subtle asymmetric blink and light breathing chest/head micro-motion.
-   - `walk`: Playful alternating leg/arm rhythm (`~1.1–1.5 m/s`), consistent stride cadence, subtle step bob.
-   - `run`: Faster, larger-amplitude cyclic swing (`~2.4–3.6 m/s`), slight forward torso lean (`~6–10°`), brisk vertical step rhythm.
-   - `turn`: Smooth `lerpAngle` heading rotation with small in-place step/pivot rhythm when turning sharply (`>= 25°`) instead of sliding stiffly like a statue.
-   - `start_stop`: Smooth ease-in acceleration from planted `idle` into `walk`/`run`, and quadratic ease-out deceleration settling limbs back to planted neutral stance (zero abrupt snap).
-   - `stand_interact`: Feet remain planted at `surfaceTopY` (`worldSpeed = 0`) while upper body, head, and arms perform prop interaction, pointing, talking gestures, or listening reactions.
+   - **Consistent Timing & Amplitude**: Match cycle speed (`strideLength * stepFrequency`) to root translation so the stance shoe stays planted flush on the ground without slipping (`footSlipMeters <= 0.03 m`) while the swing shoe lifts cleanly.
+2. **Consistent Toy-Like Locomotion Variations**:
+   Every character controller must cleanly support and blend between these standardized states using the same Blocky Toy visual language:
+   - `idle`: Planted neutral stance (`swing = 0`, soles flush at `surfaceTopY`), subtle asymmetric blink and light chest/head micro-motion—stable, never stiff or dead.
+   - `walk`: Reusable alternating leg rotation (`~1.1–1.5 m/s`), crisp blocky knee bend, lifted stepping shoe/sole, opposite arm swing, and light step-rhythm torso stability.
+   - `run`: Faster cadence and wider stride (`~2.4–3.6 m/s`), deeper blocky knee lift and shoe clearance, brisker opposite arm swing, and slight crisp forward lean (`~6–10°`) without floppy torso bending.
+   - `turn`: Smooth `lerpAngle` heading rotation paired with small crisp blocky pivot steps (`>= 25°` turns) with alternating knee/foot lift instead of rotating stiffly like a sliding statue.
+   - `start_stop`: Smooth ease-in acceleration from planted `idle` into `walk`/`run`, and clean quadratic ease-out deceleration settling knees, shoes, and arms back to planted neutral stance (zero abrupt snap).
+   - `stand_interact`: Feet remain solidly planted at `surfaceTopY` (`worldSpeed = 0`) while upper body, head, and arms perform stylized toy-like prop interaction, pointing, talking gestures, or listening reactions.
 3. **Smooth State Transitions & Exact Anchor Continuity**:
    - Crossfade / critically damp joint angles (`~0.12–0.22s`) between states; never snap poses or teleport character positions between beats or scenes.
    - Start departure paths from the **exact endpoint sample (`x, z, rotY`)** of arrival/kneeling/resting phases.
@@ -63,20 +68,27 @@ Never toggle raw velocity reversal on wall contact (causes high-frequency left-r
 
 ---
 
-## 5. Purposeful Vehicle & Object Movement Logic
+## 5. Purposeful Vehicle & World Movement Logic
 
-Nothing in the world moves autonomously without an explicit physical and story cause (`references/real-world-consistency.md`, validated by `scripts/validate-world-movement.mjs`):
+Every character, vehicle, and object movement must make physical and narrative sense in the story world (`references/real-world-consistency.md`, validated by `scripts/validate-world-movement.mjs`):
 
-1. **Mandatory Rider / Driver Presence**:
-   - **Two-Wheelers (`motorcycle`, `city_scooter`, `bicycle`)**: Whenever moving (`speed > 0`), **must** have a visible mounted rider (`riderId` / `driverId`) seated on the saddle/seat with hands aligned to handlebars and feet on pegs/floorboard. An empty motorcycle must **never** drive itself.
-   - **Four-Wheelers & Heavy Vehicles (`passenger_car`, `van`, `truck`, `bus`)**: Whenever moving (`speed > 0`), **must** have an assigned visible driver (`driverId`) seated inside the cabin at the steering position (with transparent/semi-tinted cabin windows so the silhouette reads cleanly).
-2. **Valid Goal, Connected Road Path & Zero Penetration**:
-   - Moving vehicles must declare an explicit `purpose` / destination and follow valid connected road lanes (`roadSegments` from `references/worldbuilding.md`) with curb-filleted turns and corner deceleration.
-   - Vehicles must **never** penetrate buildings, sidewalks, curbs, street furniture, characters, or other vehicles (`penetrationDepth === 0`).
-3. **Stationary / Decorative Vehicles**:
-   - Vehicles placed purely as set dressing or parked props (`role: "parked" | "decorative"`) **must remain stationary (`speed === 0`)** inside valid parking bays or residential driveways (`references/worldbuilding.md`), and do not require an active driver while parked.
-4. **Purposeful Object Movement**:
-   - Rigid props, furniture, doors, and carried items **never** slide, float, or rotate on their own without a clear causal driver (`carried_by_actor`, `operated_by_actor`, `hinge_latch`, `mounted_to_vehicle`). Only lightweight flexible elements (`tree_canopies`, `shrubs`, `grass_tips`, `cloth`, `loose_paper`, `hair`) sway under scene wind.
+1. **Differentiated Vehicle Movement Rules**:
+   - **Motorcycles (`motorcycle`, plus open two-wheelers `city_scooter`, `bicycle`)**:
+     - A moving motorcycle **must** have a visible mounted rider (`riderId`, `riderMounted: true`, `riderConnected: true`).
+     - The rider **must** sit cleanly connected to the vehicle: hips/torso seated on the saddle, hands aligned to the handlebars, and feet on the footpegs/floorboard (zero floating or body/frame clipping).
+     - A motorcycle **must never** move on its own without a rider; if there is no rider, it **must** remain stationary (`speed === 0`).
+   - **Cars (`passenger_car` and enclosed-cabin cars)**:
+     - Cars **may** move **without** a visible driver character rendered inside the cabin (it is **not** mandatory to model or spawn a driver character for every moving car).
+     - Moving cars **must** still move logically: follow connected road lanes (`roadSegments` from `references/worldbuilding.md`) and travel direction, maintain a clear story/traffic `purpose`, decelerate smoothly through curb-filleted turns (never turning abruptly or wandering aimlessly), and never penetrate buildings, sidewalks, curbs, props, or actors.
+   - **Other Vehicles (`van`, `truck`, `bus`, boats, carts, etc.)**:
+     - Follow rules matching their physical form and visual framing: open-seat / exposed-operator vehicles require a visible connected rider/operator when moving; enclosed-cabin vehicles may omit an interior driver unless a close-up shot or story beat exposes the cabin, while obeying lane/path logic, smooth steering, and zero collisions.
+2. **Stationary / Parked & Decorative Vehicles**:
+   - Vehicles placed as set dressing or parked props (`role: "parked" | "decorative"`) **must remain stationary (`speed === 0`)** inside valid parking bays or residential driveways (`references/worldbuilding.md`), and do not require an active rider/driver while stationary.
+3. **World Movement Logic (Causal, Non-Teleporting, Obstacle-Safe)**:
+   - Characters walk toward clear narrative/spatial destinations (`purpose`) along valid walkable surfaces.
+   - Vehicles follow roads, lane direction, and realistic cornering arcs without sudden snaps or abrupt turns.
+   - Rigid props, furniture, doors, and carried items **never** move, slide, float, or rotate on their own without an explicit causal driver (`carried_by_actor`, `operated_by_actor`, `hinge_latch`, `mounted_to_vehicle`). Only lightweight flexible elements (`tree_canopies`, `shrubs`, `grass_tips`, `cloth`, `loose_paper`, `hair`) sway under scene wind.
+   - **Zero Teleportation & Environmental Fit**: Never teleport or snap actors/vehicles across frames (except explicit scene cuts), and prevent collisions, clipping, or motion inconsistent with terrain/weather/obstacles (`penetrationDepth === 0`).
 
 ---
 
