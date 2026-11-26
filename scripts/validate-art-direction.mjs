@@ -222,6 +222,33 @@ export function validateCharacterAnatomyAndBackSlot(char) {
     }
   }
 
+  const clothingShape = char?.clothingShape;
+  if (clothingShape && typeof clothingShape === 'object') {
+    if (clothingShape.isRigidBoxyBlock === true) {
+      issues.push(`${id}: clothing relies on rigid boxy geometry instead of blocky/rounded/tapered/beveled silhouette`);
+    }
+    if (clothingShape.hasBeveledEdges === false) {
+      issues.push(`${id}: clothing lacks beveled or rounded edges to soften boxy Toy silhouette`);
+    }
+    if (clothingShape.excessiveRealisticCloth === true) {
+      issues.push(`${id}: clothing introduces excessive realistic cloth folds/physics inconsistent with Blocky Toy aesthetic`);
+    }
+  }
+
+  const skirt = char?.skirt;
+  if (skirt && typeof skirt === 'object' && skirt.present !== false) {
+    const sil = String(skirt.silhouette || '').toLowerCase();
+    if (skirt.isRigidBox === true || sil === 'rigid_box' || sil === 'box') {
+      issues.push(`${id}: skirt cannot be a rigid boxy block; use A-line/flared volume with beveled edges`);
+    }
+    if (skirt.hasFlareOrVolume === false) {
+      issues.push(`${id}: skirt lacks A-line flare or subtle 3D volume`);
+    }
+    if (skirt.hasBeveledOrRoundedEdges === false) {
+      issues.push(`${id}: skirt lacks beveled or rounded edges`);
+    }
+  }
+
   return { valid: issues.length === 0, issues, warnings };
 }
 
@@ -340,9 +367,26 @@ function runSelfTest() {
         anatomyParts: REQUIRED_CHARACTER_ANATOMY,
         pivots: REQUIRED_CHARACTER_PIVOTS,
         materials: { skinRoughness: 0.45, hairRoughness: 0.65, clothingRoughness: 0.76 },
+        clothingShape: { isRigidBoxyBlock: false, hasBeveledEdges: true, excessiveRealisticCloth: false },
         backAttachments: [
           { id: 'leo-pack', kind: 'backpack', parts: ['main_compartment', 'straps', 'front_pocket'], clipsTorso: false },
         ],
+      },
+      {
+        id: 'mina',
+        anatomyParts: REQUIRED_CHARACTER_ANATOMY,
+        pivots: REQUIRED_CHARACTER_PIVOTS,
+        materials: { skinRoughness: 0.45, hairRoughness: 0.65, clothingRoughness: 0.78 },
+        clothingShape: { isRigidBoxyBlock: false, hasBeveledEdges: true, excessiveRealisticCloth: false },
+        skirt: {
+          present: true,
+          silhouette: 'flared_a_line',
+          isRigidBox: false,
+          hasFlareOrVolume: true,
+          hasBeveledOrRoundedEdges: true,
+          hasHemVariation: true,
+        },
+        backAttachments: [],
       },
     ],
     environmentAssets: [
@@ -366,6 +410,14 @@ function runSelfTest() {
         anatomyParts: ['head', 'torso'],
         pivots: ['hips'],
         materials: { skinRoughness: 0.5, hairRoughness: 0.5, clothingRoughness: 0.5 },
+        clothingShape: { isRigidBoxyBlock: true, hasBeveledEdges: false, excessiveRealisticCloth: true },
+        skirt: {
+          present: true,
+          silhouette: 'rigid_box',
+          isRigidBox: true,
+          hasFlareOrVolume: false,
+          hasBeveledOrRoundedEdges: false,
+        },
         backAttachments: [{ id: 'mystery-box', kind: 'box' }],
       },
     ],
@@ -379,6 +431,12 @@ function runSelfTest() {
   if (failRes.valid) throw new Error('Expected flawed art-direction manifest to fail');
   if (!failRes.issues.some((i) => i.includes('unexplained rectangular object'))) {
     throw new Error('Expected back-box investigation failure');
+  }
+  if (!failRes.issues.some((i) => i.includes('skirt cannot be a rigid boxy block'))) {
+    throw new Error('Expected rigid-box skirt failure');
+  }
+  if (!failRes.issues.some((i) => i.includes('rigid boxy geometry'))) {
+    throw new Error('Expected boxy clothing shape failure');
   }
   if (!failRes.issues.some((i) => i.includes('flat glowing rectangle'))) {
     throw new Error('Expected flat glowing window failure');
