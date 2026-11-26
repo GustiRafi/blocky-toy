@@ -12,21 +12,23 @@ Never shrink cars, widen doors, or scale furniture arbitrarily to fit a camera l
 
 ## 2. Stylized Blocky Art Direction & Palette
 
-Preserve appealing beveled blocky-toy proportions (`RoundedBoxGeometry` / beveled edges) paired with **film-grade material restraint**:
+Preserve appealing beveled blocky-toy proportions (`RoundedBoxGeometry` / beveled edges) paired with the centralized **Global Color Design System & Material Quality Matrix** (`references/art-direction.md`, `templates/art-direction.md`):
 
-- **Intentional Muted Palette**: Favor muted navy, dusty blue, warm beige, terracotta, soft olive, warm cream, charcoal masonry, and restrained teal/mustard accents.
-- **Avoid AI Clichés**: Reject uncontrolled neon saturation, random primary rainbow buildings, and heavy blue-orange clichés.
-- **Material Separation**: Differentiate matte masonry (`roughness ~0.82`), organic turf/soil (`roughness ~0.86–0.92`, `metalness = 0`, spatial shade variation—never shiny plastic green slabs), satin fabric (`~0.68`), semi-matte vinyl skin (`~0.44`), rubber tires/soles (`~0.82`), satin wood, brushed metal (`clearcoat/metalness`), and translucent glass.
+- **Intentional Muted Palette**: Sample exclusively from the centralized 9-domain palette (`muted navy`, `dusty blue`, `warm beige`, `natural brown`, `muted terracotta`, `soft olive`, `warm cream`, `restrained teal`, `subtle amber`); never let individual procedural assets choose random bright colors.
+- **Avoid AI Clichés**: Reject uncontrolled neon saturation, cyan/purple washes, random primary rainbow buildings, and excessive blue-orange contrast.
+- **Material Separation**: Differentiate semi-matte skin (`~0.45`), matte hair (`~0.65`), matte/satin clothing (`~0.66–0.86`), shoe uppers (`~0.44`) vs. rubber soles (`~0.86`), reflective/translucent glass (`~0.10`), brushed metal, satin wood, and matte concrete/turf—never identical plastic gloss everywhere.
 
 ---
 
-## 3. Lighting & Atmospheric Composition
+## 3. Character-First Lighting & Atmospheric Composition
 
+Lighting must **reveal and separate the character**, never overpower or wash them out (`references/art-direction.md`):
+
+- **Character Readability First**: Keep face features, hair geometry, clothing seams, limb separation, and character-vs-background contrast clear in every shot.
 - **Full Sky Gradient & Bounce**: Render an atmospheric multi-stop sky dome (`zenith -> mid -> horizon`) with clouds and solar/lunar halo instead of a flat gray/monochrome background; match `fogColor` to `horizonColor` and couple `hemisphereLight` to sky zenith + earth/turf bounce.
-- **Warm-vs-Cool Mood Separation**: Pair key light color temperature (`#ffd1a3` dawn, `#fff7ea` noon, `#ffbe78` golden hour, `#9fb8df` moonlit night) against opposing fill/practical temperatures (warm `#ffcf87` porch/window glow vs. cool `#1a2847` evening shadows) plus subtle edge rim lighting so silhouettes never turn muddy.
-- **Weather-Responsive Optics & Depth Layering**: Separate Foreground, Midground, and Horizon with soft `fogExp2` atmospheric perspective; keep `Bloom` restrained (`threshold >= 0.90`, `strength <= 0.14`) so dusk lamps/wet street reflections glow gently without blowing out daytime skies; apply subtle distance-tracked `BokehPass` blur during close beats only.
-- Match key light shadow angle and softness to visible sky moon/sun and cloud cover (`WORLD_ENVIRONMENT_STATE`).
-- Anchor practical lights inside streetlamp heads, practical lanterns, and interior window backings.
+- **Warm-vs-Cool Mood Separation**: Pair key light color temperature (`#ffd1a3` dawn, `#fff7ea` noon, `#ffbe78` golden hour, `#9fb8df` moonlit night) against soft fill and subtle edge rim lighting so silhouettes detach cleanly without crushed black shadows.
+- **Strict Emissive, Window & Bloom Control**: Keep `Bloom` restrained (`threshold >= 0.88–0.90`, `strength <= 0.14–0.16`) and `fogExp2` light so characters never drown in glow; illuminate windows *behind* real frames/mullions and keep neon signs sharp and legible rather than giant glowing rectangles.
+- Match key light shadow angle and softness to visible sky moon/sun and cloud cover (`WORLD_ENVIRONMENT_STATE`), and localize practical streetlamp pools so nearby characters stay crisp rather than overexposed.
 
 ---
 

@@ -18,10 +18,10 @@ Load this file at Stage 5 before placing any buildings, vehicles, props, or char
 ## 2. Zoning & Parcel Allocation
 
 Divide the district into logical zones with zero overlap (`building vs. road = 0`, `building vs. building = 0`):
-- **Commercial**: Flush storefronts facing primary sidewalks (`min width >= 1.5m`), rear service alleys/courtyards instead of bare void behind shops.
-- **Residential**: Houses set back cleanly inside private yards with fences/walks stopping **strictly outside** public sidewalk bounds. Frame yard lawns with soil/gravel strips along walls and fences, stepping stones flush with turf, and 3D grass tufts around edges and tree bases (never a bare flat green slab).
-- **Green Spaces / Pocket Parks**: Linked directly to adjacent sidewalks via paved entrance paths, framed by low curbs, soil/mulch tree beds, layered grass variation + instanced tuft clusters, benches, multi-cluster trees, and warm bollard lighting.
-- **Background & Distant Districts**: Never replace distant architecture with flat dark silhouettes. Preserve floor bands, roofs, windows, and street-facing entrances across a clear Foreground / Midground / Background LOD hierarchy.
+- **Commercial**: Flush storefronts with real storefront glass, mullions, recessed entrance doors, signboards, counters, and interior shelves facing primary sidewalks (`min width >= 1.5m`), plus rear service alleys/courtyards instead of bare void behind shops.
+- **Residential**: Houses with real walls, framed glass windows, paneled doors + handles, eaves/roofs, and balconies where appropriate, set back cleanly inside private yards with fences/walks stopping **strictly outside** public sidewalk bounds. Frame yard lawns with soil/gravel strips along walls and fences, stepping stones flush with turf, and 3D grass tufts around edges and tree bases (never a bare flat green slab).
+- **Green Spaces / Pocket Parks**: Linked directly to adjacent sidewalks via paved entrance paths, framed by low curbs, soil/mulch tree beds, layered grass variation + instanced tuft clusters, slatted benches, multi-cluster trees, and warm bollard lighting.
+- **3-Tier LOD & Zero Placeholder Boxes**: Never drop generic placeholder boxes or replace distant architecture with flat dark silhouettes (`references/art-direction.md`). Model real recognizable structures across **Foreground** (full trim/interiors/props), **Midground** (detailed buildings, furniture, street bins, electrical boxes, drainage grates), and **Background** (simplified yet clearly readable roofs, floor bands, and framed window openings—never glowing flat rectangles).
 
 ---
 
