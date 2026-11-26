@@ -161,6 +161,28 @@ export function validateSceneAtmosphere(scene) {
   }
   if (!Array.isArray(act.soundscapeCues) || act.soundscapeCues.length === 0) {
     issues.push(`${id}: environmentalActivity.soundscapeCues must list time/weather-matched ambience cues`);
+  } else if (tod === 'night' && act.soundscapeCues.some((c) => /bird|sparrow|rooster/i.test(String(c)))) {
+    issues.push(`${id}: soundscapeCues includes daytime birds during night scene`);
+  }
+
+  // Optional scene-based audioDirection checks (Dialogue-First & Context-Aware Music)
+  if (scene.audioDirection) {
+    const ad = scene.audioDirection;
+    const validMusicModes = new Set(['none', 'subtle_cue', 'montage_bridge', 'emotional_swell']);
+    const musicMode = ad.musicPolicy?.mode;
+    if (musicMode && !validMusicModes.has(musicMode)) {
+      issues.push(`${id}: audioDirection.musicPolicy.mode="${musicMode}" must be one of none|subtle_cue|montage_bridge|emotional_swell`);
+    }
+    if (musicMode && musicMode !== 'none' && !ad.musicPolicy?.reason) {
+      issues.push(`${id}: audioDirection.musicPolicy.mode="${musicMode}" requires an explicit narrative reason`);
+    }
+    if (Array.isArray(ad.ambienceLayers)) {
+      for (const layer of ad.ambienceLayers) {
+        if (/^(high|loud|dominant)$/i.test(String(layer?.level || ''))) {
+          issues.push(`${id}: audioDirection ambience layer "${layer.source}" uses level="${layer.level}" (must remain subtle/low-volume under dialogue)`);
+        }
+      }
+    }
   }
 
   return {
@@ -394,8 +416,26 @@ function runSelfTest() {
     throw new Error('Expected unexplained same-day time jump failure');
   }
 
+  // 4. Validate audioDirection & night bird soundscape guardrails
+  const badAudioScene = {
+    sceneId: 'bad-audio-night',
+    ...TIME_OF_DAY_PRESETS.night,
+    environmentalActivity: {
+      ...TIME_OF_DAY_PRESETS.night.environmentalActivity,
+      soundscapeCues: ['morning_birds'],
+    },
+    audioDirection: {
+      musicPolicy: { mode: 'emotional_swell' }, // missing reason
+      ambienceLayers: [{ source: 'wind', level: 'loud' }],
+    },
+  };
+  const audioFail = validateSceneAtmosphere(badAudioScene);
+  if (audioFail.valid || audioFail.issues.length < 3) {
+    throw new Error(`Expected audioDirection/night-bird validation failures, got: ${JSON.stringify(audioFail.issues)}`);
+  }
+
   console.log(
-    `SELF-TEST PASSED: validated 6 time-of-day presets, 4-period contrast, 6-scene temporal continuity, and caught ${contFail.issues.length} atmosphere/continuity defects.`
+    `SELF-TEST PASSED: validated 6 time-of-day presets, 4-period contrast, 6-scene temporal continuity, audioDirection rules, and caught ${contFail.issues.length + audioFail.issues.length} defects.`
   );
 }
 
