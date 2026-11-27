@@ -1,6 +1,6 @@
 # Character Identity & Visual Diversity
 
-Load this file at Stage 7 to design memorable, non-cloned characters that hold consistent identities across every shot and episode.
+Load this file at Stage 7 to design memorable, non-cloned visual silhouettes that hold consistent identities across every shot and episode. Pair with `references/character-development.md` for narrative motivations, flaws, and relationships.
 
 ---
 

@@ -1,6 +1,6 @@
 # Character Dialogue & Performance Directing
 
-Load this file at Stage 8 whenever one or more characters speak on screen.
+Load this file at Stage 8 whenever one or more characters speak on screen. For conversational craft, subtext, distinct voices, and anti-AI dialogue standards during Stage 1 writing, see `references/natural-dialogue.md`.
 
 ---
 

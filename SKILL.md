@@ -2,9 +2,9 @@
 name: blocky-toy
 description: >-
   BLOCKY TOY — Portable production methodology for creating coherent, story-driven code-based 3D animated videos.
-  Covers worldbuilding, real-world physical/spatial consistency, individualized character design,
-  multilingual dialogue & lip-sync acting, stylized cinematography, collision-safe animation, and
-  multi-perspective QA validation across any 3D engine or project layout.
+  Covers professional screenwriting & editorial review, character development, natural dialogue, worldbuilding,
+  real-world physical/spatial consistency, individualized character design, multilingual lip-sync acting,
+  balanced cinematography, collision-safe animation, and multi-perspective QA validation across any 3D engine.
 compatibility: >-
   Open Agent Skills (SKILL.md) standard. Supports Google Antigravity, Claude Code, OpenCode,
   OpenAI Codex CLI, Cursor, and generic coding agents. Bundled CLI scripts use Node.js (>=18) only.
@@ -27,8 +27,8 @@ Never rewrite working project code unnecessarily. Inspect the target codebase fi
 
 Support both modes seamlessly without forcing users to specify every option (`references/input-modes-and-script-parsing.md`):
 
-- **Idea Mode** (e.g. `/blocky-toy --duration 5m "The Last Train Home"`): Develop full story beats, cast, dialogue, locations, acting, camera, and audio from a short prompt or title.
-- **Script Mode** (e.g. `/blocky-toy --duration 10m --script ./scripts/story.md`): Treat the provided script (`.md`, `.txt`, screenplay, outline, dialogue-only, or inline) as **source of truth**. Preserve plot, character motivations, endings, and verbatim dialogue; add missing visual/spatial staging without overriding author intent. Flag technical/logical contradictions before changing them.
+- **Idea Mode** (e.g. `/blocky-toy --duration 5m "The Last Train Home"`): Screenwriting Department (Screenwriter, Dialogue Writer, Story Editor) develops premise, cast motivations, conflicts, natural dialogue, scenes, and payoff into `templates/screenplay.md` before 3D production, making creative choices faithfully without asking unnecessary questions.
+- **Script Mode** (e.g. `/blocky-toy --duration 10m --script ./scripts/story.md`): Treat the provided script (`.md`, `.txt`, screenplay, outline, dialogue-only, or inline) as **authoritative source of truth**. Preserve main plot, motivations, key events, scene order, relationships, and ending; enhance dialogue naturalness, scene descriptions, visual storytelling, acting, and continuity without silently changing core narrative intent (propose structural changes as recommendations).
 - **Optional Controls**: `--duration` (variable: `15s` clips, `1–3m` stories, `3–15m+` short films—never stretch stories artificially), `--language`, `--style`, `--voice`, `--format` (user-selectable `portrait`/`reels`/`9:16` or `landscape`/`16:9`/`4:5`/`1:1`; **defaults to Reels `9:16` `1080×1920` when omitted**), `--script`.
 
 ---
@@ -48,14 +48,14 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 
 | Stage | Focus | Action | Load Reference / Template |
 | :-- | :-- | :-- | :-- |
-| 1 | Mode, Story & Script | Parse supplied script (`--script`) or expand Idea; preserve verbatim lines & intent | `references/input-modes-and-script-parsing.md`, `templates/script-input.md` |
+| 1 | Screenwriting & Review | Develop/parse story (`--script` or Idea), craft natural dialogue & run 1 Editorial Review before locking `templates/screenplay.md` | `references/screenwriting.md`, `references/story-structure.md`, `references/character-development.md`, `references/natural-dialogue.md`, `references/scene-and-emotional-craft.md`, `references/editorial-review.md`, `references/input-modes-and-script-parsing.md`, `templates/screenplay.md`, `templates/script-input.md` |
 | 2 | Project Audit | Inspect repo structure, dependencies, and render pipeline | `references/production-workflow.md` |
 | 3 | Runtime Mapping | Map renderer, headless capture, and audio muxing capabilities | `references/production-workflow.md` |
 | 4 | Art Direction & Scale | Establish palette, material rules, lighting, and metric scale (`1u = 1m`) | `references/art-direction.md`, `references/world-scale.md`, `references/cinematography.md`, `templates/art-direction.md` |
 | 5 | World Masterplan | Design connected roads, zones, sidewalks, lots, greenery & ambient life **before props** | `references/worldbuilding.md` |
 | 6 | World State & Physics | Set mood, clock time, day index, weather/time-of-day, temporal continuity, sky, grass & animal rules | `references/real-world-consistency.md`, `templates/world-state.md`, `templates/scene-definition.md`, `scripts/atmosphere-presets.mjs` |
 | 7 | Character Identity & Lock | Define non-cloned canonical profiles (`locked`), asset refs & voice IDs | `references/character-design.md`, `templates/character-profile.md` |
-| 8 | Dialogue & Acting | Build voice lines, WAV-aligned visemes, gaze, gestures & listener reactions | `references/dialogue-and-acting.md`, `references/lip-sync-and-audio.md`, `templates/dialogue-timeline.md` |
+| 8 | Dialogue & Acting | Build voice lines, WAV-aligned visemes, gaze, gestures & listener reactions | `references/dialogue-and-acting.md`, `references/natural-dialogue.md`, `references/lip-sync-and-audio.md`, `templates/dialogue-timeline.md` |
 | 9 | Motion & Collision | Implement LEGO/Roblox-style blocky locomotion (blocky knees, foot lift, no sliding/treadmill), shared controller, rider-bound motorcycles, road-following cars, nav pathing & surface grounding | `references/animation-physics.md`, `references/assets/walking-reference.jpg` |
 | 10 | Camera & Long-Form Plan | Plan Act/Scene/Shot beats, balanced pacing, default cuts & motivated camera framing | `references/cinematography.md`, `references/long-form-production.md`, `templates/production-plan.md` |
 | 11 | Incremental Build & Cache | Build per scene/shot; reuse **project-local** assets & **project-local** scene cache | `references/long-form-production.md` |
@@ -67,6 +67,7 @@ Skip stages that do not apply (e.g., omit Stage 8 for a silent environmental pie
 
 ## Non-Negotiable Production Rules
 
+- **Story Worth Watching First (Screenplay as Source of Truth)**: Write and editorially review the screenplay (`references/screenwriting.md`, `references/editorial-review.md`, `templates/screenplay.md`) via distinct Screenwriter, Dialogue Writer, and Story Editor passes (max 1 targeted revision) **before** production. Ground scenes in clear premise, causal progression, distinct character motivations/flaws, visual storytelling, emotional restraint, and natural subtext-rich dialogue (`references/natural-dialogue.md`) free of generic AI filler; downstream stages must follow the approved screenplay without inventing unscripted plot changes.
 - **Nothing Without Reason & Natural Law**: Every crosswalk, sign, tree, multi-stop sky/cloud layer, soil-and-tuft lawn, light pool, vehicle turn, weather effect, or animal behavior must obey real-world physics, believable metric proportions (`1u = 1m`, never miniature cars beside adults), and nature (`references/world-scale.md`, `references/real-world-consistency.md`).
 - **World First, Props Second**: Lock connected road/sidewalk/lot geometry before placing buildings, vehicles, or street furniture (`references/worldbuilding.md`).
 - **True Character Diversity, Clean Geometry & Identity Lock**: Differentiate characters via **silhouette, hairstyle (360°), beveled/tapered/rounded garment & A-line skirt geometry (never rigid pasted bricks or realistic cloth clutter), sleeve cut, footwear, proportions, and palette**—never recolored clones, never unexplained head/body blocks or floating artifacts, and never auto-added accessories (`references/character-design.md`). Once locked, reuse the canonical character asset/seed and propagate scene-aware continuity state across cuts.
