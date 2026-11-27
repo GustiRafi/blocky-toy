@@ -12,6 +12,17 @@ identity:
   heightMeters: 1.72 # adult: 1.70-1.80m, child: 1.15-1.30m
   fashionCategory: "" # outdoor_utility | smart_casual | streetwear | workwear | minimalist | culinary
   personality: ""
+  background: ""
+  motivations: ""
+  goals: ""
+  fears: ""
+  strengths: ""
+  weaknesses: ""
+  habits: ""
+  relationships: {} # e.g., { mina: "protective older brother; patient unless stressed" }
+  emotionalTendencies: ""
+  speakingStyle: "" # vocabulary, sentence length, directness, humor, formality
+  behavioralPatterns: "" # how they react under stress, silence, or disagreement
   distinctiveFeature: "" # single recognizable silhouette hook
   behavioralTraits: "" # posture habits, walk tempo, gesture tendencies
 
@@ -19,7 +30,7 @@ identityLock:
   locked: true # immutable once finalized; reuse canonical rig/seed across ALL scenes
   canonicalAssetRef: "src/characters/BlockyCharacter.tsx" # model path, prefab, or procedural component
   deterministicSeed: 101 # preserves exact procedural proportions/materials
-  skinMaterial: { finish: "semi_matte_vinyl", roughness: 0.44 }
+  skinMaterial: { finish: "semi_matte_vinyl", roughness: 0.44, clearcoat: 0.10 }
   animationProfile:
     controllerId: "blocky-locomotion-v1" # shared Roblox/LEGO-style controller across all cast & scenes
     walkCadence: 1.0 # speed/rhythm multiplier within the shared Blocky Toy style
@@ -55,7 +66,7 @@ visual:
   pantsColor: "#282e3d"
   shoeColor: "#3d2c27"
   bodyScale: [1.0, 1.0, 1.0] # [width, height, depth]
-  headHeightMeters: 0.28 # preserve consistent head-to-body ratio across scenes (~0.24-0.32m adult)
+  headHeightMeters: 0.40 # preserve stylized chunky toy ratio (~0.36-0.44m adult, ~1/4-1/4.8 H) across scenes
   accessory: "none" # none | backpack | satchel | briefcase | parcel | headphones (only if explicitly required)
   accessoryColor: "#9c7453"
   attachments: [] # explicit audited list: [{ id, type, slot, purpose, parts: [...], floatingOffsetMeters: 0, intersectsHair: false, occludesFace: false }]
