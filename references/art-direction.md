@@ -38,31 +38,31 @@ Lighting exists to **support and separate the character**, never obscure or wash
   - Face features (eyes, brows, mouth), hair silhouette, clothing seams/layers, and arm/leg separation remain clearly readable.
   - Hero colors never bleed into background walls or disappear into crushed black shadows.
 - **Light & Post-Processing Caps**:
-  - **Restrained Bloom**: `threshold >= 0.88`, `strength <= 0.16` (no glowing halos swallowing characters).
+  - **Ultra-Restrained Bloom**: `threshold >= 0.90`, `strength <= 0.12–0.14` (e.g., `0.11 / 0.95`—soft practical warmth without glowing halos swallowing characters).
   - **No Overexposed Windows or Neon**: Illuminated windows must retain crisp frame/mullion edges with controlled interior bounce (`interiorWindowEmissiveIntensity <= 0.65`); neon/shop signs must keep readable lettering and housing geometry instead of becoming blown-out rectangles.
   - **Atmospheric Depth Without Fog Wash**: Couple subtle `fogExp2` (`fogDensity <= 0.028`) strictly to `skyHorizonColor` to separate foreground, midground, and distant background silhouettes—never dump heavy decorative fog over hero characters.
   - **Localized Practicals**: Streetlights and porch lamps cast localized pools (`distance` + smooth decay) without bleaching nearby characters or wiping out shadow depth.
-- **Balanced 3-Point + Environment Rig**: Pair a directional key light (casting clean, non-crushed shadows synchronized to `timeOfDay` sun/moon direction), soft sky/ground hemisphere fill (`sunIntensity >= hemiIntensity * 0.9` in daytime so lighting never looks flat), and subtle edge rim lighting so character silhouettes detach cleanly from dark streets or bright facades.
+- **Character-Friendly Fill & Balanced 3-Point Rig**: Pair a directional key light (casting clean shadows synchronized to `timeOfDay` sun/moon direction) with generous sky/ground hemisphere fill (`sunIntensity >= hemiIntensity * 0.9` in daytime so lighting stays balanced; at dusk/night lift `hemiIntensity` up to `~0.42–0.54` plus soft fill/rim lighting so faces, eyes, and outfits stay warm and readable rather than crushed in harsh dark shadows).
 - **No Generic Identical Sky**: Every `timeOfDay` (`morning`, `noon`, `afternoon`, `night`) must pair its own multi-stop sky gradient with matching directional shadow length/angle and environmental cues (`scripts/atmosphere-presets.mjs`).
 
 ---
 
-## 3. Material Quality Matrix (End Identical Plastic Gloss)
+## 3. Material Quality Matrix (Soft Toy Vinyl Sheen & Surface Separation)
 
-Differentiate materials across surfaces using distinct PBR roughness, metalness, and subtle reflectance responses:
+Differentiate materials across surfaces using distinct PBR roughness, metalness, and subtle `MeshPhysicalMaterial` `clearcoat` separation so characters feel like tactile crafted toy figures while masonry/rubber stay matte:
 
-| Surface / Material | Roughness | Metalness | Visual Behavior |
-| :-- | :-- | :-- | :-- |
-| `skin` | `0.42–0.48` | `0.0` | Smooth, soft semi-matte vinyl toy finish |
-| `hair` | `0.58–0.72` | `0.0` | Distinctly more matte than skin so hairline & volume separate cleanly |
-| `clothing` | `0.66–0.86` | `0.0` | Matte/satin fabric (cotton, knit, canvas, wool) |
-| `shoe_upper` | `0.36–0.52` | `0.0` | Controlled semi-gloss leather/synthetic upper |
-| `shoe_sole` | `0.82–0.92` | `0.0` | Matte grippy rubber sole distinct from upper |
-| `glass` | `0.06–0.16` | `0.0` | Subtle reflection + controlled transparency/transmission (`opacity 0.28–0.55`) |
-| `metal` | `0.28–0.46` | `0.65–0.90` | Restrained brushed hardware, poles, handles, rims |
-| `wood` | `0.55–0.72` | `0.0` | Warm satin timber grain for furniture, doors, benches |
-| `concrete` / `masonry` | `0.84–0.94` | `0.0` | Matte, slightly rough sidewalks, curbs, plaster walls |
-| `plastic_prop` | `0.38–0.54` | `0.0` | Controlled semi-gloss for bins, signs, small props |
+| Surface / Material | Roughness | Metalness | Clearcoat | Visual Behavior |
+| :-- | :-- | :-- | :-- | :-- |
+| `skin` | `0.42–0.48` | `0.0` | `0.08–0.12` | Smooth, soft semi-matte vinyl toy finish |
+| `hair` | `0.56–0.68` | `0.0` | `0.04–0.06` | Sculpted satin-matte polymer distinct from skin |
+| `clothing` | `0.66–0.78` | `0.0` | `0.02–0.05` | Matte-satin fabric/toy finish without chalky flatness |
+| `shoe_upper` | `0.28–0.46` | `0.0` | `0.30–0.38` | Controlled semi-gloss leather/vinyl upper |
+| `shoe_sole` | `0.82–0.92` | `0.0` | `0.0` | Matte grippy rubber sole distinct from upper |
+| `glass` | `0.06–0.16` | `0.0` | `0.15–0.25` | Subtle reflection + controlled transparency/transmission (`opacity 0.28–0.55`) |
+| `metal` | `0.28–0.46` | `0.65–0.90` | `0.0–0.10` | Restrained brushed hardware, poles, handles, rims |
+| `wood` | `0.55–0.72` | `0.0` | `0.06–0.10` | Warm satin timber grain for furniture, doors, benches |
+| `concrete` / `masonry` | `0.84–0.94` | `0.0` | `0.0` | Matte, slightly rough sidewalks, curbs, plaster walls |
+| `plastic_prop` | `0.38–0.54` | `0.0` | `0.12–0.20` | Controlled semi-gloss for bins, signs, small props |
 
 ---
 

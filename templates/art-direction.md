@@ -6,9 +6,9 @@ Define ONE centralized art-direction registry per project (`references/art-direc
 {
   "projectId": "stylized-neighborhood-01",
   "palettes": {
-    "mainCharacters": ["#263449", "#b2624b", "#d6c7b2", "#3f7275", "#ede6d6"],
+    "mainCharacters": ["#c78a3b", "#43848c", "#b55e55", "#263449", "#ede6d6"],
     "supportingCharacters": ["#56708c", "#667552", "#6e4f3a", "#9c8d7b", "#3d4552"],
-    "clothing": ["#263449", "#56708c", "#b2624b", "#667552", "#d6c7b2", "#6e4f3a", "#ede6d6"],
+    "clothing": ["#263449", "#56708c", "#c78a3b", "#b2624b", "#667552", "#43848c", "#ede6d6"],
     "buildings": ["#ede6d6", "#d6c7b2", "#b2624b", "#7d887a", "#56708c", "#474b54"],
     "streets": ["#343942", "#9c9a92", "#7c7a72", "#d8d1c2"],
     "furniture": ["#6e4f3a", "#9c7453", "#d6c7b2", "#4b5949", "#3f4652"],
@@ -17,8 +17,8 @@ Define ONE centralized art-direction registry per project (`references/art-direc
     "decorativeElements": ["#3f7275", "#d1944c", "#b2624b", "#ede6d6"]
   },
   "lightingConfig": {
-    "bloomThreshold": 0.9,
-    "bloomStrength": 0.12,
+    "bloomThreshold": 0.92,
+    "bloomStrength": 0.11,
     "fogDensity": 0.011,
     "hasKeyLight": true,
     "hasSoftFill": true,
@@ -26,16 +26,16 @@ Define ONE centralized art-direction registry per project (`references/art-direc
     "characterContrastVerified": true
   },
   "materials": {
-    "skin": { "roughness": 0.45, "metalness": 0.0 },
-    "hair": { "roughness": 0.65, "metalness": 0.0 },
-    "clothing": { "roughness": 0.76, "metalness": 0.0 },
-    "shoe_upper": { "roughness": 0.44, "metalness": 0.0 },
-    "shoe_sole": { "roughness": 0.86, "metalness": 0.0 },
-    "glass": { "roughness": 0.10, "metalness": 0.0, "opacity": 0.38 },
-    "metal": { "roughness": 0.36, "metalness": 0.78 },
-    "wood": { "roughness": 0.62, "metalness": 0.0 },
-    "concrete": { "roughness": 0.88, "metalness": 0.0 },
-    "plastic_prop": { "roughness": 0.46, "metalness": 0.0 }
+    "skin": { "roughness": 0.44, "metalness": 0.0, "clearcoat": 0.10 },
+    "hair": { "roughness": 0.58, "metalness": 0.0, "clearcoat": 0.05 },
+    "clothing": { "roughness": 0.68, "metalness": 0.0, "clearcoat": 0.04 },
+    "shoe_upper": { "roughness": 0.34, "metalness": 0.0, "clearcoat": 0.34 },
+    "shoe_sole": { "roughness": 0.84, "metalness": 0.0, "clearcoat": 0.0 },
+    "glass": { "roughness": 0.10, "metalness": 0.0, "clearcoat": 0.20, "opacity": 0.38 },
+    "metal": { "roughness": 0.36, "metalness": 0.78, "clearcoat": 0.05 },
+    "wood": { "roughness": 0.62, "metalness": 0.0, "clearcoat": 0.08 },
+    "concrete": { "roughness": 0.86, "metalness": 0.0, "clearcoat": 0.0 },
+    "plastic_prop": { "roughness": 0.42, "metalness": 0.0, "clearcoat": 0.16 }
   },
   "characters": [
     {

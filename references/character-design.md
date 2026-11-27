@@ -36,7 +36,8 @@ Never create cast variety by cloning one torso/jacket rig and swapping shirt col
 ## 2B. Head, Hair & Facial Proportion Integrity
 
 Keep every character's head clean, readable, and consistently proportioned across every scene (`references/world-scale.md`):
-- **Consistent Head Proportions**: Preserve head-to-height ratio per age group (`adult ~1/6–1/7` height, `~0.24–0.32 m`; `child ~1/5–1/6` height) and symmetric ear/eye/brow placement across every cut.
+- **Consistent Chunky Toy Head Proportions**: Preserve stylized Blocky Toy proportions rather than skinny realistic human ratios (`adult ~1/4–1/4.8` height, `~0.21–0.25 × H` / `~0.36–0.44 m` head height with soft beveled corners; `child ~1/3.5–1/4` height, `~0.25–0.285 × H` — keeping within `scripts/validate-world-scale.mjs` bounds) and symmetric ear/eye/brow placement across every cut.
+- **Expressive Toy Face Language (Warmth & Readability)**: Favor clean, appealing Blocky Toy facial features—dark rounded/beveled eyes with subtle white specular catchlights, curved expressive brows, compact mouths, and **soft rosy cheek blush**—avoiding stiff rectangular white sclera boxes that make characters look robotic.
 - **Intentional Stylized Hair (No Random Rectangular Geometry)**: Sculpt hair with intentional crown volume, clear hairline, bangs/parting, and back silhouette—never random rectangular protrusions or unexplained dark blocks.
 - **Clean Hat & Headwear Fit**: Hats, caps, beanies, and helmets must seat snugly on the skull without floating gaps (`<= 0.03 m`), hair poking through the crown/brim, or brims/visors hiding eyes and facial expressions.
 
@@ -65,13 +66,13 @@ Audit every mesh attached to `head`, `hair`, `face`, `shoulders`, `back`, `waist
 Maintain stylized blocky-toy appeal without sacrificing clean anatomical structure (`scripts/validate-art-direction.mjs`):
 - **12 Required Body Segments**: Every character must expose clearly identifiable, naturally connected `head`, `neck` (or collar connection), `torso`, `shoulders`, `upper_arms`, `forearms`, `hands`, `waist`, `upper_legs`, `lower_legs`, and `feet`. Eliminate floating chunks, unintentional overlap, or asymmetrical limb artifacts.
 - **7 Articulation Pivots**: Anchor rigs cleanly at `neck`, `shoulders`, `elbows`, `wrists`, `hips`, `knees`, and `ankles` so sitting, kneeling, turning, and gesturing preserve silhouette integrity across all animations. During **walking and running locomotion**, drive limbs via the shared stylized LEGO/Roblox-inspired cyclic controller (`references/animation-physics.md` + `references/assets/walking-reference.jpg`): alternating `hips` rotation, crisp blocky `knees` bend, lifted `ankles`/shoe soles during stride clearance, opposite `shoulders` swing, and a stable upright torso—never realistic human mocap/IK kinematics.
-- **Designed Clothing, Skirt Silhouettes & Material Separation**: Model shirts with visible collars, rounded/tapered sleeves, cuffs, and beveled torso form; jackets with front panels, tapered waists/hems, and seams; pants with distinct tapered leg volumes; and shoes with separate uppers and rubber soles.
+- **Designed Clothing, Skirt Silhouettes & Material Separation**: Model shirts with visible collars, rounded/tapered sleeves, cuffs, and beveled torso form; jackets with front panels, plackets/pockets, tapered waists/hems, and harmonizing color-blocked accents (restrained mustard, teal, coral, cream, navy); pants with distinct tapered leg volumes; and shoes with separate colorful uppers and rubber soles (never flat pasted torso bricks or uniform dark-on-dark clones).
 - **Stylized Skirt Design Rules (Zero Rigid Box Blocks)**:
   - Never represent a skirt as a plain rectangular box pasted onto the hips.
   - Shape skirts with an **A-line or gentle outward flare** (`waistWidth < hemWidth`) and subtle **3D fullness/volume** (fitted waistband seam + layered panels or crisp toy pleats) appropriate to the character's design.
   - Apply **beveled or rounded edges** along the waistband, pleats, and hem corners to soften hard geometric sharpness while preserving clean toy appeal.
   - Vary skirt silhouettes across characters and story roles (e.g., flared A-line midi, pleated school/casual flare, wrap/layered coat-hem, knee-length tapered skirt) and allow subtle **hem contour variation** (gentle pleated wave, stepped wrap overlap, or soft scalloped curve rather than a strictly rigid straight horizontal line—without realistic cloth physics).
-- Differentiate PBR roughness across skin (`~0.42–0.48`), hair (`~0.58–0.72`), clothing (`~0.66–0.86`), and footwear (`references/art-direction.md`).
+- Differentiate PBR roughness and subtle vinyl/toy clearcoat across skin (`roughness ~0.42–0.48, clearcoat ~0.08–0.12`), hair (`roughness ~0.56–0.68, clearcoat ~0.04–0.06`), clothing (`roughness ~0.66–0.78, clearcoat ~0.02–0.05`), and footwear (`references/art-direction.md`).
 
 ---
 

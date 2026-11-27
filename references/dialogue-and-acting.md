@@ -35,4 +35,4 @@ Treat every spoken `DialogueLineSpec` (`templates/dialogue-timeline.md`) as a mu
 
 - **Silence Pauses**: Multi-clause pauses inside a line drop visemes cleanly to `'rest'` (`mouthOpen = 0`) so characters visibly breathe/pause between phrases.
 - **Interruptions (`interruptedAtSec`)**: Immediately truncate Line A's audio duration and visemes at `interruptedAtSec`, snap A's mouth shut (`rest`), trigger a surprised recoil/brow lift on A, and hand speaking control seamlessly to interrupter B.
-- **Two-Shot / OTS Framing Cue (`cameraFraming`)**: Sync dialogue beats with `wide_two_shot`, `ots_speaker`, `ots_listener`, `speaker_medium`, or `reaction_closeup` transitions.
+- **Two-Shot / OTS Framing Cue (`cameraFraming`)**: Sync dialogue beats primarily with clear `wide_two_shot`, `speaker_medium`, `ots_speaker`, and `ots_listener` cuts—keeping active speakers and listener reactions readable rather than holding statically on one unrelated object—and reserve `reaction_closeup` selectively for key emotional turns (`references/cinematography.md`).

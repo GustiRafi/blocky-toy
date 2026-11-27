@@ -20,7 +20,8 @@ timeAndAtmosphere:
   transitionFromPrevScene:
     isFirstScene: true
     timeSkipReason: null # required when same-day gap > 4h or dayIndex advances
-    transitionCue: null # e.g., "Title card: Next Morning" or "Montage clock/sky dissolve"
+    transitionType: "cut" # default: cut | fade | dissolve (use non-cut transitions only when narratively justified)
+    transitionCue: null # optional, e.g., "Title card: Next Morning" or "Montage clock/sky dissolve"
     weatherTransitionNote: null # required if weather shifts abruptly within < 45 min
 
 cast:
@@ -73,13 +74,13 @@ beats:
     timeProgression: { mode: "static", phases: ["night"] } # static | timelapse | montage_steps (e.g. ["morning", "noon", "afternoon", "night"])
     speechKind: "narration" # none | narration | dialogue | internal | environmental
     camera:
-      shotType: "wide_establishing_to_tracking" # maintain ~30-45% hero height
-      posStart: [-1.35, 6.8, -17.8]
+      shotType: "tracking" # static_wide | static_medium | wide_two_shot | ots_speaker | tracking | pan_reveal | reaction_closeup (selective)
+      posStart: [-1.35, 3.2, -14.5]
       posEnd: [-0.95, 2.15, 1.85]
-      targetStart: [0.6, 2.2, -4.5]
+      targetStart: [3.8, 1.1, -9.5]
       targetEnd: [3.35, 0.92, -0.65]
-      fovRange: [50, 45]
-      transition: "continuous_easeInOut"
+      fovRange: [48, 46]
+      transition: "cut" # default: cut | fade | dissolve | continuous_easeInOut (selective)
     continuityNotes: "Hero path ends at exact anchor [x, z, rotY] used by beat-2."
 
 audioDirection:

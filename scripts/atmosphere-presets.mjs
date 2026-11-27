@@ -352,11 +352,11 @@ export const TIME_OF_DAY_PRESETS = {
     weather: { condition: 'clear_calm', windSpeedMps: 1.4, windDirection: [0.85, 0, 0.52], precipitationIntensity: 0.0, surfaceWetness: 0.0 },
     ambientLighting: {
       hemiSkyColor: '#4e6396',
-      hemiGroundColor: '#272a36',
-      hemiIntensity: 0.48,
+      hemiGroundColor: '#2a2e3b',
+      hemiIntensity: 0.54,
       rimColor: '#98b4e8',
-      rimIntensity: 0.35,
-      exposure: 0.96,
+      rimIntensity: 0.38,
+      exposure: 0.98,
     },
     sunlight: {
       color: '#93a9d6',
@@ -372,8 +372,8 @@ export const TIME_OF_DAY_PRESETS = {
     atmosphere: {
       fogColor: '#665b70',
       fogDensity: 0.0108,
-      bloomThreshold: 0.89,
-      bloomStrength: 0.13,
+      bloomThreshold: 0.90,
+      bloomStrength: 0.11,
       noOverexposedWindows: true,
     },
     environmentalActivity: {
@@ -415,17 +415,17 @@ export const TIME_OF_DAY_PRESETS = {
     },
     weather: { condition: 'clear_calm', windSpeedMps: 0.9, windDirection: [0.85, 0, 0.52], precipitationIntensity: 0.0, surfaceWetness: 0.0 },
     ambientLighting: {
-      hemiSkyColor: '#1d2d52',
-      hemiGroundColor: '#111621',
-      hemiIntensity: 0.34,
+      hemiSkyColor: '#2a3e6b',
+      hemiGroundColor: '#192030',
+      hemiIntensity: 0.44,
       rimColor: '#a8c5f0',
-      rimIntensity: 0.40,
-      exposure: 0.94,
+      rimIntensity: 0.44,
+      exposure: 0.98,
     },
     sunlight: {
       color: '#94b4e6',
       colorTemperatureK: 7500,
-      intensity: 0.58,
+      intensity: 0.72,
     },
     shadow: {
       castShadows: true,
@@ -436,8 +436,8 @@ export const TIME_OF_DAY_PRESETS = {
     atmosphere: {
       fogColor: '#192642',
       fogDensity: 0.0115,
-      bloomThreshold: 0.90,
-      bloomStrength: 0.12,
+      bloomThreshold: 0.92,
+      bloomStrength: 0.11,
       noOverexposedWindows: true,
     },
     environmentalActivity: {

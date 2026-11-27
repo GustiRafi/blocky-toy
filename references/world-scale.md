@@ -13,8 +13,8 @@ All values represent finished world-space bounds in meters (`L` = length, `W` = 
 ### A. Characters & Head Ratios
 | Category | Height (`H`) | Width / Depth | Key Proportional Notes |
 | :-- | :-- | :-- | :-- |
-| `adult_character` | `1.70–1.80 m` | `0.50–0.64 m` shoulder W | Baseline world unit; head height `~0.24–0.32 m` (`~1/6–1/7` total H, stylized blocky limit `<= 0.24 × H`) |
-| `child_character` | `1.10–1.30 m` | `0.38–0.48 m` shoulder W | Clearly shorter than adults; head ratio `~1/5–1/6` total H (`<= 0.27 × H`) |
+| `adult_character` | `1.70–1.80 m` | `0.50–0.64 m` shoulder W | Baseline world unit; chunky stylized toy head height `~0.36–0.44 m` (`~1/4–1/4.8` total H, `0.21–0.25 × H`, `validate-world-scale.mjs` limit `<= 0.26 × H`) |
+| `child_character` | `1.10–1.30 m` | `0.38–0.48 m` shoulder W | Clearly shorter than adults; stylized toy head ratio `~1/3.5–1/4` total H (`0.25–0.285 × H`, `<= 0.29 × H`) |
 
 ### B. Vehicles (Body Bounds & Sub-Proportions)
 Never render miniature character-sized boxes for full-sized vehicles. Every vehicle must include ground clearance, wheels seated flush on `y = roadTopY`, and readable category silhouettes:

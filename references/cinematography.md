@@ -2,6 +2,8 @@
 
 Load this file at Stage 4 (art direction & scale) and Stage 10 (camera staging).
 
+> **Core Principle — Cinematic When Necessary, Simple When Sufficient**: Apply these balanced cinematography, pacing, and transition standards across both **Idea Mode** and **Script Mode** (honoring explicit Script Mode author cues unless technically contradictory). Cameras and transitions must serve the story and character readability—never steal attention from the narrative or force live-action film melodrama onto stylized blocky 3D animation. Use existing camera rigs and rendering pipelines without reinventing camera systems.
+
 ---
 
 ## 1. Metric World Scale Standard (`1 unit = 1 meter`)
@@ -33,10 +35,47 @@ Lighting must **reveal and separate the character**, never overpower or wash the
 
 ---
 
-## 4. Camera Framing, Aspect Ratio & Continuity
+## 4. Camera Direction & Aspect Ratio
 
+- **Support Story & Character Activity**: Choose every shot to clarify what characters are doing, feeling, or communicating. Prioritize readable body language, gestures, prop interactions, and spatial relationships over showy angles.
 - **Default Reels Portrait (`9:16`) & Aspect Adaptation**: Default output resolution is **Reels `9:16` (`1080×1920`)** unless the user chooses `landscape` (`16:9`, `1920×1080`) or another ratio (`4:5`, `1:1`). Adapt camera FOV/blocking to the active aspect ratio: in `9:16` portrait, position two-shot speakers slightly angled/closer with `~15%` horizontal safe margins so neither character clips off left/right edges; in `16:9` landscape, expand horizontal environmental framing.
-- **Prioritize Medium-Wide & Establishing Shots**: Let characters read comfortably inside architectural context (`~30–45%` frame height in tracking shots; wide aerial/street views at opening and finale).
-- **Avoid Claustrophobic Close-Ups**: Reserve push-ins for key emotional discoveries or two-shot dialogue beats (`ots_speaker`, `reaction_closeup`).
-- **Continuous Trajectories**: Interpolate with `easeInOutCubic` and match exact position/target/FOV endpoints across scene transitions unless an intentional hard cut is scripted for two-shot dialogue coverage.
-- **Time-Lapse & Repeated-Location Framing**: During a time-lapse or condensed `morning -> noon -> afternoon -> night` montage, keep the camera anchored on a locked tripod or ultra-slow nodal drift so the viewer clearly perceives the **sweeping sun shadows, sky color transition, drifting clouds, and lamps turning on at dusk**.
+- **Proportional Medium & Wide Framing**: Rely primarily on medium shots and wide shots (`~30–45%` hero height in establishing/tracking shots; clean waist-up or two-shot medium framing for interactions) so characters remain grounded in their environment.
+- **Selective Close-Ups**: Never insert close-ups merely to look dramatic. Reserve `reaction_closeup` or tight prop inserts strictly for genuine emotional turns or essential story clues.
+- **No Unmotivated Lingering or Forced Moves**: Do not always force cinematic camera movement, and avoid holding on static objects or empty environments when no story development occurs.
+
+---
+
+## 5. Shot Duration & Pacing
+
+- **Information-Driven Shot Length**: Match each shot's duration to the actions and story information in that beat. Never pad or stretch a shot without a narrative reason.
+- **Active Dialogue Coverage**: When characters are speaking, do not leave the camera parked statically on a single unrelated object or unchanging angle for too long—cut cleanly between speakers, listener reactions, and meaningful physical beats.
+- **Comfortable, Readable Rhythm**: Avoid rapid-fire cuts that disorient viewers or obscure spatial layout. Maintain a natural, playful animation cadence where actions and expressions have room to register cleanly.
+
+---
+
+## 6. Transitions
+
+- **Standard `cut` by Default**: Use a clean straight **`cut`** as the default transition between shots and scenes.
+- **Earned Non-Cut Transitions Only**: Use `fade`, `dissolve`, or continuous camera bridges (`continuous_easeInOut`) **only** when narratively justified—such as a clear passage of time, a dream/memory shift, or a deliberate montage/time-lapse transition (`templates/scene-definition.md`).
+- **No Decorative Transitions**: Avoid dramatic transitions at every scene change, and never add fades, dissolves, or swooshes just to make the video feel more cinematic.
+
+---
+
+## 7. Camera Movement
+
+Use the simplest camera behavior that communicates the beat clearly:
+
+- **Static Camera (`static_wide`, `static_medium`, `static_ots`)**: Default whenever stable framing already captures the performance, dialogue, or spatial gag cleanly.
+- **Tracking (`tracking`, `tracking_3q`)**: Use when following moving characters or vehicles along a path or road.
+- **Camera Pan (`pan_reveal`)**: Use purposefully when revealing important off-frame story or spatial information.
+- **Zoom & Dolly (`dolly_in`, `dolly_out`, subtle zoom)**: Use sparingly and selectively for clear dramatic focus or reveal—avoid constant push-ins, aimless nodal drift, or unmotivated orbiting.
+- **Time-Lapse & Repeated-Location Framing**: During a condensed `morning -> noon -> afternoon -> night` montage, keep the camera anchored on a locked tripod (or minimal drift) so sweeping sun shadows, sky color shifts, drifting clouds, and dusk lamps read clearly.
+
+---
+
+## 8. Blocky Toy Visual Identity
+
+Preserve Blocky Toy's distinct visual identity across all shots:
+- **Stylized Blocky 3D Animation**: Clean beveled geometry, readable silhouettes, high-craft composition, and purposeful lighting.
+- **Playful & Expressive**: Let character acting, timing, and clean staging carry charm and emotion rather than heavy camera theatrics.
+- **Cinematic When Needed, Clear Always**: Keep storytelling direct and legible without imitating the full visual grammar of live-action cinema.
