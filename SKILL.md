@@ -10,7 +10,7 @@ compatibility: >-
   OpenAI Codex CLI, Cursor, and generic coding agents. Bundled CLI scripts use Node.js (>=18) only.
 metadata:
   displayName: "BLOCKY TOY"
-  version: "1.1.0"
+  version: "1.2.0"
   modes: "idea, script"
   duration: "15s-15m+"
 ---
